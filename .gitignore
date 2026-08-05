@@ -3,3 +3,6 @@ node_modules/
 
 # Claude Code local config / skills
 .claude/
+
+# Downloaded images — fully regenerable by the scraper
+public/images/

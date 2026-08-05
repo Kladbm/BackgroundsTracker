@@ -1,0 +1,1071 @@
+{
+  "slug": "sb-gofest2026-global",
+  "type": "sb",
+  "title": "GO Fest 2026 Global",
+  "release_date": "2026-07-11",
+  "description": "The GO Fest 2026 Global special background was released on Jul 11, 2026 as part of Pokémon GO Fest 2026: Global. 91 different Pokémon can have this background.",
+  "event": {
+    "name": "Pokémon GO Fest 2026: Global",
+    "date_range": "Jul 11 – Jul 12, 2026",
+    "url": "https://www.dittobase.com/pokemon-go/events/pokemon-go-fest-2026-global",
+    "image": "images/events/sb-gofest2026-global.jpg"
+  },
+  "pokemon": [
+    {
+      "dex": 15,
+      "name": "Beedrill",
+      "pokedex_slug": "beedrill",
+      "types": [
+        "bug",
+        "poison"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/15-beedrill.png",
+      "image_shiny": "images/pokemon/15-beedrill-shiny.png"
+    },
+    {
+      "dex": 18,
+      "name": "Pidgeot",
+      "pokedex_slug": "pidgeot",
+      "types": [
+        "normal",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/18-pidgeot.png",
+      "image_shiny": "images/pokemon/18-pidgeot-shiny.png"
+    },
+    {
+      "dex": 65,
+      "name": "Alakazam",
+      "pokedex_slug": "alakazam",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/65-alakazam.png",
+      "image_shiny": "images/pokemon/65-alakazam-shiny.png"
+    },
+    {
+      "dex": 94,
+      "name": "Gengar",
+      "pokedex_slug": "gengar",
+      "types": [
+        "ghost",
+        "poison"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/94-gengar.png",
+      "image_shiny": "images/pokemon/94-gengar-shiny.png"
+    },
+    {
+      "dex": 127,
+      "name": "Pinsir",
+      "pokedex_slug": "pinsir",
+      "types": [
+        "bug"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/127-pinsir.png",
+      "image_shiny": "images/pokemon/127-pinsir-shiny.png"
+    },
+    {
+      "dex": 142,
+      "name": "Aerodactyl",
+      "pokedex_slug": "aerodactyl",
+      "types": [
+        "rock",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/142-aerodactyl.png",
+      "image_shiny": "images/pokemon/142-aerodactyl-shiny.png"
+    },
+    {
+      "dex": 144,
+      "name": "Articuno",
+      "pokedex_slug": "articuno",
+      "types": [
+        "ice",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/144-articuno.png",
+      "image_shiny": "images/pokemon/144-articuno-shiny.png"
+    },
+    {
+      "dex": 145,
+      "name": "Zapdos",
+      "pokedex_slug": "zapdos",
+      "types": [
+        "electric",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/145-zapdos.png",
+      "image_shiny": "images/pokemon/145-zapdos-shiny.png"
+    },
+    {
+      "dex": 146,
+      "name": "Moltres",
+      "pokedex_slug": "moltres",
+      "types": [
+        "fire",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/146-moltres.png",
+      "image_shiny": "images/pokemon/146-moltres-shiny.png"
+    },
+    {
+      "dex": 181,
+      "name": "Ampharos",
+      "pokedex_slug": "ampharos",
+      "types": [
+        "electric"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/181-ampharos.png",
+      "image_shiny": "images/pokemon/181-ampharos-shiny.png"
+    },
+    {
+      "dex": 243,
+      "name": "Raikou",
+      "pokedex_slug": "raikou",
+      "types": [
+        "electric"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/243-raikou.png",
+      "image_shiny": "images/pokemon/243-raikou-shiny.png"
+    },
+    {
+      "dex": 244,
+      "name": "Entei",
+      "pokedex_slug": "entei",
+      "types": [
+        "fire"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/244-entei.png",
+      "image_shiny": "images/pokemon/244-entei-shiny.png"
+    },
+    {
+      "dex": 245,
+      "name": "Suicune",
+      "pokedex_slug": "suicune",
+      "types": [
+        "water"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/245-suicune.png",
+      "image_shiny": "images/pokemon/245-suicune-shiny.png"
+    },
+    {
+      "dex": 248,
+      "name": "Tyranitar",
+      "pokedex_slug": "tyranitar",
+      "types": [
+        "rock",
+        "dark"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/248-tyranitar.png",
+      "image_shiny": "images/pokemon/248-tyranitar-shiny.png"
+    },
+    {
+      "dex": 249,
+      "name": "Lugia",
+      "pokedex_slug": "lugia",
+      "types": [
+        "psychic",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/249-lugia.png",
+      "image_shiny": "images/pokemon/249-lugia-shiny.png"
+    },
+    {
+      "dex": 250,
+      "name": "Ho-Oh",
+      "pokedex_slug": "ho-oh",
+      "types": [
+        "fire",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/250-ho-oh.png",
+      "image_shiny": "images/pokemon/250-ho-oh-shiny.png"
+    },
+    {
+      "dex": 254,
+      "name": "Sceptile",
+      "pokedex_slug": "sceptile",
+      "types": [
+        "grass"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/254-sceptile.png",
+      "image_shiny": "images/pokemon/254-sceptile-shiny.png"
+    },
+    {
+      "dex": 257,
+      "name": "Blaziken",
+      "pokedex_slug": "blaziken",
+      "types": [
+        "fire",
+        "fighting"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/257-blaziken.png",
+      "image_shiny": "images/pokemon/257-blaziken-shiny.png"
+    },
+    {
+      "dex": 260,
+      "name": "Swampert",
+      "pokedex_slug": "swampert",
+      "types": [
+        "water",
+        "ground"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/260-swampert.png",
+      "image_shiny": "images/pokemon/260-swampert-shiny.png"
+    },
+    {
+      "dex": 282,
+      "name": "Gardevoir",
+      "pokedex_slug": "gardevoir",
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/282-gardevoir.png",
+      "image_shiny": "images/pokemon/282-gardevoir-shiny.png"
+    },
+    {
+      "dex": 373,
+      "name": "Salamence",
+      "pokedex_slug": "salamence",
+      "types": [
+        "dragon",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/373-salamence.png",
+      "image_shiny": "images/pokemon/373-salamence-shiny.png"
+    },
+    {
+      "dex": 376,
+      "name": "Metagross",
+      "pokedex_slug": "metagross",
+      "types": [
+        "steel",
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/376-metagross.png",
+      "image_shiny": "images/pokemon/376-metagross-shiny.png"
+    },
+    {
+      "dex": 377,
+      "name": "Regirock",
+      "pokedex_slug": "regirock",
+      "types": [
+        "rock"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/377-regirock.png",
+      "image_shiny": "images/pokemon/377-regirock-shiny.png"
+    },
+    {
+      "dex": 378,
+      "name": "Regice",
+      "pokedex_slug": "regice",
+      "types": [
+        "ice"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/378-regice.png",
+      "image_shiny": "images/pokemon/378-regice-shiny.png"
+    },
+    {
+      "dex": 379,
+      "name": "Registeel",
+      "pokedex_slug": "registeel",
+      "types": [
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/379-registeel.png",
+      "image_shiny": "images/pokemon/379-registeel-shiny.png"
+    },
+    {
+      "dex": 380,
+      "name": "Latias",
+      "pokedex_slug": "latias",
+      "types": [
+        "dragon",
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/380-latias.png",
+      "image_shiny": "images/pokemon/380-latias-shiny.png"
+    },
+    {
+      "dex": 381,
+      "name": "Latios",
+      "pokedex_slug": "latios",
+      "types": [
+        "dragon",
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/381-latios.png",
+      "image_shiny": "images/pokemon/381-latios-shiny.png"
+    },
+    {
+      "dex": 382,
+      "name": "Kyogre",
+      "pokedex_slug": "kyogre",
+      "types": [
+        "water"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/382-kyogre.png",
+      "image_shiny": "images/pokemon/382-kyogre-shiny.png"
+    },
+    {
+      "dex": 383,
+      "name": "Groudon",
+      "pokedex_slug": "groudon",
+      "types": [
+        "ground"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/383-groudon.png",
+      "image_shiny": "images/pokemon/383-groudon-shiny.png"
+    },
+    {
+      "dex": 384,
+      "name": "Rayquaza",
+      "pokedex_slug": "rayquaza",
+      "types": [
+        "dragon",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/384-rayquaza.png",
+      "image_shiny": "images/pokemon/384-rayquaza-shiny.png"
+    },
+    {
+      "dex": 386,
+      "name": "Deoxys Normal",
+      "pokedex_slug": "deoxys",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/386-deoxys.png",
+      "image_shiny": "images/pokemon/386-deoxys-shiny.png"
+    },
+    {
+      "dex": 386,
+      "name": "Deoxys Attack",
+      "pokedex_slug": "deoxys-attack",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/386-deoxys-attack.png",
+      "image_shiny": "images/pokemon/386-deoxys-attack-shiny.png"
+    },
+    {
+      "dex": 386,
+      "name": "Deoxys Defense",
+      "pokedex_slug": "deoxys-defense",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/386-deoxys-defense.png",
+      "image_shiny": "images/pokemon/386-deoxys-defense-shiny.png"
+    },
+    {
+      "dex": 386,
+      "name": "Deoxys Speed",
+      "pokedex_slug": "deoxys-speed",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/386-deoxys-speed.png",
+      "image_shiny": "images/pokemon/386-deoxys-speed-shiny.png"
+    },
+    {
+      "dex": 445,
+      "name": "Garchomp",
+      "pokedex_slug": "garchomp",
+      "types": [
+        "dragon",
+        "ground"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/445-garchomp.png",
+      "image_shiny": "images/pokemon/445-garchomp-shiny.png"
+    },
+    {
+      "dex": 448,
+      "name": "Lucario",
+      "pokedex_slug": "lucario",
+      "types": [
+        "fighting",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/448-lucario.png",
+      "image_shiny": "images/pokemon/448-lucario-shiny.png"
+    },
+    {
+      "dex": 460,
+      "name": "Abomasnow",
+      "pokedex_slug": "abomasnow",
+      "types": [
+        "grass",
+        "ice"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/460-abomasnow.png",
+      "image_shiny": "images/pokemon/460-abomasnow-shiny.png"
+    },
+    {
+      "dex": 480,
+      "name": "Uxie",
+      "pokedex_slug": "uxie",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/480-uxie.png",
+      "image_shiny": "images/pokemon/480-uxie-shiny.png"
+    },
+    {
+      "dex": 481,
+      "name": "Mesprit",
+      "pokedex_slug": "mesprit",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/481-mesprit.png",
+      "image_shiny": "images/pokemon/481-mesprit-shiny.png"
+    },
+    {
+      "dex": 482,
+      "name": "Azelf",
+      "pokedex_slug": "azelf",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/482-azelf.png",
+      "image_shiny": "images/pokemon/482-azelf-shiny.png"
+    },
+    {
+      "dex": 483,
+      "name": "Dialga",
+      "pokedex_slug": "dialga",
+      "types": [
+        "steel",
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/483-dialga.png",
+      "image_shiny": "images/pokemon/483-dialga-shiny.png"
+    },
+    {
+      "dex": 483,
+      "name": "Dialga Origin",
+      "pokedex_slug": "dialga-origin",
+      "types": [
+        "steel",
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/483-dialga-origin.png",
+      "image_shiny": "images/pokemon/483-dialga-origin-shiny.png"
+    },
+    {
+      "dex": 484,
+      "name": "Palkia",
+      "pokedex_slug": "palkia",
+      "types": [
+        "water",
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/484-palkia.png",
+      "image_shiny": "images/pokemon/484-palkia-shiny.png"
+    },
+    {
+      "dex": 484,
+      "name": "Palkia Origin",
+      "pokedex_slug": "palkia-origin",
+      "types": [
+        "water",
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/484-palkia-origin.png",
+      "image_shiny": "images/pokemon/484-palkia-origin-shiny.png"
+    },
+    {
+      "dex": 485,
+      "name": "Heatran",
+      "pokedex_slug": "heatran",
+      "types": [
+        "fire",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/485-heatran.png",
+      "image_shiny": "images/pokemon/485-heatran-shiny.png"
+    },
+    {
+      "dex": 486,
+      "name": "Regigigas",
+      "pokedex_slug": "regigigas",
+      "types": [
+        "normal"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/486-regigigas.png",
+      "image_shiny": "images/pokemon/486-regigigas-shiny.png"
+    },
+    {
+      "dex": 487,
+      "name": "Giratina Altered",
+      "pokedex_slug": "giratina-altered",
+      "types": [
+        "ghost",
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/487-giratina-altered.png",
+      "image_shiny": "images/pokemon/487-giratina-altered-shiny.png"
+    },
+    {
+      "dex": 487,
+      "name": "Giratina Origin",
+      "pokedex_slug": "giratina-origin",
+      "types": [
+        "ghost",
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/487-giratina-origin.png",
+      "image_shiny": "images/pokemon/487-giratina-origin-shiny.png"
+    },
+    {
+      "dex": 488,
+      "name": "Cresselia",
+      "pokedex_slug": "cresselia",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/488-cresselia.png",
+      "image_shiny": "images/pokemon/488-cresselia-shiny.png"
+    },
+    {
+      "dex": 491,
+      "name": "Darkrai",
+      "pokedex_slug": "darkrai",
+      "types": [
+        "dark"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/491-darkrai.png",
+      "image_shiny": "images/pokemon/491-darkrai-shiny.png"
+    },
+    {
+      "dex": 531,
+      "name": "Audino",
+      "pokedex_slug": "audino",
+      "types": [
+        "normal"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/531-audino.png",
+      "image_shiny": "images/pokemon/531-audino-shiny.png"
+    },
+    {
+      "dex": 638,
+      "name": "Cobalion",
+      "pokedex_slug": "cobalion",
+      "types": [
+        "steel",
+        "fighting"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/638-cobalion.png",
+      "image_shiny": "images/pokemon/638-cobalion-shiny.png"
+    },
+    {
+      "dex": 639,
+      "name": "Terrakion",
+      "pokedex_slug": "terrakion",
+      "types": [
+        "rock",
+        "fighting"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/639-terrakion.png",
+      "image_shiny": "images/pokemon/639-terrakion-shiny.png"
+    },
+    {
+      "dex": 640,
+      "name": "Virizion",
+      "pokedex_slug": "virizion",
+      "types": [
+        "grass",
+        "fighting"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/640-virizion.png",
+      "image_shiny": "images/pokemon/640-virizion-shiny.png"
+    },
+    {
+      "dex": 641,
+      "name": "Tornadus Incarnate",
+      "pokedex_slug": "tornadus-incarnate",
+      "types": [
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/641-tornadus-incarnate.png",
+      "image_shiny": "images/pokemon/641-tornadus-incarnate-shiny.png"
+    },
+    {
+      "dex": 641,
+      "name": "Tornadus Therian",
+      "pokedex_slug": "tornadus-therian",
+      "types": [
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/641-tornadus-therian.png",
+      "image_shiny": "images/pokemon/641-tornadus-therian-shiny.png"
+    },
+    {
+      "dex": 642,
+      "name": "Thundurus Incarnate",
+      "pokedex_slug": "thundurus-incarnate",
+      "types": [
+        "electric",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/642-thundurus-incarnate.png",
+      "image_shiny": "images/pokemon/642-thundurus-incarnate-shiny.png"
+    },
+    {
+      "dex": 642,
+      "name": "Thundurus Therian",
+      "pokedex_slug": "thundurus-therian",
+      "types": [
+        "electric",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/642-thundurus-therian.png",
+      "image_shiny": "images/pokemon/642-thundurus-therian-shiny.png"
+    },
+    {
+      "dex": 643,
+      "name": "Reshiram",
+      "pokedex_slug": "reshiram",
+      "types": [
+        "dragon",
+        "fire"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/643-reshiram.png",
+      "image_shiny": "images/pokemon/643-reshiram-shiny.png"
+    },
+    {
+      "dex": 644,
+      "name": "Zekrom",
+      "pokedex_slug": "zekrom",
+      "types": [
+        "dragon",
+        "electric"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/644-zekrom.png",
+      "image_shiny": "images/pokemon/644-zekrom-shiny.png"
+    },
+    {
+      "dex": 645,
+      "name": "Landorus Incarnate",
+      "pokedex_slug": "landorus-incarnate",
+      "types": [
+        "ground",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/645-landorus-incarnate.png",
+      "image_shiny": "images/pokemon/645-landorus-incarnate-shiny.png"
+    },
+    {
+      "dex": 645,
+      "name": "Landorus Therian",
+      "pokedex_slug": "landorus-therian",
+      "types": [
+        "ground",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/645-landorus-therian.png",
+      "image_shiny": "images/pokemon/645-landorus-therian-shiny.png"
+    },
+    {
+      "dex": 646,
+      "name": "Kyurem",
+      "pokedex_slug": "kyurem",
+      "types": [
+        "dragon",
+        "ice"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/646-kyurem.png",
+      "image_shiny": "images/pokemon/646-kyurem-shiny.png"
+    },
+    {
+      "dex": 649,
+      "name": "Genesect Normal",
+      "pokedex_slug": "genesect-normal",
+      "types": [
+        "bug",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/649-genesect-normal.png",
+      "image_shiny": "images/pokemon/649-genesect-normal-shiny.png"
+    },
+    {
+      "dex": 649,
+      "name": "Genesect Douse",
+      "pokedex_slug": "genesect-douse",
+      "types": [
+        "bug",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/649-genesect-douse.png",
+      "image_shiny": "images/pokemon/649-genesect-douse-shiny.png"
+    },
+    {
+      "dex": 649,
+      "name": "Genesect Burn",
+      "pokedex_slug": "genesect-burn",
+      "types": [
+        "bug",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/649-genesect-burn.png",
+      "image_shiny": "images/pokemon/649-genesect-burn-shiny.png"
+    },
+    {
+      "dex": 649,
+      "name": "Genesect Chill",
+      "pokedex_slug": "genesect-chill",
+      "types": [
+        "bug",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/649-genesect-chill.png",
+      "image_shiny": "images/pokemon/649-genesect-chill-shiny.png"
+    },
+    {
+      "dex": 716,
+      "name": "Xerneas",
+      "pokedex_slug": "xerneas",
+      "types": [
+        "fairy"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/716-xerneas.png",
+      "image_shiny": "images/pokemon/716-xerneas-shiny.png"
+    },
+    {
+      "dex": 717,
+      "name": "Yveltal",
+      "pokedex_slug": "yveltal",
+      "types": [
+        "dark",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/717-yveltal.png",
+      "image_shiny": "images/pokemon/717-yveltal-shiny.png"
+    },
+    {
+      "dex": 785,
+      "name": "Tapu Koko",
+      "pokedex_slug": "tapu-koko",
+      "types": [
+        "electric",
+        "fairy"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/785-tapu-koko.png",
+      "image_shiny": "images/pokemon/785-tapu-koko-shiny.png"
+    },
+    {
+      "dex": 786,
+      "name": "Tapu Lele",
+      "pokedex_slug": "tapu-lele",
+      "types": [
+        "psychic",
+        "fairy"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/786-tapu-lele.png",
+      "image_shiny": "images/pokemon/786-tapu-lele-shiny.png"
+    },
+    {
+      "dex": 787,
+      "name": "Tapu Bulu",
+      "pokedex_slug": "tapu-bulu",
+      "types": [
+        "grass",
+        "fairy"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/787-tapu-bulu.png",
+      "image_shiny": "images/pokemon/787-tapu-bulu-shiny.png"
+    },
+    {
+      "dex": 788,
+      "name": "Tapu Fini",
+      "pokedex_slug": "tapu-fini",
+      "types": [
+        "water",
+        "fairy"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/788-tapu-fini.png",
+      "image_shiny": "images/pokemon/788-tapu-fini-shiny.png"
+    },
+    {
+      "dex": 791,
+      "name": "Solgaleo",
+      "pokedex_slug": "solgaleo",
+      "types": [
+        "psychic",
+        "steel"
+      ],
+      "shiny_available": false,
+      "image_normal": "images/pokemon/791-solgaleo.png"
+    },
+    {
+      "dex": 792,
+      "name": "Lunala",
+      "pokedex_slug": "lunala",
+      "types": [
+        "psychic",
+        "ghost"
+      ],
+      "shiny_available": false,
+      "image_normal": "images/pokemon/792-lunala.png"
+    },
+    {
+      "dex": 793,
+      "name": "Nihilego",
+      "pokedex_slug": "nihilego",
+      "types": [
+        "rock",
+        "poison"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/793-nihilego.png",
+      "image_shiny": "images/pokemon/793-nihilego-shiny.png"
+    },
+    {
+      "dex": 794,
+      "name": "Buzzwole",
+      "pokedex_slug": "buzzwole",
+      "types": [
+        "bug",
+        "fighting"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/794-buzzwole.png",
+      "image_shiny": "images/pokemon/794-buzzwole-shiny.png"
+    },
+    {
+      "dex": 795,
+      "name": "Pheromosa",
+      "pokedex_slug": "pheromosa",
+      "types": [
+        "bug",
+        "fighting"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/795-pheromosa.png",
+      "image_shiny": "images/pokemon/795-pheromosa-shiny.png"
+    },
+    {
+      "dex": 796,
+      "name": "Xurkitree",
+      "pokedex_slug": "xurkitree",
+      "types": [
+        "electric"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/796-xurkitree.png",
+      "image_shiny": "images/pokemon/796-xurkitree-shiny.png"
+    },
+    {
+      "dex": 797,
+      "name": "Celesteela",
+      "pokedex_slug": "celesteela",
+      "types": [
+        "steel",
+        "flying"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/797-celesteela.png",
+      "image_shiny": "images/pokemon/797-celesteela-shiny.png"
+    },
+    {
+      "dex": 798,
+      "name": "Kartana",
+      "pokedex_slug": "kartana",
+      "types": [
+        "grass",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/798-kartana.png",
+      "image_shiny": "images/pokemon/798-kartana-shiny.png"
+    },
+    {
+      "dex": 799,
+      "name": "Guzzlord",
+      "pokedex_slug": "guzzlord",
+      "types": [
+        "dark",
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/799-guzzlord.png",
+      "image_shiny": "images/pokemon/799-guzzlord-shiny.png"
+    },
+    {
+      "dex": 800,
+      "name": "Necrozma",
+      "pokedex_slug": "necrozma",
+      "types": [
+        "psychic"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/800-necrozma.png",
+      "image_shiny": "images/pokemon/800-necrozma-shiny.png"
+    },
+    {
+      "dex": 805,
+      "name": "Stakataka",
+      "pokedex_slug": "stakataka",
+      "types": [
+        "rock",
+        "steel"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/805-stakataka.png",
+      "image_shiny": "images/pokemon/805-stakataka-shiny.png"
+    },
+    {
+      "dex": 806,
+      "name": "Blacephalon",
+      "pokedex_slug": "blacephalon",
+      "types": [
+        "fire",
+        "ghost"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/806-blacephalon.png",
+      "image_shiny": "images/pokemon/806-blacephalon-shiny.png"
+    },
+    {
+      "dex": 888,
+      "name": "Zacian (Hero of Many Battles)",
+      "pokedex_slug": "zacian",
+      "types": [
+        "fairy"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/888-zacian.png",
+      "image_shiny": "images/pokemon/888-zacian-shiny.png"
+    },
+    {
+      "dex": 889,
+      "name": "Zamazenta (Hero of Many Battles)",
+      "pokedex_slug": "zamazenta",
+      "types": [
+        "fighting"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/889-zamazenta.png",
+      "image_shiny": "images/pokemon/889-zamazenta-shiny.png"
+    },
+    {
+      "dex": 894,
+      "name": "Regieleki",
+      "pokedex_slug": "regieleki",
+      "types": [
+        "electric"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/894-regieleki.png",
+      "image_shiny": "images/pokemon/894-regieleki-shiny.png"
+    },
+    {
+      "dex": 895,
+      "name": "Regidrago",
+      "pokedex_slug": "regidrago",
+      "types": [
+        "dragon"
+      ],
+      "shiny_available": true,
+      "image_normal": "images/pokemon/895-regidrago.png",
+      "image_shiny": "images/pokemon/895-regidrago-shiny.png"
+    },
+    {
+      "dex": 905,
+      "name": "Enamorus Incarnate",
+      "pokedex_slug": "enamorus-incarnate",
+      "types": [
+        "fairy",
+        "flying"
+      ],
+      "shiny_available": false,
+      "image_normal": "images/pokemon/905-enamorus-incarnate.png"
+    },
+    {
+      "dex": 905,
+      "name": "Enamorus Therian",
+      "pokedex_slug": "enamorus-therian",
+      "types": [
+        "fairy",
+        "flying"
+      ],
+      "shiny_available": false,
+      "image_normal": "images/pokemon/905-enamorus-therian.png"
+    }
+  ]
+}
