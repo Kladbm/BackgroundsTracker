@@ -1,0 +1,14 @@
+{
+  "name": "dittotracker-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes dittobase.com/pokemon-go/backgrounds into static JSON for the Ditto Tracker site.",
+  "main": "scrape.js",
+  "scripts": {
+    "start": "node scrape.js"
+  },
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cheerio": "^1.2.0"
+  }
+}

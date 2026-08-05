@@ -1,0 +1,1636 @@
+{
+  "updated_at": "2026-08-05T20:20:47.814Z",
+  "backgrounds": [
+    {
+      "slug": "lc-wcs-2026-san-francisco",
+      "type": "lc",
+      "title": "WCS 2026 San Francisco",
+      "release_date": "2026-08-28",
+      "pokemon_count": 0
+    },
+    {
+      "slug": "lc-nbp-chunichi-dragons",
+      "type": "lc",
+      "title": "NPB Chunichi Dragons 2026",
+      "release_date": "2026-08-21",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-nbp-hokkaido-nippon-ham-fighters",
+      "type": "lc",
+      "title": "NPB Hokkaido Nippon Ham Fighters 2026",
+      "release_date": "2026-08-11",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-2026-jp-jetred",
+      "type": "lc",
+      "title": "Jet Red 2026",
+      "release_date": "2026-07-28",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "lc-nationaltrust-angleseyabbey",
+      "type": "lc",
+      "title": "Nationaltrust Anglesey Abbey",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-attinghampark",
+      "type": "lc",
+      "title": "Nationaltrust Attingham Park",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-beltonestate",
+      "type": "lc",
+      "title": "Nationaltrust Belton Estate",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-calkeabbey",
+      "type": "lc",
+      "title": "Nationaltrust Calke Abbey",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-chirk",
+      "type": "lc",
+      "title": "Nationaltrust Chirk",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-cliveden",
+      "type": "lc",
+      "title": "Nationaltrust Cliveden",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-clumberpark",
+      "type": "lc",
+      "title": "Nationaltrust Clumber Park",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-dunhammassey",
+      "type": "lc",
+      "title": "Nationaltrust Dunham Massey",
+      "release_date": "2026-07-18",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-nationaltrust-fountainsabbey",
+      "type": "lc",
+      "title": "Nationaltrust Fountains Abbey",
+      "release_date": "2026-07-18",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-nationaltrust-gibslide",
+      "type": "lc",
+      "title": "Nationaltrust Gibslide",
+      "release_date": "2026-07-18",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-nationaltrust-hanburyhall",
+      "type": "lc",
+      "title": "Nationaltrust Hanbury Hall",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-hardwick",
+      "type": "lc",
+      "title": "Nationaltrust Hardwick",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-killerton",
+      "type": "lc",
+      "title": "Nationaltrust Killerton",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-kingstonlacy",
+      "type": "lc",
+      "title": "Nationaltrust Kingston Lacy",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-lacock",
+      "type": "lc",
+      "title": "Nationaltrust Lacock",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-lymepark",
+      "type": "lc",
+      "title": "Nationaltrust Lyme Park",
+      "release_date": "2026-07-18",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-nationaltrust-mottisfont",
+      "type": "lc",
+      "title": "Nationaltrust Mottisfont",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-mountstewart",
+      "type": "lc",
+      "title": "Nationaltrust Mount Stewart",
+      "release_date": "2026-07-18",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-nationaltrust-nymans",
+      "type": "lc",
+      "title": "Nationaltrust Nymans",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-polesden",
+      "type": "lc",
+      "title": "Nationaltrust Polesden",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-scotneycastle",
+      "type": "lc",
+      "title": "Nationaltrust Scotney Castle",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-stourhead",
+      "type": "lc",
+      "title": "Nationaltrust Stourhead",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-stowegardenpark",
+      "type": "lc",
+      "title": "Nationaltrust Stowe Garden Park",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-tredegarhouse",
+      "type": "lc",
+      "title": "Nationaltrust Tredegar House",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-trelissick",
+      "type": "lc",
+      "title": "Nationaltrust Trelissick",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-tyntesfield",
+      "type": "lc",
+      "title": "Nationaltrust Tyntesfield",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nationaltrust-wimpoleestate",
+      "type": "lc",
+      "title": "Nationaltrust Wimpole Estate",
+      "release_date": "2026-07-18",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "sb-gofest2026-global",
+      "type": "sb",
+      "title": "GO Fest 2026 Global",
+      "release_date": "2026-07-11",
+      "pokemon_count": 91
+    },
+    {
+      "slug": "sb-gofest2026-mewtwo",
+      "type": "sb",
+      "title": "GO Fest 2026 Mewtwo",
+      "release_date": "2026-07-11",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-times-square-2026",
+      "type": "lc",
+      "title": "10th Anniversary Times Square",
+      "release_date": "2026-07-09",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-hiroshima",
+      "type": "lc",
+      "title": "Pokémon Center Hiroshima",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-fukuoka",
+      "type": "lc",
+      "title": "Pokémon Center Fukuoka",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-golab",
+      "type": "lc",
+      "title": "Pokémon Center GO Lab",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-kagawa",
+      "type": "lc",
+      "title": "Pokémon Center Kagawa",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-kanazawa",
+      "type": "lc",
+      "title": "Pokémon Center Kanazawa",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-kyoto",
+      "type": "lc",
+      "title": "Pokémon Center Kyoto",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-megatokyo",
+      "type": "lc",
+      "title": "Pokémon Center Mega Tokyo",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-nagoya",
+      "type": "lc",
+      "title": "Pokémon Center Nagoya",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-okinawa",
+      "type": "lc",
+      "title": "Pokémon Center Okinawa",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-osaka",
+      "type": "lc",
+      "title": "Pokémon Center Osaka",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-osakadx",
+      "type": "lc",
+      "title": "Pokémon Center Osaka DX",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-sapporo",
+      "type": "lc",
+      "title": "Pokémon Center Sapporo",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-shibuya",
+      "type": "lc",
+      "title": "Pokémon Center Shibuya",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-skytreetown",
+      "type": "lc",
+      "title": "Pokémon Center Skytree Town",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-tohoku",
+      "type": "lc",
+      "title": "Pokémon Center Tohoku",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-tokyobay",
+      "type": "lc",
+      "title": "Pokémon Center Tokyo Bay",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-tokyodx",
+      "type": "lc",
+      "title": "Pokémon Center Tokyo DX",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokecenter-yokohama",
+      "type": "lc",
+      "title": "Pokémon Center Yokohama",
+      "release_date": "2026-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-arraia-2026",
+      "type": "sb",
+      "title": "Arraia 2026",
+      "release_date": "2026-06-23",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-go-fest-2026-copenhagen",
+      "type": "lc",
+      "title": "GO Fest 2026: Copenhagen",
+      "release_date": "2026-06-11",
+      "pokemon_count": 13
+    },
+    {
+      "slug": "sb-lego-2026",
+      "type": "sb",
+      "title": "LEGO",
+      "release_date": "2026-06-11",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-go-fest-2026-chicago",
+      "type": "lc",
+      "title": "GO Fest 2026: Chicago",
+      "release_date": "2026-06-04",
+      "pokemon_count": 14
+    },
+    {
+      "slug": "lc-go-fest-2026-tokyo",
+      "type": "lc",
+      "title": "GO Fest 2026: Tokyo",
+      "release_date": "2026-05-25",
+      "pokemon_count": 12
+    },
+    {
+      "slug": "lc-stamp-rally-2026-tokyo-koto",
+      "type": "lc",
+      "title": "Stamp Rally Tokyo Koto",
+      "release_date": "2026-05-24",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-stamp-rally-2026-tokyo-minato",
+      "type": "lc",
+      "title": "Stamp Rally Tokyo Minato",
+      "release_date": "2026-05-24",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-stamp-rally-2026-tokyo-shinagawa",
+      "type": "lc",
+      "title": "Stamp Rally Tokyo Shinagawa",
+      "release_date": "2026-05-24",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-nbp-yokohama-dena-baystars",
+      "type": "lc",
+      "title": "NPB Yokohama DeNA BayStars 2026",
+      "release_date": "2026-05-23",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-nbp-chiba-lotte-marines",
+      "type": "lc",
+      "title": "NPB Chiba Lotte Marines 2026",
+      "release_date": "2026-05-15",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-nbp-orix-buffaloes",
+      "type": "lc",
+      "title": "NPB ORIX Buffaloes 2026",
+      "release_date": "2026-05-08",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-nbp-saitama-seibu-lions",
+      "type": "lc",
+      "title": "NPB Saitama Seibu Lions 2026",
+      "release_date": "2026-05-04",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-nbp-softbank-hawks",
+      "type": "lc",
+      "title": "NPB Softbank Hawks 2026",
+      "release_date": "2026-05-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-npb-hiroshima-carp-2026",
+      "type": "lc",
+      "title": "NPB Hiroshima Carp 2026",
+      "release_date": "2026-04-21",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-npb-hanshin-tigers-2026",
+      "type": "lc",
+      "title": "NPB Hanshin Tigers 2026",
+      "release_date": "2026-04-17",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-npb-rakuten-eagles-2026",
+      "type": "lc",
+      "title": "NPB Rakuten Eagles 2026",
+      "release_date": "2026-04-10",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-npb-yomiuri-giants-2026",
+      "type": "lc",
+      "title": "NPB Yomiuri Giants 2026",
+      "release_date": "2026-04-03",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-taipei-flower-festival-2026",
+      "type": "lc",
+      "title": "Taipei Flow Festival 2026",
+      "release_date": "2026-03-28",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "sb-pokopia-2026",
+      "type": "sb",
+      "title": "Pokopia",
+      "release_date": "2026-03-10",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "sb-festivalofcolors-2026",
+      "type": "sb",
+      "title": "Festival of Colors",
+      "release_date": "2026-03-04",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "sb-go-tour-2026-mega",
+      "type": "sb",
+      "title": "GO Tour 2026 Mega",
+      "release_date": "2026-02-28",
+      "pokemon_count": 23
+    },
+    {
+      "slug": "sb-go-tour-2026-x",
+      "type": "sb",
+      "title": "GO Tour 2026 X",
+      "release_date": "2026-02-27",
+      "pokemon_count": 15
+    },
+    {
+      "slug": "sb-go-tour-2026-y",
+      "type": "sb",
+      "title": "GO Tour 2026 Y",
+      "release_date": "2026-02-27",
+      "pokemon_count": 15
+    },
+    {
+      "slug": "sb-go-tour-2026-diamond",
+      "type": "sb",
+      "title": "GO Tour 2026 Diamond",
+      "release_date": "2026-02-26",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "sb-go-tour-2026-pearl",
+      "type": "sb",
+      "title": "GO Tour 2026 Pearl",
+      "release_date": "2026-02-26",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "sb-go-tour-2026-ruby",
+      "type": "sb",
+      "title": "GO Tour 2026 Ruby",
+      "release_date": "2026-02-25",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "sb-sapphire",
+      "type": "sb",
+      "title": "GO Tour 2026 Sapphire",
+      "release_date": "2026-02-25",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "sb-go-tour-2026-gold",
+      "type": "sb",
+      "title": "GO Tour 2026 Gold",
+      "release_date": "2026-02-24",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "sb-go-tour-2026-silver",
+      "type": "sb",
+      "title": "GO Tour 2026 Silver",
+      "release_date": "2026-02-24",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "lc-go-tour-2026-los-angeles",
+      "type": "lc",
+      "title": "GO Tour 2026 Los Angeles",
+      "release_date": "2026-02-20",
+      "pokemon_count": 18
+    },
+    {
+      "slug": "lc-go-tour-2026-tainan",
+      "type": "lc",
+      "title": "GO Tour 2026 Tainan",
+      "release_date": "2026-02-20",
+      "pokemon_count": 18
+    },
+    {
+      "slug": "lc-pokemon-park",
+      "type": "lc",
+      "title": "Pokemon Park",
+      "release_date": "2026-02-05",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "lc-stamp-rally-2026-cologne",
+      "type": "lc",
+      "title": "Stamp Rally Cologne",
+      "release_date": "2026-02-03",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-stamp-rally-2026-rio-de-janeiro",
+      "type": "lc",
+      "title": "Stamp Rally Rio De Janeiro",
+      "release_date": "2026-02-03",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-pokelid-tokushima",
+      "type": "lc",
+      "title": "Poké Lid Tokushima",
+      "release_date": "2026-01-20",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pyeongchang-winter-festival",
+      "type": "lc",
+      "title": "Pyeongchang Winter Festival",
+      "release_date": "2026-01-19",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "lc-car-free-day-2026-indonesia",
+      "type": "lc",
+      "title": "Car Free Day Indonesia",
+      "release_date": "2026-01-11",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-community-days-2026",
+      "type": "sb",
+      "title": "Community Days 2026",
+      "release_date": "2026-01-04",
+      "pokemon_count": 28
+    },
+    {
+      "slug": "lc-pokelid-tottori",
+      "type": "lc",
+      "title": "Poké Lid Tottori",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-yamaguchi",
+      "type": "lc",
+      "title": "Poké Lid Yamaguchi",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-aichi",
+      "type": "lc",
+      "title": "Pokélid Aichi",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-akita",
+      "type": "lc",
+      "title": "Pokélid Akita",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-aomori",
+      "type": "lc",
+      "title": "Pokélid Aomori",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-chiba",
+      "type": "lc",
+      "title": "Pokélid Chiba",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-fukui",
+      "type": "lc",
+      "title": "Pokélid Fukui",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-fukushima",
+      "type": "lc",
+      "title": "Pokélid Fukushima",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-gifu",
+      "type": "lc",
+      "title": "Pokélid Gifu",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-hokkaido",
+      "type": "lc",
+      "title": "Pokélid Hokkaido",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-hyogo",
+      "type": "lc",
+      "title": "Pokélid Hyogo",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-ibaraki",
+      "type": "lc",
+      "title": "Pokélid Ibaraki",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-ishikawa",
+      "type": "lc",
+      "title": "Pokélid Ishikawa",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-iwate",
+      "type": "lc",
+      "title": "Pokélid Iwate",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-kanagawa",
+      "type": "lc",
+      "title": "Pokélid Kanagawa",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-kyoto",
+      "type": "lc",
+      "title": "Pokélid Kyoto",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-mie",
+      "type": "lc",
+      "title": "Pokélid Mie",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-miyagi",
+      "type": "lc",
+      "title": "Pokélid Miyagi",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-nara",
+      "type": "lc",
+      "title": "Pokélid Nara",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-niigata",
+      "type": "lc",
+      "title": "Pokélid Niigata",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-osaka",
+      "type": "lc",
+      "title": "Pokélid Osaka",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-saitama",
+      "type": "lc",
+      "title": "Pokélid Saitama",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-shiga",
+      "type": "lc",
+      "title": "Pokélid Shiga",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-shizuoka",
+      "type": "lc",
+      "title": "Pokélid Shizuoka",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-tochigi",
+      "type": "lc",
+      "title": "Pokélid Tochigi",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-tokyo",
+      "type": "lc",
+      "title": "Pokélid Tokyo",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-toyama",
+      "type": "lc",
+      "title": "Pokélid Toyama",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-wakayama",
+      "type": "lc",
+      "title": "Pokélid Wakayama",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-yamagata",
+      "type": "lc",
+      "title": "Pokélid Yamagata",
+      "release_date": "2026-01-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-nfl-arizona-cardinals",
+      "type": "lc",
+      "title": "NFL Arizona Cardinals",
+      "release_date": "2025-12-21",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-city-safari-2025-buenos-aires",
+      "type": "lc",
+      "title": "City Safari 2025 Buenos Aires",
+      "release_date": "2025-12-13",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-miami",
+      "type": "lc",
+      "title": "City Safari 2025 Miami",
+      "release_date": "2025-12-13",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-sydney",
+      "type": "lc",
+      "title": "City Safari 2025 Sydney",
+      "release_date": "2025-12-13",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "sb-gowildarea-2025-global",
+      "type": "sb",
+      "title": "GO Wild Area 2025 Global",
+      "release_date": "2025-11-10",
+      "pokemon_count": 13
+    },
+    {
+      "slug": "lc-gowildarea-2025-nagasaki",
+      "type": "lc",
+      "title": "GO Wild Area 2025 Nagasaki",
+      "release_date": "2025-11-07",
+      "pokemon_count": 24
+    },
+    {
+      "slug": "lc-pokelid-fukuoka",
+      "type": "lc",
+      "title": "Pokélid Fukuoka",
+      "release_date": "2025-11-07",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-kagoshima",
+      "type": "lc",
+      "title": "Pokélid Kagoshima",
+      "release_date": "2025-11-07",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-miyazaki",
+      "type": "lc",
+      "title": "Pokélid Miyazaki",
+      "release_date": "2025-11-07",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-nagasaki",
+      "type": "lc",
+      "title": "Pokélid Nagasaki",
+      "release_date": "2025-11-07",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-okinawa",
+      "type": "lc",
+      "title": "Pokélid Okinawa",
+      "release_date": "2025-11-07",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-saga",
+      "type": "lc",
+      "title": "Pokélid Saga",
+      "release_date": "2025-11-07",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "sb-observatory-exhibition-tour",
+      "type": "sb",
+      "title": "Observatory Exhibition Tour",
+      "release_date": "2025-11-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-stamp-rally-2025-taipei",
+      "type": "lc",
+      "title": "Stamp Rally Taipei",
+      "release_date": "2025-10-21",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-stamp-rally-2025-jeju-island",
+      "type": "lc",
+      "title": "Stamp Rally Jeju Island",
+      "release_date": "2025-10-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-city-safari-2025-bangkok",
+      "type": "lc",
+      "title": "City Safari 2025 Bangkok",
+      "release_date": "2025-09-27",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-cancun",
+      "type": "lc",
+      "title": "City Safari 2025 Cancún",
+      "release_date": "2025-09-27",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-valencia",
+      "type": "lc",
+      "title": "City Safari 2025 Valencia",
+      "release_date": "2025-09-27",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-vancouver",
+      "type": "lc",
+      "title": "City Safari 2025 Vancouver",
+      "release_date": "2025-09-27",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-amsterdam",
+      "type": "lc",
+      "title": "City Safari 2025 Amsterdam",
+      "release_date": "2025-09-27",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-stamp-rally-paris-2025",
+      "type": "lc",
+      "title": "Stamp Rally Paris 1",
+      "release_date": "2025-09-13",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "lc-stamp-rally-paris-2025-2",
+      "type": "lc",
+      "title": "Stamp Rally Paris 2",
+      "release_date": "2025-09-13",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "sb-concierge",
+      "type": "sb",
+      "title": "Concierge",
+      "release_date": "2025-09-09",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-mlb-texas-rangers",
+      "type": "lc",
+      "title": "MLB Texas Rangers",
+      "release_date": "2025-09-07",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "sb-season-20-tales-of-transformation",
+      "type": "sb",
+      "title": "Tales Of Transformation Seasonal Background",
+      "release_date": "2025-09-02",
+      "pokemon_count": 33
+    },
+    {
+      "slug": "lc-mlb-minnesota-twins",
+      "type": "lc",
+      "title": "MLB Minnesota Twins",
+      "release_date": "2025-08-31",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-boston-red-sox",
+      "type": "lc",
+      "title": "MLB Boston Red Sox",
+      "release_date": "2025-08-29",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-san-francisco-giants",
+      "type": "lc",
+      "title": "MLB San Francisco Giants",
+      "release_date": "2025-08-29",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-newyork-mets",
+      "type": "lc",
+      "title": "MLB New York Mets",
+      "release_date": "2025-08-25",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-roadtrip-2025-cologne",
+      "type": "lc",
+      "title": "Roadtrip 2025 Cologne",
+      "release_date": "2025-08-20",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "sb-go-fest-2025-dark-skies",
+      "type": "sb",
+      "title": "GO Fest 2025 Dark Skies",
+      "release_date": "2025-08-18",
+      "pokemon_count": 87
+    },
+    {
+      "slug": "lc-roadtrip-2025-hague",
+      "type": "lc",
+      "title": "Roadtrip 2025 Hague",
+      "release_date": "2025-08-16",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-wcs-2025-anaheim",
+      "type": "lc",
+      "title": "World Championships 2025 Anaheim",
+      "release_date": "2025-08-15",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "lc-mlb-cleveland-guardians",
+      "type": "lc",
+      "title": "MLB Cleveland Guardians",
+      "release_date": "2025-08-14",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-baltimore-orioles",
+      "type": "lc",
+      "title": "MLB Baltimore Orioles",
+      "release_date": "2025-08-13",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-chicago-whitesox",
+      "type": "lc",
+      "title": "MLB Chicago White Sox",
+      "release_date": "2025-08-11",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-arizona-diamondbacks",
+      "type": "lc",
+      "title": "MLB Arizona Diamondbacks",
+      "release_date": "2025-08-10",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-roadtrip-2025-berlin",
+      "type": "lc",
+      "title": "Roadtrip 2025 Berlin",
+      "release_date": "2025-08-09",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-washington-nationals",
+      "type": "lc",
+      "title": "MLB Washington Nationals",
+      "release_date": "2025-08-05",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-roadtrip-2025-valencia",
+      "type": "lc",
+      "title": "Roadtrip 2025 Valencia",
+      "release_date": "2025-08-02",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-jangheung-water-festival-2025",
+      "type": "lc",
+      "title": "Jangheung Water Festival 2025",
+      "release_date": "2025-07-28",
+      "pokemon_count": 4
+    },
+    {
+      "slug": "lc-roadtrip-2025-paris",
+      "type": "lc",
+      "title": "Roadtrip 2025 Paris",
+      "release_date": "2025-07-26",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-milwaukee-brewers",
+      "type": "lc",
+      "title": "MLB Milwaukee Brewers",
+      "release_date": "2025-07-25",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-tampa-bay-rays",
+      "type": "lc",
+      "title": "MLB Tampa Bay Rays",
+      "release_date": "2025-07-20",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-roadtrip-2025-london",
+      "type": "lc",
+      "title": "Roadtrip 2025 London",
+      "release_date": "2025-07-19",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-mlb-marlins",
+      "type": "lc",
+      "title": "MLB Miami Marlins",
+      "release_date": "2025-07-18",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-roadtrip-2025-manchester",
+      "type": "lc",
+      "title": "Roadtrip 2025 Manchester",
+      "release_date": "2025-07-16",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "sb-9th-anniversary",
+      "type": "sb",
+      "title": "9th Anniversary",
+      "release_date": "2025-07-01",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-zacian-go-fest-2025",
+      "type": "sb",
+      "title": "Zacian GO Fest 2025",
+      "release_date": "2025-06-29",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-zamazenta-go-fest-2025",
+      "type": "sb",
+      "title": "Zamazenta GO Fest 2025",
+      "release_date": "2025-06-28",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-go-fest-2025",
+      "type": "sb",
+      "title": "GO Fest 2025",
+      "release_date": "2025-06-23",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "lc-lotte-giants",
+      "type": "lc",
+      "title": "Lotte Giants",
+      "release_date": "2025-06-19",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-go-fest-2025-paris",
+      "type": "lc",
+      "title": "GO Fest 2025 Paris",
+      "release_date": "2025-06-13",
+      "pokemon_count": 8
+    },
+    {
+      "slug": "lc-go-fest-2025-jersey-city",
+      "type": "lc",
+      "title": "GO Fest 2025 Jersey City",
+      "release_date": "2025-06-06",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "sb-season-19-delightful-days",
+      "type": "sb",
+      "title": "Delightful Days Seasonal Background",
+      "release_date": "2025-06-03",
+      "pokemon_count": 25
+    },
+    {
+      "slug": "lc-go-fest-2025-osaka",
+      "type": "lc",
+      "title": "GO Fest 2025 Osaka",
+      "release_date": "2025-05-29",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-stamp-rally-2025-expo-1",
+      "type": "lc",
+      "title": "Stamp Rally EXPO 2025 Pikachu",
+      "release_date": "2025-04-13",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-stamp-rally-2025-expo-2",
+      "type": "lc",
+      "title": "Stamp Rally EXPO 2025 Starters",
+      "release_date": "2025-04-13",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-stamp-rally-2025-suita",
+      "type": "lc",
+      "title": "Stamp Rally Suita City",
+      "release_date": "2025-04-13",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-cherry-blossom-fest-2025-yeouido",
+      "type": "lc",
+      "title": "Cherry Blossom Fest 2025 Yeouido",
+      "release_date": "2025-03-30",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "lc-city-safari-2025-milan",
+      "type": "lc",
+      "title": "City Safari 2025 Milan",
+      "release_date": "2025-03-29",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-mumbai",
+      "type": "lc",
+      "title": "City Safari 2025 Mumbai",
+      "release_date": "2025-03-29",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-santiago",
+      "type": "lc",
+      "title": "City Safari 2025 Santiago",
+      "release_date": "2025-03-29",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2025-singapore",
+      "type": "lc",
+      "title": "City Safari 2025 Singapore",
+      "release_date": "2025-03-29",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "sb-season-18-might-and-mastery",
+      "type": "sb",
+      "title": "Might And Mastery Seasonal Background",
+      "release_date": "2025-03-08",
+      "pokemon_count": 24
+    },
+    {
+      "slug": "sb-go-tour-2025-black-white",
+      "type": "sb",
+      "title": "GO Tour 2025 Black White",
+      "release_date": "2025-03-01",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "sb-go-tour-2025-black",
+      "type": "sb",
+      "title": "GO Tour 2025 Black",
+      "release_date": "2025-02-24",
+      "pokemon_count": 27
+    },
+    {
+      "slug": "sb-go-tour-2025-white",
+      "type": "sb",
+      "title": "GO Tour 2025 White",
+      "release_date": "2025-02-24",
+      "pokemon_count": 27
+    },
+    {
+      "slug": "lc-go-tour-2025-los-angeles",
+      "type": "lc",
+      "title": "GO Tour 2025 Los Angeles",
+      "release_date": "2025-02-21",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "sb-go-tour-2025-enigma",
+      "type": "sb",
+      "title": "GO Tour 2025 Enigma",
+      "release_date": "2025-02-21",
+      "pokemon_count": 32
+    },
+    {
+      "slug": "lc-go-tour-2025-new-taipei-city",
+      "type": "lc",
+      "title": "GO Tour 2025 New Taipei City",
+      "release_date": "2025-02-21",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "sb-season-17-duel-destiny",
+      "type": "sb",
+      "title": "Duel Destiny Seasonal Background",
+      "release_date": "2025-01-05",
+      "pokemon_count": 11
+    },
+    {
+      "slug": "sb-2024-december-cd-recap",
+      "type": "sb",
+      "title": "December 2024 Recap Community Day",
+      "release_date": "2024-12-21",
+      "pokemon_count": 45
+    },
+    {
+      "slug": "lc-city-safari-2024-hongkong",
+      "type": "lc",
+      "title": "City Safari 2024 Hong Kong",
+      "release_date": "2024-12-07",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2024-saopaulo",
+      "type": "lc",
+      "title": "City Safari 2024 Sao Paulo",
+      "release_date": "2024-12-07",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "sb-gowildarea-2024-global",
+      "type": "sb",
+      "title": "GO Wild Area 2024 Global",
+      "release_date": "2024-11-23",
+      "pokemon_count": 7
+    },
+    {
+      "slug": "lc-gowildarea-2024-fukuoka",
+      "type": "lc",
+      "title": "GO Wild Area 2024 Fukuoka",
+      "release_date": "2024-11-16",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "lc-city-safari-2024-incheon",
+      "type": "lc",
+      "title": "City Safari 2024 Incheon",
+      "release_date": "2024-09-27",
+      "pokemon_count": 3
+    },
+    {
+      "slug": "lc-air-adv-2024-jakarta",
+      "type": "lc",
+      "title": "Air Adv 2024 Jakarta",
+      "release_date": "2024-09-21",
+      "pokemon_count": 11
+    },
+    {
+      "slug": "lc-mlb-mariners",
+      "type": "lc",
+      "title": "MLB Seattle Mariners",
+      "release_date": "2024-09-13",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-air-adv-2024-yogyakarta",
+      "type": "lc",
+      "title": "Air Adv 2024 Yogyakarta",
+      "release_date": "2024-08-24",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-wcs-2024-honolulu",
+      "type": "lc",
+      "title": "World Championships 2024 Honolulu",
+      "release_date": "2024-08-16",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-team-leader-blue",
+      "type": "sb",
+      "title": "Team Leader Blue",
+      "release_date": "2024-07-23",
+      "pokemon_count": 4
+    },
+    {
+      "slug": "sb-team-leader-red",
+      "type": "sb",
+      "title": "Team Leader Red",
+      "release_date": "2024-07-23",
+      "pokemon_count": 5
+    },
+    {
+      "slug": "sb-team-leader-yellow",
+      "type": "sb",
+      "title": "Team Leader Yellow",
+      "release_date": "2024-07-23",
+      "pokemon_count": 6
+    },
+    {
+      "slug": "sb-go-fest-2024-radiance",
+      "type": "sb",
+      "title": "GO Fest 2024 Radiance",
+      "release_date": "2024-07-13",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-go-fest-2024-umbra",
+      "type": "sb",
+      "title": "GO Fest 2024 Umbra",
+      "release_date": "2024-07-13",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-go-fest-2024-wormhole-moon",
+      "type": "sb",
+      "title": "GO Fest 2024 Wormhole Moon",
+      "release_date": "2024-07-13",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-go-fest-2024-wormhole-sun",
+      "type": "sb",
+      "title": "GO Fest 2024 Wormhole Sun",
+      "release_date": "2024-07-13",
+      "pokemon_count": 1
+    },
+    {
+      "slug": "sb-go-fest-2024-wormhole",
+      "type": "sb",
+      "title": "GO Fest 2024 Wormhole",
+      "release_date": "2024-07-08",
+      "pokemon_count": 12
+    },
+    {
+      "slug": "lc-go-fest-2024-new-york",
+      "type": "lc",
+      "title": "GO Fest 2024 New York",
+      "release_date": "2024-07-05",
+      "pokemon_count": 10
+    },
+    {
+      "slug": "lc-go-fest-2024-madrid",
+      "type": "lc",
+      "title": "GO Fest 2024 Madrid",
+      "release_date": "2024-06-14",
+      "pokemon_count": 10
+    },
+    {
+      "slug": "lc-go-fest-2024-sendai",
+      "type": "lc",
+      "title": "GO Fest 2024 Sendai",
+      "release_date": "2024-05-30",
+      "pokemon_count": 10
+    },
+    {
+      "slug": "lc-air-adv-2024-surabaya",
+      "type": "lc",
+      "title": "Air Adv 2024 Surabaya",
+      "release_date": "2024-05-11",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-city-safari-2024-tainan",
+      "type": "lc",
+      "title": "City Safari 2024 Tainan",
+      "release_date": "2024-03-09",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-air-adv-2024-bali",
+      "type": "lc",
+      "title": "Air Adv 2024 Bali",
+      "release_date": "2024-03-02",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-go-tour-2024-los-angeles",
+      "type": "lc",
+      "title": "GO Tour 2024 Los Angeles",
+      "release_date": "2024-02-16",
+      "pokemon_count": 4
+    },
+    {
+      "slug": "lc-city-safari-2023-mexico-city",
+      "type": "lc",
+      "title": "City Safari 2023 Mexico City",
+      "release_date": "2023-11-04",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2023-barcelona",
+      "type": "lc",
+      "title": "City Safari 2023 Barcelona",
+      "release_date": "2023-10-13",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-city-safari-2023-seoul",
+      "type": "lc",
+      "title": "City Safari 2023 Seoul",
+      "release_date": "2023-10-07",
+      "pokemon_count": 9
+    },
+    {
+      "slug": "lc-go-fest-2023-new-york",
+      "type": "lc",
+      "title": "GO Fest 2023 New York",
+      "release_date": "2023-08-18",
+      "pokemon_count": 4
+    },
+    {
+      "slug": "lc-go-fest-2023-london",
+      "type": "lc",
+      "title": "GO Fest 2023 London",
+      "release_date": "2023-08-04",
+      "pokemon_count": 4
+    },
+    {
+      "slug": "lc-go-fest-2023-osaka",
+      "type": "lc",
+      "title": "GO Fest 2023 Osaka",
+      "release_date": "2023-08-04",
+      "pokemon_count": 4
+    },
+    {
+      "slug": "lc-jeju-air-adv-2023",
+      "type": "lc",
+      "title": "Jeju Air Adv 2023",
+      "release_date": "2023-07-28",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-go-tour-2023-las-vegas",
+      "type": "lc",
+      "title": "GO Tour 2023 Las Vegas",
+      "release_date": "2023-02-18",
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-2026-br-001",
+      "type": "lc",
+      "title": "2026 Br 001",
+      "release_date": null,
+      "pokemon_count": 0
+    },
+    {
+      "slug": "lc-busanfireworksfestival-2025",
+      "type": "lc",
+      "title": "Busan Fireworks Festival 2025",
+      "release_date": null,
+      "pokemon_count": 0
+    },
+    {
+      "slug": "lc-2026-npb-tokyoswallows",
+      "type": "lc",
+      "title": "NPB Tokyo Swallows 2026",
+      "release_date": null,
+      "pokemon_count": 0
+    },
+    {
+      "slug": "lc-2026-npb-toyamaallstars",
+      "type": "lc",
+      "title": "NPB Toyama All Stars 2026",
+      "release_date": null,
+      "pokemon_count": 0
+    },
+    {
+      "slug": "lc-pokelid-ehime",
+      "type": "lc",
+      "title": "Poké Lid Ehime",
+      "release_date": null,
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-kagawa",
+      "type": "lc",
+      "title": "Poké Lid Kagawa",
+      "release_date": null,
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-kochi",
+      "type": "lc",
+      "title": "Poké Lid Kochi",
+      "release_date": null,
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-okayama",
+      "type": "lc",
+      "title": "Poké Lid Okayama",
+      "release_date": null,
+      "pokemon_count": 2
+    },
+    {
+      "slug": "lc-pokelid-shimane",
+      "type": "lc",
+      "title": "Poké Lid Shimane",
+      "release_date": null,
+      "pokemon_count": 2
+    }
+  ]
+}

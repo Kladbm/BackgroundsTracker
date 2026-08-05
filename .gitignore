@@ -1,0 +1,5 @@
+# Node
+node_modules/
+
+# Claude Code local config / skills
+.claude/
