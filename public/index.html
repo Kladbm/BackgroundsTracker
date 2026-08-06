@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260806-scope-dropdown">
+  <link rel="stylesheet" href="css/style.css?v=20260806-scope-dropdown-inline">
 </head>
 <body>
   <header class="topbar">
@@ -69,18 +69,17 @@
   <section class="pokemon-table-controls" id="pokemon-table-controls" aria-label="Pokemon table controls" hidden>
     <div class="pokemon-table-actions">
       <button id="pokemon-export-image" type="button">Download</button>
-      <button type="button">Upload</button>
+      <details class="dropdown pokemon-scope-dropdown" id="pokemon-scope-controls">
+        <summary class="dropdown-trigger" aria-haspopup="menu">
+          <span class="dropdown-label" id="pokemon-scope-label">All</span>
+          <svg class="icon chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="dropdown-menu" role="menu">
+          <button type="button" data-scope="all" class="active" aria-pressed="true">All</button>
+          <button type="button" data-scope="owned" aria-pressed="false">Owned only</button>
+        </div>
+      </details>
     </div>
-    <details class="dropdown pokemon-scope-dropdown" id="pokemon-scope-controls">
-      <summary class="dropdown-trigger" aria-haspopup="menu">
-        <span class="dropdown-label" id="pokemon-scope-label">All</span>
-        <svg class="icon chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-      </summary>
-      <div class="dropdown-menu" role="menu">
-        <button type="button" data-scope="all" class="active" aria-pressed="true">All</button>
-        <button type="button" data-scope="owned" aria-pressed="false">Owned only</button>
-      </div>
-    </details>
     <label class="pokemon-width-control" for="pokemon-row-width">
       <span>Pokemon per row</span>
       <input id="pokemon-row-width" type="range" min="15" max="30" value="20">
@@ -101,6 +100,6 @@
   </aside>
   <script src="js/storage.js?v=20260806-type-icons"></script>
   <script src="js/progress.js?v=20260806-progress-align"></script>
-  <script src="js/grid.js?v=20260806-scope-dropdown"></script>
+  <script src="js/grid.js?v=20260806-scope-dropdown-inline"></script>
 </body>
 </html>

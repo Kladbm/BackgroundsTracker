@@ -407,6 +407,10 @@ body {
   flex: 0 0 auto;
 }
 
+.pokemon-table-actions .pokemon-scope-dropdown .dropdown-trigger {
+  background: var(--btn);
+}
+
 .pokemon-width-control {
   display: inline-flex;
   align-items: center;
