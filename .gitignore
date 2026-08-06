@@ -6,3 +6,7 @@ node_modules/
 
 # Downloaded images — fully regenerable by the scraper
 public/images/
+
+# Scraped data — regenerable, rewritten by the daily cron re-scrape (tracking
+# it in git would create noisy near-empty diffs)
+public/data/

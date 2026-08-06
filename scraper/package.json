@@ -4,7 +4,8 @@
   "description": "Scrapes dittobase.com/pokemon-go/backgrounds into static JSON for the Ditto Tracker site.",
   "main": "scrape.js",
   "scripts": {
-    "start": "node scrape.js"
+    "start": "node scrape.js",
+    "run-all": "node run-all.js"
   },
   "license": "ISC",
   "type": "commonjs",

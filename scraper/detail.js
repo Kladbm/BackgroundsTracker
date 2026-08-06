@@ -10,6 +10,10 @@
 // exist locally. Shiny pokemon images are referenced in the JSON but not
 // downloaded yet (that's a later step).
 //
+// This module doubles as the parsing/downloading core for run-all.js (step 3),
+// which drives it across every background in the index. Running this file
+// directly still fetches the single page set in DETAIL_URL.
+//
 // Selectors are structural — anchored on stable attributes (href/src/alt and
 // :has on the event link) rather than Chakra's hashed emotion class names
 // (css-11z033u & co.), which can change between dittobase deploys.
@@ -50,7 +54,10 @@ const OUTPUT_FILE = process.env.OUTPUT_FILE ||
   path.join(__dirname, '..', 'docs', 'sample-detail-gofest2026-global.json');
 const IMAGES_DIR = process.env.IMAGES_DIR ||
   path.join(__dirname, '..', 'public', 'images');
-const REQUEST_DELAY_MS = Number(process.env.REQUEST_DELAY_MS || 150);
+// Delay between image downloads. run-all.js uses REQUEST_DELAY_MS for the
+// page-to-page delay; images default to 150ms each (REQUEST_DELAY_MS is kept
+// as a fallback so `REQUEST_DELAY_MS=500 node scraper/detail.js` still works).
+const IMAGE_DELAY_MS = Number(process.env.IMAGE_DELAY_MS || process.env.REQUEST_DELAY_MS || 150);
 
 // Stable structural selectors (see comment at top).
 const POKEDEX_CARD_SELECTOR = 'a[href*="/pokemon-go/pokedex/"]';
@@ -58,6 +65,10 @@ const EVENT_LINK_SELECTOR = 'a[href*="/pokemon-go/events/"]';
 const POKEMON_IMG_SELECTOR = 'img[src*="assets.dittobase.com/go/pokemon/"]';
 const TYPE_IMG_SELECTOR = 'img[src*="assets.dittobase.com/go/types/"]';
 const SHINY_MARKER_SELECTOR = 'img[src="/images/shiny.png"]';
+// The background's hero image on the page — an assets.dittobase.com
+// /go/backgrounds/ img, same directory as the homepage cards. Its real src is
+// read from the page instead of assumed as {slug}.png (see downloadDetailImages).
+const HERO_IMG_SELECTOR = 'img[src*="assets.dittobase.com/go/backgrounds/"]';
 
 const MONTHS = {
   Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06',
@@ -83,11 +94,13 @@ function collapse(text) {
   return text.replace(/\s+/g, ' ').trim();
 }
 
-function parsePage(html) {
+// Parses one detail page into the spec's data/backgrounds/<slug>.json shape.
+// The slug is passed in by the caller (run-all.js loops over the index; the
+// standalone entry derives it from DETAIL_URL).
+function parsePage(html, slug) {
   const $ = cheerio.load(html);
   const problems = [];
 
-  const slug = DETAIL_URL.split('/').filter(Boolean).pop();
   const title = $('h1').first().text().trim();
 
   // The release sentence is the one <p> containing an event link (the event
@@ -175,6 +188,40 @@ function parsePage(html) {
     pokemon.push(entry);
   });
 
+  // Dedupe by (dex, pokedex_slug): dittobase repeats some pokemon across a
+  // "featured" section AND the full list (Kyurem Black/White each twice,
+  // Blanche Lapras twice, the Regis, ...). Keep the first occurrence and record
+  // each dropped duplicate so run-all.js surfaces them in its WARN log.
+  const seen = new Set();
+  const unique = [];
+  for (const p of pokemon) {
+    const key = `${p.dex}|${p.pokedex_slug}`;
+    if (seen.has(key)) {
+      problems.push({ slug: key, reason: 'duplicate card dropped (featured + full-list overlap)' });
+      continue;
+    }
+    seen.add(key);
+    unique.push(p);
+  }
+
+  // Hero image: the /go/backgrounds/ img whose filename equals {slug}.{ext}.
+  // The real asset is NOT always {slug}.png — 69 backgrounds live at .webp (and
+  // two at .jpg) — so read the src from the page rather than assuming the name.
+  // Match by basename rather than "first img in the document": some pages put a
+  // related-background strip (other slugs) above the hero, which would make a
+  // naive .first() pick the wrong image. Basename matching is order-independent
+  // and covers all three extensions; falls back to the first /go/backgrounds/
+  // img if no exact match exists (shouldn't happen). Kept out of the JSON: the
+  // writers strip heroSrc (the spec has no hero field — the frontend builds
+  // images/backgrounds/{slug}.png, which is exactly where downloadDetailImages
+  // saves the real asset).
+  const heroCandidates = $(HERO_IMG_SELECTOR);
+  const heroImg = heroCandidates.filter((_, el) => {
+    const base = ($(el).attr('src') || '').split('/').pop().replace(/\.\w+$/, '');
+    return base === slug;
+  }).first();
+  const heroSrc = (heroImg.length ? heroImg : heroCandidates.first()).attr('src') || null;
+
   return {
     slug,
     type: slug.split('-')[0],
@@ -182,7 +229,8 @@ function parsePage(html) {
     release_date,
     description,
     event,
-    pokemon,
+    pokemon: unique,
+    heroSrc,
     problems,
   };
 }
@@ -198,16 +246,62 @@ async function download(url, dest) {
   return { size: fs.statSync(dest).size };
 }
 
+// Fetches + parses one background detail page. Throws on HTTP error so
+// run-all.js can distinguish a hard failure (page gone, network) from a parse
+// quirk (which shows up in data.problems instead).
+async function fetchDetail(slug) {
+  const url = `${SITE_BASE}/pokemon-go/backgrounds/${slug}`;
+  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
+  return parsePage(await res.text(), slug);
+}
+
+// Downloads the background hero + every pokemon's normal sprite for one parsed
+// detail page, skipping files already on disk. Delays only after an actual
+// download — a cached file makes no request, so re-runs are fast. Returns
+// { downloaded: [{file, size}], skipped: [file], failed: ["file: error"] };
+// a single 404 on one sprite doesn't fail the whole background.
+async function downloadDetailImages(data, delayMs = IMAGE_DELAY_MS) {
+  const downloaded = [];
+  const skipped = [];
+  const failed = [];
+
+  const tryOne = async (url, dest, label) => {
+    try {
+      const r = await download(url, dest);
+      if (r.skipped) skipped.push(label);
+      else { downloaded.push({ file: label, size: r.size }); await delay(delayMs); }
+    } catch (err) {
+      failed.push(`${label}: ${err.message}`);
+    }
+  };
+
+  // Real hero src from the page (parsePage's heroSrc); fall back to the
+  // constructed {slug}.png only if the page had no /go/backgrounds/ img at all.
+  await tryOne(
+    data.heroSrc || `${ASSET_BASE}/go/backgrounds/${data.slug}.png`,
+    path.join(IMAGES_DIR, 'backgrounds', `${data.slug}.png`),
+    `backgrounds/${data.slug}.png`
+  );
+
+  for (const p of data.pokemon) {
+    const file = p.image_normal.split('/').pop();
+    await tryOne(
+      `${ASSET_BASE}/go/pokemon/${file}`,
+      path.join(IMAGES_DIR, 'pokemon', file),
+      `pokemon/${file}`
+    );
+  }
+
+  return { downloaded, skipped, failed };
+}
+
 const fmtBytes = (n) => (n >= 1024 ? `${(n / 1024).toFixed(1)} KB` : `${n} B`);
 
 async function main() {
   console.log(`Fetching ${DETAIL_URL} ...`);
-  const res = await fetch(DETAIL_URL, { headers: { 'User-Agent': USER_AGENT } });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-  const html = await res.text();
-  console.log(`Fetched ${(html.length / 1024).toFixed(0)} KB, parsing ...`);
-
-  const data = parsePage(html);
+  const slug = DETAIL_URL.split('/').filter(Boolean).pop();
+  const data = await fetchDetail(slug);
 
   if (data.problems.length) {
     console.log(`\nWARNING: ${data.problems.length} parse problem(s):`);
@@ -231,33 +325,7 @@ async function main() {
   print('First 3', data.pokemon.slice(0, 3));
   print('Last 3', data.pokemon.slice(-3));
 
-  // Downloads: background hero + every pokemon normal sprite. Files already
-  // on disk are skipped. Shiny variants are left for a later step.
-  const downloaded = [];
-  const skipped = [];
-  const failed = [];
-
-  const bgFile = `${data.slug}.png`;
-  const bgDest = path.join(IMAGES_DIR, 'backgrounds', bgFile);
-  try {
-    const r = await download(`${ASSET_BASE}/go/backgrounds/${bgFile}`, bgDest);
-    r.skipped ? skipped.push(`backgrounds/${bgFile}`) : downloaded.push({ file: `backgrounds/${bgFile}`, size: r.size });
-  } catch (err) {
-    failed.push(`backgrounds/${bgFile}: ${err.message}`);
-  }
-  await delay(REQUEST_DELAY_MS);
-
-  for (const p of data.pokemon) {
-    const file = p.image_normal.split('/').pop();
-    const dest = path.join(IMAGES_DIR, 'pokemon', file);
-    try {
-      const r = await download(`${ASSET_BASE}/go/pokemon/${file}`, dest);
-      r.skipped ? skipped.push(`pokemon/${file}`) : downloaded.push({ file: `pokemon/${file}`, size: r.size });
-    } catch (err) {
-      failed.push(`pokemon/${file}: ${err.message}`);
-    }
-    await delay(REQUEST_DELAY_MS);
-  }
+  const { downloaded, skipped, failed } = await downloadDetailImages(data);
 
   console.log(`\nDownloads -> ${IMAGES_DIR}`);
   console.log(`  downloaded ${downloaded.length} file(s):`);
@@ -268,13 +336,30 @@ async function main() {
     for (const f of failed) console.log(`    - ${f}`);
   }
 
-  const output = { ...data, problems: undefined };
+  const { heroSrc, ...clean } = data;
+  const output = { ...clean, problems: undefined };
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(output, null, 2) + '\n');
   console.log(`\nSaved ${data.pokemon.length} pokemon -> ${OUTPUT_FILE}`);
 }
 
-main().catch((err) => {
-  console.error('Scrape failed:', err.message);
-  process.exit(1);
-});
+module.exports = {
+  SITE_BASE,
+  ASSET_BASE,
+  USER_AGENT,
+  IMAGES_DIR,
+  IMAGE_DELAY_MS,
+  parsePage,
+  fetchDetail,
+  downloadDetailImages,
+  download,
+  delay,
+  fmtBytes,
+};
+
+if (require.main === module) {
+  main().catch((err) => {
+    console.error('Scrape failed:', err.message);
+    process.exit(1);
+  });
+}
