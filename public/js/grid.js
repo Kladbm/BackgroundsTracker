@@ -210,12 +210,12 @@
     return tile;
   };
 
-  const pokemonPlacements = () => {
+  const pokemonPlacements = (scope = state.pokemonScope) => {
     const placements = [];
     for (const b of newestBackgrounds(visibleBackgrounds())) {
       for (const p of state.pokemonBySlug[b.slug] || []) {
         const collected = storage.isCollected(state.collected, b.slug, p.pokedex_slug);
-        if (state.pokemonScope === 'owned' && !collected) continue;
+        if (scope === 'owned' && !collected) continue;
         placements.push({
           background: b,
           pokemon: p,
@@ -451,16 +451,20 @@
       ctx.font = `700 24px ${font}`;
       ctx.fillText('Pokemon GO Backgrounds Collection', pad, pad + 28);
 
+      const maxPlacements = pokemonPlacements('all').length;
       const collected = placements.filter((item) => item.collected).length;
       ctx.fillStyle = mutedColor;
       ctx.font = `500 13px ${font}`;
       const scopeLabel = state.pokemonScope === 'owned' ? 'owned only' : 'all';
-      ctx.fillText(`${collected}/${placements.length} collected - ${columns} Pokemon per row - ${scopeLabel}`, pad, pad + 54);
+      const countLabel = state.pokemonScope === 'owned'
+        ? `${collected}/${maxPlacements} collected - ${scopeLabel}`
+        : `${collected}/${placements.length} collected - ${scopeLabel}`;
+      ctx.fillText(countLabel, pad, pad + 54);
 
       ctx.fillStyle = accentColor;
       ctx.font = `600 13px ${font}`;
       ctx.textAlign = 'right';
-      ctx.fillText(`${Math.round((collected / placements.length) * 100)}%`, width - pad, pad + 54);
+      ctx.fillText(`${Math.round((collected / maxPlacements) * 100)}%`, width - pad, pad + 54);
       ctx.textAlign = 'left';
 
       const shadowIcon = await loadCanvasImage('images/icons/shadow.png').catch(() => null);
@@ -504,8 +508,12 @@
       if (!blob) throw new Error('Canvas export failed');
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
+      const now = new Date();
+      const yyyy = String(now.getFullYear());
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
       link.href = url;
-      link.download = 'pokemon-go-backgrounds-collection.png';
+      link.download = `pokemon-go-backgrounds-collection-${yyyy}-${mm}-${dd}.png`;
       document.body.appendChild(link);
       link.click();
       link.remove();
