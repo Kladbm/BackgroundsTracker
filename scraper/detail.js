@@ -268,30 +268,42 @@ function parsePage(html, slug) {
 
   const title = $('h1').first().text().trim();
 
-  // The release sentence is the one <p> containing an event link (the event
-  // block's link lives in an <h2>, so this can't collide with it). Its full
-  // text is the description; it also embeds the release date.
-  //
   // Next.js injects emotion <style> nodes inline, and cheerio's .text()
   // includes their textContent (a browser would hide them), so strip
   // style/script before reading any prose.
-  const sentence = $('p:has(' + EVENT_LINK_SELECTOR + ')').first();
-  sentence.find('style, script').remove();
+  $('style, script').remove();
+
+  // The release sentence is the prose paragraph matching the public page copy:
+  // "was released on ... as part of ...". Some events have no /events/ page,
+  // so this must not depend on an anchor being present inside the sentence.
+  const sentence = $('p').filter((_, el) => {
+    const text = collapse($(el).text());
+    return /\bwas released on\b/i.test(text) && /\bas part of\b/i.test(text);
+  }).first();
   const description = sentence.length ? collapse(sentence.text()) : null;
   const release_date = findReleaseDate(sentence.length ? sentence.text() : '');
+  const eventNameFromDescription = (() => {
+    if (!description) return null;
+    const m = /\bas part of\s+(.+?)\.\s*(?:\d|[A-Z])/i.exec(description);
+    return m ? collapse(m[1]) : null;
+  })();
 
-  // Event block: h2 > a[href*="/pokemon-go/events/"] (name/url), followed by
-  // a <style> and then a <p> with the date range. The block's thumbnail is
-  // the <img> whose alt equals the event name (Sanity CDN).
+  // Event block: the event heading is usually the h2 matching the event name
+  // in the release sentence. Linked events wrap that heading in an
+  // /pokemon-go/events/ anchor; unlinked events are plain text, with url:null.
+  // It is followed by a <p> with the date range. The block's thumbnail is the
+  // <img> whose alt equals the event name (Sanity CDN).
   let event = null;
-  const eventHeading = $('h2:has(' + EVENT_LINK_SELECTOR + ')').first();
+  let eventHeading = eventNameFromDescription
+    ? $('h2').filter((_, el) => collapse($(el).text()) === eventNameFromDescription).first()
+    : $();
+  if (!eventHeading.length) eventHeading = $('h2:has(' + EVENT_LINK_SELECTOR + ')').first();
   if (eventHeading.length) {
     const link = eventHeading.find(EVENT_LINK_SELECTOR).first();
-    const name = collapse(link.text());
+    const name = collapse(link.length ? link.text() : eventHeading.text());
     const dateP = eventHeading.nextAll('p').first();
-    dateP.find('style, script').remove();
     const date_range = collapse(dateP.text());
-    const url = new URL(link.attr('href'), SITE_BASE).href;
+    const url = link.length ? new URL(link.attr('href'), SITE_BASE).href : null;
     const eventImg = $('img').filter((_, el) => $(el).attr('alt') === name).first();
     const rawSrc = eventImg.length ? eventImg.attr('src') : null;
     const imageSrc = rawSrc ? underlyingAssetUrl(rawSrc) : null;
