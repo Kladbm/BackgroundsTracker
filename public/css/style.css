@@ -365,14 +365,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
   max-width: 1120px;
   margin: 16px auto 0;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--panel);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  padding: 0 20px;
 }
 
 .pokemon-table-controls[hidden] {
@@ -381,18 +377,13 @@ body {
 
 .pokemon-table-actions {
   display: inline-flex;
-  gap: 6px;
-  flex: 0 0 auto;
+  gap: 8px;
 }
 
-.pokemon-action-button,
+.pokemon-table-actions button,
 .pokemon-scope-toggle button {
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 0 11px;
+  height: 34px;
+  padding: 0 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--btn);
@@ -403,23 +394,12 @@ body {
   cursor: pointer;
 }
 
-.pokemon-action-button:hover,
+.pokemon-table-actions button:hover,
 .pokemon-scope-toggle button:hover {
   background: var(--active);
-  color: var(--text);
 }
 
-.pokemon-action-button .icon {
-  width: 14px;
-  height: 14px;
-  color: var(--muted);
-}
-
-.pokemon-action-button:hover .icon {
-  color: var(--accent);
-}
-
-.pokemon-action-button:disabled {
+.pokemon-table-actions button:disabled {
   color: var(--muted);
   cursor: wait;
   opacity: 0.75;
@@ -427,18 +407,15 @@ body {
 
 .pokemon-scope-toggle {
   display: inline-flex;
-  gap: 3px;
-  flex: 0 0 auto;
-  padding: 2px;
+  gap: 4px;
+  padding: 3px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg);
+  border-radius: var(--radius-md);
+  background: var(--panel);
 }
 
 .pokemon-scope-toggle button {
   height: 28px;
-  min-width: 74px;
-  padding: 0 10px;
   border-color: transparent;
   background: transparent;
   color: var(--muted);
@@ -447,42 +424,28 @@ body {
 .pokemon-scope-toggle button.active {
   background: var(--active);
   color: var(--accent);
-  box-shadow: inset 0 0 0 1px rgba(244, 164, 248, 0.14);
 }
 
 .pokemon-width-control {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 9px;
-  flex: 1 1 auto;
-  min-width: 250px;
+  gap: 10px;
   color: var(--muted);
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
 }
 
-.pokemon-width-label {
-  color: var(--muted);
-}
-
 .pokemon-width-control input {
-  width: min(190px, 22vw);
+  width: 160px;
   accent-color: var(--accent);
 }
 
 .pokemon-width-control output {
-  min-width: 34px;
-  height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(244, 164, 248, 0.22);
-  border-radius: var(--radius-sm);
-  background: rgba(244, 164, 248, 0.1);
-  color: var(--accent);
+  min-width: 2ch;
+  color: var(--text);
   font-weight: 600;
+  text-align: right;
 }
 
 #grid.grid-view {
@@ -586,11 +549,6 @@ body {
   .pokemon-table-controls {
     flex-wrap: wrap;
   }
-
-  .pokemon-width-control {
-    flex: 1 1 100%;
-    justify-content: flex-start;
-  }
 }
 
 @media (max-width: 480px) {
@@ -600,7 +558,6 @@ body {
 
   .pokemon-width-control {
     width: 100%;
-    min-width: 0;
   }
 
   .pokemon-width-control input {
