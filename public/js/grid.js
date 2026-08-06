@@ -56,11 +56,15 @@
     return badge;
   };
 
-  // Newest/oldest by release_date; backgrounds without a date sort last in
-  // both directions.
+  // Sort by date or title; backgrounds without a date sort last in both date
+  // directions.
   const sortBackgrounds = (list) => {
     const copy = [...list];
     copy.sort((a, b) => {
+      if (state.sort === 'az' || state.sort === 'za') {
+        const cmp = a.title.localeCompare(b.title, undefined, { sensitivity: 'base' });
+        return state.sort === 'az' ? cmp : -cmp;
+      }
       const aNull = !a.release_date;
       const bNull = !b.release_date;
       if (aNull && bNull) return 0;
@@ -91,6 +95,22 @@
     if (y === undefined) return '...'; // detail JSON still loading
     if (y === null) return '-';      // detail JSON failed to load
     return `${storage.collectedCount(state.collected, slug, state.pokemonBySlug[slug])}/${y}`;
+  };
+
+  const renderCountLabel = (visibleCount) => {
+    const label = $('#count-label');
+    const total = state.backgrounds.length;
+    label.replaceChildren();
+    label.append('Displaying ');
+    if (visibleCount < total) {
+      const pill = document.createElement('span');
+      pill.className = 'count-pill';
+      pill.textContent = `${visibleCount} of ${total}`;
+      label.append(pill);
+    } else {
+      label.append(`${visibleCount} of ${total}`);
+    }
+    label.append(' backgrounds.');
   };
 
   const buildCard = (b) => {
@@ -186,7 +206,7 @@
     const grid = $('#grid');
     const list = visibleBackgrounds();
     grid.replaceChildren(...list.map(buildCard));
-    $('#count-label').textContent = `Displaying ${list.length} of ${state.backgrounds.length} backgrounds.`;
+    renderCountLabel(list.length);
   };
 
   const updateCount = (slug) => {
