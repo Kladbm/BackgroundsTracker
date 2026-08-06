@@ -172,8 +172,8 @@ body {
   padding: 2px 8px;
   margin-inline: 3px;
   border-radius: 999px;
-  background: var(--accent);
-  color: #16181a;
+  background: rgba(244, 164, 248, 0.18);
+  color: var(--accent);
   font-weight: 700;
 }
 
@@ -201,6 +201,10 @@ body {
   list-style: none;
   user-select: none;
 }
+
+#sort-controls .dropdown-trigger { width: 96px; }
+
+#type-controls .dropdown-trigger { width: 196px; }
 
 .dropdown-trigger::-webkit-details-marker { display: none; }
 
