@@ -222,7 +222,7 @@
 
     const sprite = document.createElement('img');
     sprite.className = 'pokemon-placement-sprite';
-    sprite.src = p.image_normal;
+    sprite.src = p.image_shiny;
     sprite.alt = p.name;
     sprite.loading = 'lazy';
     spriteWrap.appendChild(sprite);
@@ -258,7 +258,7 @@
 
       const s = document.createElement('img');
       s.className = 'card-strip-img';
-      s.src = p.image_normal;
+      s.src = p.image_shiny;
       s.alt = p.name;
       s.loading = 'lazy';
       item.appendChild(s);
