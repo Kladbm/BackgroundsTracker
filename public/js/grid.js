@@ -33,7 +33,7 @@
   };
 
   // Readable labels for the raw type codes used in index.json.
-  const TYPE_LABELS = { sb: 'Special Background', lc: 'Location Card' };
+  const TYPE_LABELS = { sb: 'Special', lc: 'Location' };
 
   const $ = (sel) => document.querySelector(sel);
 
@@ -235,7 +235,8 @@
   };
 
   const buildTypeControls = () => {
-    const types = [...new Set(state.backgrounds.map((b) => b.type))].sort();
+    const present = new Set(state.backgrounds.map((b) => b.type));
+    const types = ['sb', 'lc'].filter((t) => present.has(t));
     const container = $('#type-controls .dropdown-menu');
     for (const t of types) {
       const btn = document.createElement('button');

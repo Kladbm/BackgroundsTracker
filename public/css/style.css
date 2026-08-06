@@ -174,7 +174,8 @@ body {
   border-radius: 999px;
   background: rgba(244, 164, 248, 0.18);
   color: var(--accent);
-  font-weight: 700;
+  font-size: inherit;
+  font-weight: inherit;
 }
 
 /* ---- dropdowns (sort / type) ---- */
@@ -202,9 +203,9 @@ body {
   user-select: none;
 }
 
-#sort-controls .dropdown-trigger { width: 96px; }
+#sort-controls .dropdown-trigger { width: 92px; }
 
-#type-controls .dropdown-trigger { width: 196px; }
+#type-controls .dropdown-trigger { width: 120px; }
 
 .dropdown-trigger::-webkit-details-marker { display: none; }
 
