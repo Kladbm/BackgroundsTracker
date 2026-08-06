@@ -97,30 +97,6 @@
     return `${storage.collectedCount(state.collected, slug, state.pokemonBySlug[slug])}/${y}`;
   };
 
-  const updateProgressRail = () => {
-    const percentEl = $('#progress-percent');
-    const fillEl = $('#progress-fill');
-    const markerEl = $('#progress-marker');
-    const captionEl = $('#progress-caption');
-    if (!percentEl || !fillEl || !markerEl || !captionEl) return;
-
-    let collectedTotal = 0;
-    let pokemonTotal = 0;
-    for (const b of state.backgrounds) {
-      const pokemon = state.pokemonBySlug[b.slug] || [];
-      if (!pokemon.length && state.yBySlug[b.slug] === undefined) continue;
-      pokemonTotal += pokemon.length;
-      collectedTotal += storage.collectedCount(state.collected, b.slug, pokemon);
-    }
-
-    const pct = pokemonTotal ? Math.round((collectedTotal / pokemonTotal) * 100) : 0;
-    const progress = `${pct}%`;
-    percentEl.textContent = progress;
-    captionEl.textContent = `${collectedTotal} / ${pokemonTotal}`;
-    fillEl.style.setProperty('--progress', progress);
-    markerEl.style.setProperty('--progress', progress);
-  };
-
   const renderCountLabel = (visibleCount) => {
     const label = $('#count-label');
     const total = state.backgrounds.length;
@@ -248,14 +224,12 @@
           state.pokemonBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon : [];
           addToPokemonIndex(b.slug);
           updateCount(b.slug);
-          updateProgressRail();
           refreshStrip(b.slug);
           if (pkmInput().value.trim() && !state.selectedPokemon) renderPkmDropdown(pkmInput().value);
         })
         .catch(() => {
           state.yBySlug[b.slug] = null;
           updateCount(b.slug);
-          updateProgressRail();
         });
     }
   };
@@ -495,7 +469,6 @@
     wireControls();
     wirePkmSearch();
     render();
-    updateProgressRail();
     loadDetails();
   };
 
