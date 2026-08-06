@@ -5,10 +5,12 @@
 // description, event {name, date_range, url, image}, and the pokemon list
 // (dex, name, pokedex_slug, types, shiny_available, image paths).
 //
-// Also downloads the background hero image and every pokemon's NORMAL image
-// into public/images/{backgrounds,pokemon}/, skipping files that already
-// exist locally. Shiny pokemon images are referenced in the JSON but not
-// downloaded yet (that's a later step).
+// Also downloads the background hero image, every pokemon's NORMAL image, and
+// every pokemon's SHINY image (where shiny_available) into
+// public/images/{backgrounds,pokemon}/, skipping files that already exist
+// locally. Shadow-form shiny sprites ({dex}-{slug}-shadow-shiny.png) usually
+// 403/404 on the asset CDN — those are logged as failures and skipped; the
+// frontend falls back to the normal sprite when a shiny file is missing.
 //
 // This module doubles as the parsing/downloading core for run-all.js (step 3),
 // which drives it across every background in the index. Running this file
@@ -291,6 +293,21 @@ async function downloadDetailImages(data, delayMs = IMAGE_DELAY_MS) {
       path.join(IMAGES_DIR, 'pokemon', file),
       `pokemon/${file}`
     );
+
+    // Shiny variant — only where the JSON records one (shiny_available true).
+    // The filename ({dex}-{pokedex_slug}-shiny.png) is built identically here
+    // and in parsePage, so the downloaded file always matches the path the
+    // frontend requests via image_shiny. Shadow-form sprites usually 403/404 on
+    // the CDN; tryOne records the failure and keeps going (skip-existing means
+    // a re-run won't retry what already landed).
+    if (p.image_shiny) {
+      const shinyFile = p.image_shiny.split('/').pop();
+      await tryOne(
+        `${ASSET_BASE}/go/pokemon/${shinyFile}`,
+        path.join(IMAGES_DIR, 'pokemon', shinyFile),
+        `pokemon/${shinyFile}`
+      );
+    }
   }
 
   return { downloaded, skipped, failed };

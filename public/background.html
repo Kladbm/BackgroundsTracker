@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background · Pokémon GO Backgrounds Tracker</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Crect%20width='16'%20height='16'%20rx='3'%20fill='%234fc3f7'/%3E%3Ctext%20x='8'%20y='12'%20font-size='10'%20text-anchor='middle'%20fill='%23131316'%20font-family='sans-serif'%20font-weight='bold'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="detail-head">
+      <a class="back-link" href="index.html">← Back to all backgrounds</a>
+      <h1 id="page-title">Loading…</h1>
+      <span id="collected-count" class="count">…</span>
+    </div>
+    <div class="toolbar">
+      <label class="switch" title="Display shiny forms where available">
+        <input type="checkbox" id="shiny-toggle">
+        <span class="switch-track" aria-hidden="true"></span>
+        <span>Shiny</span>
+      </label>
+      <button id="btn-export" type="button">Export JSON</button>
+      <button id="btn-import" type="button">Import JSON</button>
+      <span id="msg" class="msg" role="status"></span>
+    </div>
+  </header>
+
+  <main id="detail">
+    <section class="hero">
+      <img id="hero-img" alt="">
+      <div class="hero-meta">
+        <p id="meta-date"></p>
+        <p id="description" hidden></p>
+        <p id="event" hidden>
+          <strong id="event-name"></strong>
+          <span id="event-dates"></span>
+          <a id="event-link" href="#" target="_blank" rel="noopener">Event page →</a>
+        </p>
+      </div>
+    </section>
+
+    <h2 class="section-title">Pokémon <span id="pokemon-count"></span></h2>
+    <div id="pokemon-list" class="pokemon-grid"></div>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/detail.js"></script>
+</body>
+</html>

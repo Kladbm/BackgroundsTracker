@@ -11,12 +11,14 @@
 // background and fill in the Y denominator as they arrive, so a card shows
 // "…" for a moment. If a detail JSON fails to load, that card falls back to
 // "—". No framework, no build step.
+//
+// localStorage reads/writes and the "X/Y" counting live in the shared
+// storage.js module (spec section 6) so the homepage and the detail page
+// always agree on the same collected state.
 
 'use strict';
 
 (() => {
-  const COLLECTED_KEY = 'collected';
-
   const state = {
     backgrounds: [],      // raw entries from index.json
     collected: {},        // parsed localStorage 'collected'
@@ -34,25 +36,6 @@
     const d = new Date(iso.length === 10 ? `${iso}T00:00:00` : iso);
     if (isNaN(d.getTime())) return '—';
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  };
-
-  const readCollected = () => {
-    try {
-      return JSON.parse(localStorage.getItem(COLLECTED_KEY) || '{}');
-    } catch (e) {
-      return {};
-    }
-  };
-
-  // X = number of pokemon collected for a slug. A pokemon counts when its
-  // entry is `true` or `{ normal: true, shiny: ... }` (spec section 5).
-  const collectedCount = (slug) => {
-    const entries = state.collected[slug] || {};
-    let n = 0;
-    for (const v of Object.values(entries)) {
-      if (v === true || (v && v.normal === true)) n++;
-    }
-    return n;
   };
 
   // Newest/oldest by release_date; backgrounds without a date sort last in
@@ -85,7 +68,7 @@
     const y = state.yBySlug[slug];
     if (y === undefined) return '…'; // detail JSON still loading
     if (y === null) return '—';      // detail JSON failed to load
-    return `${collectedCount(slug)}/${y}`;
+    return `${storage.collectedCount(state.collected, slug)}/${y}`;
   };
 
   const buildCard = (b) => {
@@ -209,7 +192,7 @@
   };
 
   const main = async () => {
-    state.collected = readCollected();
+    state.collected = storage.read();
     const res = await fetch('data/index.json');
     if (!res.ok) throw new Error(`HTTP ${res.status} for data/index.json`);
     state.backgrounds = (await res.json()).backgrounds;

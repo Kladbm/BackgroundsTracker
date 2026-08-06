@@ -3,8 +3,8 @@
 // Drives the step-2 detail logic (scraper/detail.js) across all 233
 // backgrounds from docs/sample-index.json. For each one:
 //   - fetches + parses the detail page (reusing detail.js's fetchDetail)
-//   - downloads the hero + pokemon normal sprites, skip-existing (reusing
-//     detail.js's downloadDetailImages)
+//   - downloads the hero + pokemon normal + shiny sprites, skip-existing
+//     (reusing detail.js's downloadDetailImages)
 //   - writes public/data/backgrounds/{slug}.json (the real data folder per
 //     spec section 6)
 //
@@ -16,6 +16,11 @@
 //
 // Idempotent: cached images are skipped (no request, no delay), detail JSONs
 // are overwritten in place — a re-run only fetches what's new.
+//
+// IMAGES_ONLY=1 mode: skips the site entirely. Reads the existing
+// public/data/backgrounds/*.json files and re-runs just the image download
+// pass against them, so a download-logic change (e.g. adding shiny sprites)
+// can be backfilled without re-scraping 233 pages or rewriting a single JSON.
 //
 // Progress is logged as "N/233 done" per background. Parse quirks and image
 // failures are logged inline and tallied in the summary; they're reported,
@@ -36,6 +41,9 @@ const INDEX_SOURCE = process.env.INDEX_SOURCE ||
 const DATA_DIR = process.env.DATA_DIR ||
   path.join(__dirname, '..', 'public', 'data');
 const PAGE_DELAY_MS = Number(process.env.REQUEST_DELAY_MS || 500);
+// Backfill-only pass: re-download images from the JSONs already on disk,
+// never hitting the site and never rewriting any JSON (see header comment).
+const IMAGES_ONLY = process.env.IMAGES_ONLY === '1';
 
 // Re-run just a subset of backgrounds (comma-separated slugs, no spaces). Used
 // to re-process only the 6 duplicate-card backgrounds or only the 69 with hero
@@ -47,7 +55,65 @@ const ONLY_SLUGS = process.env.ONLY_SLUGS
 
 const fmtBytes = (n) => (n >= 1024 ? `${(n / 1024).toFixed(1)} KB` : `${n} B`);
 
+// Images-only backfill: for every existing data/backgrounds/{slug}.json, run
+// downloadDetailImages against the JSON on disk. Cached files skip (no
+// request); shadow-form shiny sprites that 403/404 are logged and tallied but
+// never crash the pass. The saved JSONs have heroSrc stripped, so the hero
+// falls back to the constructed {slug}.png URL — harmless here because every
+// hero already exists on disk and skip-existing never fetches it.
+async function imagesOnly() {
+  const bgDir = path.join(DATA_DIR, 'backgrounds');
+  if (!fs.existsSync(bgDir)) {
+    throw new Error(`no ${bgDir} — run the full scrape first`);
+  }
+  const slugs = fs
+    .readdirSync(bgDir)
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => f.replace(/\.json$/, ''))
+    .sort();
+  const total = slugs.length;
+
+  console.log(`Images-only pass over ${total} existing background JSONs`);
+  console.log(`  image delay : ${IMAGE_DELAY_MS}ms  (IMAGE_DELAY_MS)`);
+  console.log(`  images      -> ${IMAGES_DIR}`);
+  console.log('');
+
+  let totalDownloaded = 0;
+  let totalSkipped = 0;
+  let totalBytes = 0;
+  const failures = [];
+
+  for (let i = 0; i < total; i++) {
+    const slug = slugs[i];
+    const data = JSON.parse(fs.readFileSync(path.join(bgDir, `${slug}.json`), 'utf8'));
+    const { downloaded, skipped, failed } = await downloadDetailImages(data);
+    totalDownloaded += downloaded.length;
+    totalSkipped += skipped.length;
+    for (const d of downloaded) totalBytes += d.size;
+    for (const f of failed) failures.push(`${slug}: ${f}`);
+    console.log(
+      `${i + 1}/${total} ${slug} — +${downloaded.length} dl, ${skipped.length} cached, ${failed.length} fail`
+    );
+  }
+
+  console.log('');
+  console.log('='.repeat(64));
+  console.log(`Files downloaded:       ${totalDownloaded}  (${fmtBytes(totalBytes)})`);
+  console.log(`Files already cached:   ${totalSkipped}`);
+  console.log(`Files failed:           ${failures.length}`);
+  if (failures.length) {
+    const unique = [...new Set(failures.map((f) => f.split(': ')[1]))];
+    console.log('');
+    console.log(`FAILURES (${unique.length} unique files — logged, not fatal; frontend falls back to the normal sprite):`);
+    for (const f of unique.slice(0, 20)) console.log(`  - ${f}`);
+    if (unique.length > 20) console.log(`  ... and ${unique.length - 20} more`);
+  }
+  console.log('\nJSONs untouched (images only).');
+}
+
 async function main() {
+  if (IMAGES_ONLY) return imagesOnly();
+
   const index = JSON.parse(fs.readFileSync(INDEX_SOURCE, 'utf8'));
   const allBackgrounds = index.backgrounds;
   const backgrounds = ONLY_SLUGS

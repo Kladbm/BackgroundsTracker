@@ -178,3 +178,209 @@ body {
 }
 
 #grid.list-view .card-body { flex: 1; }
+
+/* ===================== detail page (step 5) ===================== */
+
+.detail-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-head h1 {
+  margin: 0;
+  font-size: 20px;
+  flex: 1 1 auto;
+}
+
+.back-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+#collected-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* shiny toggle switch */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.switch input { display: none; }
+
+.switch-track {
+  width: 34px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--border);
+  position: relative;
+  transition: background 0.15s ease;
+}
+
+.switch-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: left 0.15s ease, background 0.15s ease;
+}
+
+.switch input:checked + .switch-track { background: var(--accent); }
+.switch input:checked + .switch-track::after { left: 18px; background: #000; }
+
+/* export/import buttons — scoped by id so they don't clash with .segmented button */
+#btn-export,
+#btn-import {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+#btn-export:hover,
+#btn-import:hover { border-color: var(--accent); }
+
+.msg {
+  font-size: 12px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* hero section */
+.hero {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.hero img {
+  width: min(560px, 100%);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.hero-meta { flex: 1 1 240px; min-width: 0; }
+
+.hero-meta p { margin: 0 0 10px; font-size: 14px; }
+
+#meta-date { color: var(--muted); }
+
+#description { line-height: 1.5; }
+
+#event { display: flex; flex-direction: column; gap: 4px; }
+#event[hidden] { display: none; }
+#event a { color: var(--accent); }
+
+.section-title {
+  padding: 0 20px;
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+/* pokemon list */
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  padding: 0 20px 20px;
+}
+
+.pokemon-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 8px;
+  cursor: pointer;
+  color: var(--text);
+  font-family: inherit;
+  font-size: inherit;
+  opacity: 0.8;
+  transition: border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.pokemon-card:hover { border-color: var(--accent); opacity: 1; }
+.pokemon-card.collected { border-color: var(--accent); opacity: 1; }
+
+.p-check {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  width: 18px;
+  height: 18px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #000;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pokemon-card.collected .p-check { display: flex; }
+
+.p-img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
+.p-name {
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.p-dex {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.p-types {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.type-badge {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: #26262c;
+  color: var(--muted);
+}
