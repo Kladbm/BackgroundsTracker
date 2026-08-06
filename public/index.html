@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260806-pokemon-placement">
+  <link rel="stylesheet" href="css/style.css?v=20260806-pokemon-controls-polish">
 </head>
 <body>
   <header class="topbar">
@@ -68,15 +68,21 @@
   </header>
   <section class="pokemon-table-controls" id="pokemon-table-controls" aria-label="Pokemon table controls" hidden>
     <div class="pokemon-table-actions">
-      <button id="pokemon-export-image" type="button">Download</button>
-      <button type="button">Upload</button>
+      <button id="pokemon-export-image" class="pokemon-action-button" type="button">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        <span>Download</span>
+      </button>
+      <button class="pokemon-action-button" type="button">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+        <span>Upload</span>
+      </button>
     </div>
     <div class="pokemon-scope-toggle" id="pokemon-scope-controls" role="group" aria-label="Pokemon table scope">
       <button type="button" data-scope="all" class="active" aria-pressed="true">All</button>
       <button type="button" data-scope="owned" aria-pressed="false">Owned only</button>
     </div>
     <label class="pokemon-width-control" for="pokemon-row-width">
-      <span>Pokemon per row</span>
+      <span class="pokemon-width-label">Pokemon per row</span>
       <input id="pokemon-row-width" type="range" min="15" max="30" value="20">
       <output id="pokemon-row-width-value" for="pokemon-row-width">20</output>
     </label>
@@ -95,6 +101,6 @@
   </aside>
   <script src="js/storage.js?v=20260806-type-icons"></script>
   <script src="js/progress.js?v=20260806-progress-align"></script>
-  <script src="js/grid.js?v=20260806-pokemon-owned-toggle"></script>
+  <script src="js/grid.js?v=20260806-pokemon-controls-polish"></script>
 </body>
 </html>

@@ -399,10 +399,11 @@
 
   const exportPokemonImage = async () => {
     const btn = $('#pokemon-export-image');
-    const previousText = btn ? btn.textContent : '';
+    const btnLabel = btn ? btn.querySelector('span') : null;
+    const previousText = btnLabel ? btnLabel.textContent : '';
     if (btn) {
       btn.disabled = true;
-      btn.textContent = 'Preparing...';
+      if (btnLabel) btnLabel.textContent = 'Preparing...';
     }
     try {
       state.collected = storage.read();
@@ -512,7 +513,7 @@
     } finally {
       if (btn) {
         btn.disabled = false;
-        btn.textContent = previousText;
+        if (btnLabel) btnLabel.textContent = previousText;
       }
     }
   };
