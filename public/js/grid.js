@@ -90,7 +90,7 @@
     const y = state.yBySlug[slug];
     if (y === undefined) return '...'; // detail JSON still loading
     if (y === null) return '-';      // detail JSON failed to load
-    return `${storage.collectedCount(state.collected, slug)}/${y}`;
+    return `${storage.collectedCount(state.collected, slug, state.pokemonBySlug[slug])}/${y}`;
   };
 
   const buildCard = (b) => {

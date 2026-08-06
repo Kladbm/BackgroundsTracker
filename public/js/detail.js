@@ -7,7 +7,7 @@
 // Clicking a pokemon toggles its "collected" state in localStorage via the
 // shared storage module (spec section 5). The shiny switch is a DISPLAY
 // toggle: it swaps image_normal <-> image_shiny for pokemon with
-// shiny_available. Collected state always keys off the dex string and the
+// shiny_available. Collected state always keys off the pokedex_slug string and the
 // "X / Y" counter counts `normal` entries — identical logic to the homepage,
 // so the two pages never disagree. The `shiny` sub-field is recorded (true
 // when collected while viewing the shiny display) but does not affect the
@@ -98,8 +98,8 @@
   const buildPokemonCard = (p) => {
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'pokemon-card' + (storage.isCollected(state.collected, state.slug, p.dex) ? ' collected' : '');
-    btn.dataset.dex = String(p.dex);
+    btn.className = 'pokemon-card' + (storage.isCollected(state.collected, state.slug, p.pokedex_slug) ? ' collected' : '');
+    btn.dataset.pokedexSlug = p.pokedex_slug;
     btn.title = p.name;
 
     const check = document.createElement('span');
@@ -158,7 +158,7 @@
   };
 
   const renderCounter = () => {
-    const x = storage.collectedCount(state.collected, state.slug);
+    const x = storage.collectedCount(state.collected, state.slug, state.data.pokemon);
     $('#collected-count').textContent = `${x} / ${state.data.pokemon.length}`;
   };
 
@@ -172,14 +172,14 @@
 
   // ---- interactions ----
 
-  // Flip the "normal" collected bit for a pokemon (keyed by dex per spec).
+  // Flip the "normal" collected bit for a pokemon (keyed by pokedex_slug).
   // Record the shiny sub-field when collected while the shiny display is on
   // and that pokemon actually has a shiny form.
   const toggleCollected = (p) => {
     const slugObj = { ...((state.collected && state.collected[state.slug]) || {}) };
-    const cur = slugObj[p.dex];
-    const wasCollected = cur === true || (cur && cur.normal === true);
-    slugObj[p.dex] = {
+    const cur = slugObj[p.pokedex_slug];
+    const wasCollected = cur && cur.normal === true;
+    slugObj[p.pokedex_slug] = {
       normal: !wasCollected,
       shiny: !wasCollected && state.shinyOn && p.shiny_available,
     };
@@ -197,13 +197,12 @@
   };
 
   // Click-to-collect via delegation on the list container: a click anywhere on
-  // a card (image, name, types) maps back to its pokemon by dex.
+  // a card (image, name, types) maps back to its pokemon by pokedex_slug.
   const wireCards = () => {
     $('#pokemon-list').addEventListener('click', (e) => {
       const btn = e.target.closest('.pokemon-card');
       if (!btn) return;
-      const dex = Number(btn.dataset.dex);
-      const p = state.data.pokemon.find((x) => x.dex === dex);
+      const p = state.data.pokemon.find((x) => x.pokedex_slug === btn.dataset.pokedexSlug);
       if (p) toggleCollected(p);
     });
   };

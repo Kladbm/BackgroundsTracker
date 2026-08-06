@@ -383,6 +383,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .card-strip-img {
@@ -657,22 +658,26 @@ body {
 
 .shadow-badge {
   position: absolute;
-  left: -2px;
-  bottom: -2px;
-  width: 18px;
-  height: 18px;
+  left: 1px;
+  bottom: 1px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
   pointer-events: none;
 }
 
 .card-strip-item .shadow-badge {
-  width: 16px;
-  height: 16px;
+  left: 3px;
+  bottom: 3px;
+  width: 11px;
+  height: 11px;
 }
 
 .pkm-option-thumb .shadow-badge {
-  width: 12px;
-  height: 12px;
+  left: 2px;
+  bottom: 2px;
+  width: 9px;
+  height: 9px;
 }
 
 .p-name {

@@ -106,14 +106,15 @@ One key `collected`, JSON:
 ```json
 {
   "sb-gofest2026-global": {
-    "144": { "normal": true, "shiny": false }
+    "articuno": { "normal": true, "shiny": false },
+    "articuno-shadow": { "normal": true, "shiny": false }
   }
 }
 ```
 
-On the homepage, each background card shows `X/pokemon_count collected`, computed on the fly from this object + `pokemon_count` from index.json.
+The nested keys are `pokemon[].pokedex_slug`, not dex numbers, because alternate forms such as `zapdos` and `zapdos-shadow` share the same dex number but must be tracked independently.
 
-Export/import progress (a "copy JSON" / "paste JSON" button) should be added right away, since without accounts it's the only way not to lose progress when switching browsers/reinstalling.
+On the homepage, each background card shows `X/pokemon_count collected`, computed on the fly from this object + the background detail JSON's pokemon list.
 
 ## 6. Repo structure
 

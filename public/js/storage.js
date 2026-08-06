@@ -1,10 +1,10 @@
 // Ditto Tracker — shared localStorage module (spec section 5 & 6).
 //
 // Single key "collected", a JSON object:
-//   { "<slug>": { "<dex>": { "normal": bool, "shiny": bool } } }
+//   { "<slug>": { "<pokedex_slug>": { "normal": bool, "shiny": bool } } }
 //
-// dex is the national-dex number as a string. A pokemon counts as collected
-// for the "X / Y" counter when its entry is `true` (legacy) or has
+// pokedex_slug is unique per form, so base and shadow forms do not collide.
+// A pokemon counts as collected for the "X / Y" counter when its entry has
 // `normal: true`. Both the homepage grid and the detail page use this module
 // so their counters always agree.
 
@@ -25,19 +25,13 @@ const storage = (() => {
     localStorage.setItem(KEY, JSON.stringify(obj));
   };
 
-  // X in "X / Y" for a slug — number of dex entries marked collected.
-  const collectedCount = (collected, slug) => {
-    const entries = (collected && collected[slug]) || {};
-    let n = 0;
-    for (const v of Object.values(entries)) {
-      if (v === true || (v && v.normal === true)) n++;
-    }
-    return n;
-  };
+  // X in "X / Y" for a slug — number of form-key entries marked collected.
+  const collectedCount = (collected, slug, pokemon = []) =>
+    pokemon.filter((p) => isCollected(collected, slug, p.pokedex_slug)).length;
 
-  const isCollected = (collected, slug, dex) => {
-    const e = collected && collected[slug] && collected[slug][dex];
-    return e === true || (e && e.normal === true);
+  const isCollected = (collected, slug, pokedexSlug) => {
+    const e = collected && collected[slug] && collected[slug][pokedexSlug];
+    return !!(e && e.normal === true);
   };
 
   return { KEY, read, write, collectedCount, isCollected };
