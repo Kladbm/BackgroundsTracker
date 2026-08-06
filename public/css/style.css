@@ -200,10 +200,6 @@ body {
   color: var(--muted);
 }
 
-.toolbar .pkm-search.toolbar-control-disabled {
-  opacity: 0.58;
-}
-
 /* pokemon-search dropdown - floating panel of matching species (thumbnail +
    name). Reference interaction: type a name, pick a species, and the grid
    narrows to backgrounds that contain it. */
