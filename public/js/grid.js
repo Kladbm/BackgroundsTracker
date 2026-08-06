@@ -120,6 +120,8 @@
     return sortBackgrounds(filtered);
   };
 
+  const pokemonViewBackgrounds = () => newestBackgrounds(state.backgrounds);
+
   const countText = (slug) => {
     const y = state.yBySlug[slug];
     if (y === undefined) return '...'; // detail JSON still loading
@@ -236,7 +238,7 @@
 
   const pokemonPlacements = (scope = state.pokemonScope) => {
     const placements = [];
-    for (const b of newestBackgrounds(visibleBackgrounds())) {
+    for (const b of pokemonViewBackgrounds()) {
       for (const p of state.pokemonBySlug[b.slug] || []) {
         const collected = storage.isCollected(state.collected, b.slug, p.pokedex_slug);
         if (scope === 'owned' && !collected) continue;
@@ -304,7 +306,7 @@
   const render = () => {
     const grid = $('#grid');
     if (state.view === 'pokemon') {
-      const list = newestBackgrounds(visibleBackgrounds());
+      const list = pokemonViewBackgrounds();
       const placements = pokemonPlacements();
       grid.replaceChildren(...placements.map(({ background, pokemon }) =>
         buildPokemonPlacementTile(background, pokemon)
@@ -323,6 +325,7 @@
     if (!controls) return;
     const visible = state.view === 'pokemon';
     controls.hidden = !visible;
+    updateNavControlAvailability(visible);
     if (visible) {
       requestAnimationFrame(() => measureDropdownTrigger('#pokemon-scope-controls'));
     }
@@ -374,7 +377,7 @@
   };
 
   const waitForCurrentDetails = async () => {
-    await Promise.allSettled(visibleBackgrounds().map(loadBackgroundDetail));
+    await Promise.allSettled(pokemonViewBackgrounds().map(loadBackgroundDetail));
   };
 
   const loadCanvasImage = (() => {
@@ -622,6 +625,34 @@
     measureDropdownTrigger('#sort-controls');
     measureDropdownTrigger('#type-controls');
     measureDropdownTrigger('#pokemon-scope-controls');
+  };
+
+  const setDetailsDisabled = (controlsSel, disabled) => {
+    const controls = $(controlsSel);
+    if (!controls) return;
+    controls.classList.toggle('toolbar-control-disabled', disabled);
+    controls.open = false;
+    const trigger = controls.querySelector('.dropdown-trigger');
+    if (trigger) {
+      trigger.setAttribute('aria-disabled', String(disabled));
+      trigger.tabIndex = disabled ? -1 : 0;
+    }
+  };
+
+  const updateNavControlAvailability = (disabled) => {
+    const search = $('#search');
+    if (search) search.disabled = disabled;
+
+    const pokemonSearch = $('#pokemon-search');
+    if (pokemonSearch) pokemonSearch.disabled = disabled;
+
+    const pokemonSearchWrap = $('.pkm-search');
+    if (pokemonSearchWrap) pokemonSearchWrap.classList.toggle('toolbar-control-disabled', disabled);
+
+    setDetailsDisabled('#sort-controls', disabled);
+    setDetailsDisabled('#type-controls', disabled);
+
+    if (disabled) closePkmDropdown();
   };
 
   const syncUiControls = () => {
