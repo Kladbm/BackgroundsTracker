@@ -561,14 +561,27 @@ body {
 #event {
   display: grid;
   grid-template-columns: 80px minmax(0, 1fr);
-  gap: 10px 12px;
-  align-items: center;
+  grid-template-rows: auto auto;
+  gap: 2px 12px;
+  align-items: stretch;
   color: var(--text);
   text-decoration: none;
 }
 #event[hidden] { display: none; }
 #event:hover strong { color: var(--accent); }
-#event strong, #event span { grid-column: 2; }
+
+#event strong {
+  grid-column: 2;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+#event span {
+  grid-column: 2;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.25;
+}
 
 #event.no-event-image {
   grid-template-columns: minmax(0, 1fr);
@@ -583,8 +596,8 @@ body {
 /* event thumbnail next to the event name (reference event-card style) */
 .event-thumb {
   width: 80px;
-  height: 45px;
-  grid-row: 1 / span 3;
+  height: 100%;
+  grid-row: 1 / 3;
   object-fit: cover;
   border-radius: 6px;
   border: 0;
