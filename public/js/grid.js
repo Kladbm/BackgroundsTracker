@@ -247,6 +247,43 @@
     }
   };
 
+  const measureDropdownTrigger = (controlsSel) => {
+    const controls = $(controlsSel);
+    const trigger = controls.querySelector('.dropdown-trigger');
+    const label = controls.querySelector('.dropdown-label');
+    const options = [...controls.querySelectorAll('.dropdown-menu button')].map((b) => b.textContent.trim());
+    if (!trigger || !label || !options.length) return;
+
+    const triggerStyle = getComputedStyle(trigger);
+    const labelStyle = getComputedStyle(label);
+    const probe = document.createElement('span');
+    probe.style.position = 'absolute';
+    probe.style.visibility = 'hidden';
+    probe.style.whiteSpace = 'nowrap';
+    probe.style.fontFamily = labelStyle.fontFamily || triggerStyle.fontFamily;
+    probe.style.fontSize = labelStyle.fontSize || triggerStyle.fontSize;
+    probe.style.fontWeight = labelStyle.fontWeight || triggerStyle.fontWeight;
+    probe.style.letterSpacing = labelStyle.letterSpacing || triggerStyle.letterSpacing;
+    document.body.appendChild(probe);
+
+    let maxLabelWidth = 0;
+    for (const text of options) {
+      probe.textContent = text;
+      maxLabelWidth = Math.max(maxLabelWidth, probe.getBoundingClientRect().width);
+    }
+    probe.remove();
+
+    trigger.style.width = '';
+    const currentLabelWidth = label.getBoundingClientRect().width;
+    const chromeWidth = trigger.getBoundingClientRect().width - currentLabelWidth;
+    trigger.style.width = `${Math.ceil(maxLabelWidth + chromeWidth)}px`;
+  };
+
+  const measureDropdownTriggers = () => {
+    measureDropdownTrigger('#sort-controls');
+    measureDropdownTrigger('#type-controls');
+  };
+
   const setActive = (containerSel, activeBtn) => {
     $(containerSel).querySelectorAll('button').forEach((b) => {
       const on = b === activeBtn;
@@ -418,6 +455,8 @@
     if (!res.ok) throw new Error(`HTTP ${res.status} for data/index.json`);
     state.backgrounds = (await res.json()).backgrounds;
     buildTypeControls();
+    measureDropdownTriggers();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDropdownTriggers);
     wireControls();
     wirePkmSearch();
     render();
