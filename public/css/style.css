@@ -474,6 +474,14 @@ body {
   object-position: center;
 }
 
+.pokemon-placement.uncollected {
+  background: rgb(13, 13, 13);
+}
+
+.pokemon-placement.uncollected .pokemon-placement-bg {
+  opacity: 0.05;
+}
+
 .pokemon-placement-sprite-wrap {
   position: absolute;
   inset: 0;
@@ -487,6 +495,10 @@ body {
   height: 82%;
   object-fit: contain;
   filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6));
+}
+
+.pokemon-placement.uncollected .pokemon-placement-sprite {
+  filter: brightness(0.05) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6));
 }
 
 .pokemon-placement-sprite-wrap .shadow-badge {

@@ -180,6 +180,9 @@
   const buildPokemonPlacementTile = (b, p) => {
     const tile = document.createElement('div');
     tile.className = 'pokemon-placement';
+    if (!storage.isCollected(state.collected, b.slug, p.pokedex_slug)) {
+      tile.classList.add('uncollected');
+    }
     tile.dataset.slug = b.slug;
     tile.title = `${p.name} - ${b.title}`;
 
