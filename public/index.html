@@ -39,19 +39,25 @@
           </div>
         </details>
 
-        <input id="pokemon-search" type="search" placeholder="Search Pokémon…" autocomplete="off" aria-label="Search Pokémon by name">
+        <div class="pkm-search">
+          <input id="pokemon-search" type="search" placeholder="Search Pokémon…" autocomplete="off" aria-label="Search Pokémon by name" role="combobox" aria-expanded="false" aria-controls="pokemon-dropdown" aria-autocomplete="list">
+          <div id="pokemon-dropdown" class="pokemon-dropdown" role="listbox" hidden></div>
+        </div>
 
-        <span id="count-label" class="toolbar-right"></span>
+        <!-- reference puts the grid/list view toggle on the filters row, right-aligned -->
+        <div class="view-toggle" id="view-controls" role="group" aria-label="View">
+          <button data-view="grid" class="active" aria-pressed="true" title="Grid view">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button data-view="list" aria-pressed="false" title="List view">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </button>
+        </div>
       </div>
 
-      <!-- reference puts the grid/list view toggle on its own toolbar row -->
-      <div class="view-toggle" id="view-controls" role="group" aria-label="View">
-        <button data-view="grid" class="active" aria-pressed="true" title="Grid view">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        </button>
-        <button data-view="list" aria-pressed="false" title="List view">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-        </button>
+      <!-- reference puts the "Displaying X of Y" count on its own row below the filters -->
+      <div class="count-row">
+        <span id="count-label" role="status"></span>
       </div>
     </div>
   </header>

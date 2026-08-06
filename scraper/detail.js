@@ -96,6 +96,22 @@ function collapse(text) {
   return text.replace(/\s+/g, ' ').trim();
 }
 
+// dittobase serves some images through Next.js's image optimizer
+// (/_next/image?url=<encoded>&w=...&q=75). For downloading we want the
+// underlying asset URL, not the proxy. Returns src unchanged when it isn't a
+// proxy URL (direct Sanity CDN links with their ?rect=/w=/h= params pass
+// through verbatim so the downloaded file matches the reference crop).
+function underlyingAssetUrl(src) {
+  if (!src) return src;
+  const m = /^\/_next\/image\?url=([^&]+)/.exec(src);
+  if (!m) return src;
+  try {
+    return decodeURIComponent(m[1]);
+  } catch {
+    return src;
+  }
+}
+
 // ---- React Server Components (RSC) payload parsing -------------------------
 //
 // dittobase is a Next.js App Router site, so the FULL pokemon list — including
@@ -276,14 +292,20 @@ function parsePage(html, slug) {
     dateP.find('style, script').remove();
     const date_range = collapse(dateP.text());
     const url = new URL(link.attr('href'), SITE_BASE).href;
-    const hasEventImage = $('img').filter((_, el) => $(el).attr('alt') === name).length > 0;
+    const eventImg = $('img').filter((_, el) => $(el).attr('alt') === name).first();
+    const rawSrc = eventImg.length ? eventImg.attr('src') : null;
+    const imageSrc = rawSrc ? underlyingAssetUrl(rawSrc) : null;
     event = {
       name,
       date_range,
       url,
-      // Spec convention: event image is cached locally as {slug}.jpg. Source
-      // on the page is the Sanity CDN; the download happens in a later step.
-      image: hasEventImage ? `images/events/${slug}.jpg` : null,
+      // Spec convention: event image is cached locally as {slug}.jpg. The real
+      // remote src (Sanity CDN, possibly behind a Next.js /_next/image proxy)
+      // is carried in imageSrc for the download pass only and stripped when the
+      // JSON is written (run-all.js), exactly like heroSrc — the saved data
+      // keeps the local path only.
+      image: imageSrc ? `images/events/${slug}.jpg` : null,
+      imageSrc,
     };
   }
 
@@ -439,6 +461,19 @@ async function downloadDetailImages(data, delayMs = IMAGE_DELAY_MS) {
     path.join(IMAGES_DIR, 'backgrounds', `${data.slug}.png`),
     `backgrounds/${data.slug}.png`
   );
+
+  // Event thumbnail -> images/events/{slug}.jpg. imageSrc only exists on
+  // freshly-parsed pages; saved JSONs keep just the local path, so an
+  // IMAGES_ONLY backfill cannot re-fetch it — a full re-scrape can. When the
+  // page had no event image at all (event.image null), nothing to do.
+  if (data.event && data.event.image && data.event.imageSrc) {
+    const file = data.event.image.split('/').pop();
+    await tryOne(
+      data.event.imageSrc,
+      path.join(IMAGES_DIR, 'events', file),
+      `events/${file}`
+    );
+  }
 
   for (const p of data.pokemon) {
     const file = p.image_normal.split('/').pop();

@@ -162,6 +162,10 @@ async function main() {
       const outDir = path.join(DATA_DIR, 'backgrounds');
       fs.mkdirSync(outDir, { recursive: true });
       const { heroSrc, ...clean } = data;
+      // imageSrc is download-time only (see scraper/detail.js) — the saved
+      // schema keeps the local images/events/{slug}.jpg path, matching how
+      // heroSrc is dropped above.
+      if (clean.event) delete clean.event.imageSrc;
       fs.writeFileSync(
         path.join(outDir, `${slug}.json`),
         JSON.stringify({ ...clean, problems: undefined }, null, 2) + '\n'

@@ -71,6 +71,17 @@
       const link = $('#event-link');
       link.href = state.data.event.url || '#';
       link.hidden = !state.data.event.url;
+
+      // Event thumbnail sits above the event name; hide when the file is
+      // missing (older JSONs have no image path, some downloads 404).
+      const thumb = $('#event-thumb');
+      thumb.hidden = true;
+      thumb.alt = state.data.event.name;
+      if (state.data.event.image) {
+        thumb.src = state.data.event.image;
+        thumb.onload = () => { thumb.hidden = false; };
+        thumb.onerror = () => { thumb.hidden = true; };
+      }
     }
   };
 

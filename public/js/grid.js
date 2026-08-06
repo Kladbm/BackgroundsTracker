@@ -1,16 +1,16 @@
-// Ditto Tracker — homepage grid (step 4).
+// Ditto Tracker - homepage grid (step 4).
 //
 // Loads public/data/index.json and renders the background grid. Each card:
-// hero image, type badge, title, release date ("Aug 28, 2026" or "—" when
+// hero image, type badge, title, release date ("Aug 28, 2026" or "-" when
 // null), and a "X/Y collected" counter. Y = pokemon.length from the detail
-// JSON (NOT pokemon_count from index.json — they measure different things by
+// JSON (NOT pokemon_count from index.json - they measure different things by
 // design; index counts catchable + evolvable, the detail page only catchable).
 // X = number of pokemon marked collected in localStorage (spec section 5).
 //
 // The grid renders immediately from index.json; detail JSONs load in the
 // background and fill in the Y denominator as they arrive, so a card shows
-// "…" for a moment. If a detail JSON fails to load, that card falls back to
-// "—". No framework, no build step.
+// "..." for a moment. If a detail JSON fails to load, that card falls back to
+// "-". No framework, no build step.
 //
 // localStorage reads/writes and the "X/Y" counting live in the shared
 // storage.js module (spec section 6) so the homepage and the detail page
@@ -27,7 +27,8 @@
     type: 'All',
     sort: 'newest',
     search: '',
-    pokemonSearch: '',
+    selectedPokemon: null,   // exact pokemon name picked from the dropdown
+    pokemonIndex: new Map(), // lowercased name -> { name, image } (from detail JSONs)
     view: 'grid',
   };
 
@@ -37,9 +38,9 @@
   const $ = (sel) => document.querySelector(sel);
 
   const fmtDate = (iso) => {
-    if (!iso) return '—';
+    if (!iso) return '-';
     const d = new Date(iso.length === 10 ? `${iso}T00:00:00` : iso);
-    if (isNaN(d.getTime())) return '—';
+    if (isNaN(d.getTime())) return '-';
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   };
 
@@ -61,13 +62,12 @@
 
   const visibleBackgrounds = () => {
     const q = state.search.trim().toLowerCase();
-    const pq = state.pokemonSearch.trim().toLowerCase();
     const filtered = state.backgrounds.filter((b) => {
       if (state.type !== 'All' && b.type !== state.type) return false;
       if (q && !b.title.toLowerCase().includes(q)) return false;
-      if (pq) {
+      if (state.selectedPokemon) {
         const names = (state.pokemonBySlug[b.slug] || []).map((p) => p.name.toLowerCase());
-        if (!names.some((n) => n.includes(pq))) return false;
+        if (!names.includes(state.selectedPokemon.toLowerCase())) return false;
       }
       return true;
     });
@@ -76,8 +76,8 @@
 
   const countText = (slug) => {
     const y = state.yBySlug[slug];
-    if (y === undefined) return '…'; // detail JSON still loading
-    if (y === null) return '—';      // detail JSON failed to load
+    if (y === undefined) return '...'; // detail JSON still loading
+    if (y === null) return '-';      // detail JSON failed to load
     return `${storage.collectedCount(state.collected, slug)}/${y}`;
   };
 
@@ -146,6 +146,16 @@
     });
   };
 
+  // Index one background's Pokemon for the dropdown, deduping repeated species.
+  const addToPokemonIndex = (slug) => {
+    for (const p of state.pokemonBySlug[slug] || []) {
+      const key = p.name.toLowerCase();
+      if (!state.pokemonIndex.has(key)) {
+        state.pokemonIndex.set(key, { name: p.name, image: p.image_normal });
+      }
+    }
+  };
+
   // Called as each detail JSON arrives: fill in the strip that buildCard left
   // empty (and any strip on cards recreated by a later render).
   const refreshStrip = (slug) => {
@@ -159,7 +169,7 @@
     const grid = $('#grid');
     const list = visibleBackgrounds();
     grid.replaceChildren(...list.map(buildCard));
-    $('#count-label').textContent = `${list.length} / ${state.backgrounds.length}`;
+    $('#count-label').textContent = `Displaying ${list.length} of ${state.backgrounds.length} backgrounds.`;
   };
 
   const updateCount = (slug) => {
@@ -175,8 +185,10 @@
         .then((d) => {
           state.yBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon.length : 0;
           state.pokemonBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon : [];
+          addToPokemonIndex(b.slug);
           updateCount(b.slug);
           refreshStrip(b.slug);
+          if (pkmInput().value.trim() && !state.selectedPokemon) renderPkmDropdown(pkmInput().value);
         })
         .catch(() => {
           state.yBySlug[b.slug] = null;
@@ -205,16 +217,126 @@
     });
   };
 
+
+  const pkmDropdown = () => $('#pokemon-dropdown');
+  const pkmInput = () => $('#pokemon-search');
+
+  const openPkmDropdown = () => {
+    pkmDropdown().hidden = false;
+    pkmInput().setAttribute('aria-expanded', 'true');
+  };
+
+  const closePkmDropdown = () => {
+    pkmDropdown().hidden = true;
+    pkmInput().setAttribute('aria-expanded', 'false');
+  };
+
+  const pkmMatches = (query) => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return [...state.pokemonIndex.entries()]
+      .filter(([key]) => key.includes(q))
+      .slice(0, 30)
+      .map(([, p]) => p);
+  };
+
+  const setPkmHighlight = (index) => {
+    const btns = [...pkmDropdown().querySelectorAll('button')];
+    btns.forEach((b, i) => b.classList.toggle('active', i === index));
+    return btns[index] || null;
+  };
+
+  const renderPkmDropdown = (query) => {
+    const box = pkmDropdown();
+    const matches = pkmMatches(query);
+    if (!matches.length) {
+      box.replaceChildren();
+      closePkmDropdown();
+      return;
+    }
+    box.replaceChildren(...matches.map((p) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.role = 'option';
+      btn.dataset.name = p.name;
+      const img = document.createElement('img');
+      img.src = p.image;
+      img.alt = '';
+      img.loading = 'lazy';
+      const label = document.createElement('span');
+      label.className = 'pkm-option-name';
+      label.textContent = p.name;
+      btn.append(img, label);
+      return btn;
+    }));
+    openPkmDropdown();
+    setPkmHighlight(-1);
+  };
+
+  const pickPokemon = (name) => {
+    state.selectedPokemon = name;
+    pkmInput().value = name;
+    closePkmDropdown();
+    render();
+  };
+
+  const wirePkmSearch = () => {
+    const input = pkmInput();
+    const dropdown = pkmDropdown();
+
+    input.addEventListener('input', () => {
+      const text = input.value;
+      if (state.selectedPokemon && text.trim().toLowerCase() !== state.selectedPokemon.toLowerCase()) {
+        state.selectedPokemon = null;
+      }
+      if (!text.trim()) {
+        closePkmDropdown();
+        render();
+        return;
+      }
+      renderPkmDropdown(text);
+    });
+
+    dropdown.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (btn && btn.dataset.name) pickPokemon(btn.dataset.name);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (dropdown.hidden) return;
+      const btns = [...dropdown.querySelectorAll('button')];
+      if (!btns.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const dir = e.key === 'ArrowDown' ? 1 : -1;
+        let idx = btns.findIndex((b) => b.classList.contains('active'));
+        idx = idx === -1 ? (dir === 1 ? 0 : btns.length - 1) : idx + dir;
+        idx = (idx + btns.length) % btns.length;
+        const el = setPkmHighlight(idx);
+        if (el) el.scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter') {
+        const active = btns.find((b) => b.classList.contains('active'));
+        if (active) {
+          e.preventDefault();
+          active.click();
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        closePkmDropdown();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.pkm-search')) closePkmDropdown();
+    });
+  };
+
   const wireControls = () => {
     $('#search').addEventListener('input', (e) => {
       state.search = e.target.value;
       render();
     });
 
-    $('#pokemon-search').addEventListener('input', (e) => {
-      state.pokemonSearch = e.target.value;
-      render();
-    });
 
     $('#sort-controls').addEventListener('click', (e) => {
       const btn = e.target.closest('button');
@@ -254,6 +376,7 @@
     state.backgrounds = (await res.json()).backgrounds;
     buildTypeControls();
     wireControls();
+    wirePkmSearch();
     render();
     loadDetails();
   };

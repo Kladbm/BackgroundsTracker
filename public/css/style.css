@@ -1,4 +1,4 @@
-/* Ditto Tracker — visual match for dittobase.com/pokemon-go/backgrounds.
+/* Ditto Tracker - visual match for dittobase.com/pokemon-go/backgrounds.
    Palette/fonts/sizes extracted from the live reference (probe-ref report):
    warm near-black surfaces, pink accent (#f4a4f8), Poppins type. */
 
@@ -38,7 +38,7 @@ body {
 }
 
 .container {
-  max-width: 960px;
+  max-width: 910px;
   margin-inline: auto;
   padding-inline: 20px;
 }
@@ -83,7 +83,7 @@ body {
 
 .toolbar input[type="search"]::placeholder { color: var(--muted); }
 
-/* main search — reference: fixed 300×36, transparent bg, 1px hairline border */
+/* main search - reference: fixed 300x36, transparent bg, 1px hairline border */
 #search {
   width: 300px;
   flex: 0 0 auto;
@@ -91,7 +91,7 @@ body {
   border: 1px solid var(--border);
 }
 
-/* pokemon-name filter — reference: 180×36, page-bg pill, no border */
+/* pokemon-name filter - reference: 180x36, page-bg pill, no border */
 #pokemon-search {
   width: 180px;
   flex: 0 0 auto;
@@ -100,8 +100,59 @@ body {
   border-radius: var(--radius-md);
 }
 
-.toolbar-right {
-  margin-left: auto;
+.pkm-search {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+/* pokemon-search dropdown - floating panel of matching species (thumbnail +
+   name). Reference interaction: type a name, pick a species, and the grid
+   narrows to backgrounds that contain it. */
+.pokemon-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 240px;
+  max-width: 340px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 4px 6px;
+  background: var(--panel);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
+  z-index: 1500;
+}
+
+.pokemon-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 8px;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pokemon-dropdown button:hover,
+.pokemon-dropdown button.active { background: var(--active); }
+
+.pokemon-dropdown img {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+/* count label sits on its own row below the filters (reference layout) */
+.count-row {
+  margin-top: 12px;
 }
 
 #count-label {
@@ -190,7 +241,7 @@ body {
 .view-toggle {
   display: inline-flex;
   gap: 4px;
-  margin-top: 12px; /* reference renders the view toggle on its own toolbar row */
+  margin-left: auto; /* reference puts the toggle on the filters row, right-aligned */
 }
 
 .view-toggle button {
@@ -218,7 +269,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 16px;
-  max-width: 960px;
+  max-width: 910px;
   margin-inline: auto;
   padding: 20px;
 }
@@ -227,7 +278,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-width: 960px;
+  max-width: 910px;
   margin-inline: auto;
   padding: 20px;
 }
@@ -244,16 +295,16 @@ body {
 }
 
 .card-img {
-  aspect-ratio: 4 / 3;
   background: #000;
   border-radius: 2px;
   overflow: hidden;
+  aspect-ratio: 50 / 37; /* reference renders the art in a 50:37 landscape box (203x150 at 203w) */
 }
 
 .card-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* edge-to-edge crop of the square art, matching the reference exactly */
   display: block;
 }
 
@@ -306,7 +357,7 @@ body {
   background: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23858e96' stroke-width='1.5'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Ccircle cx='12' cy='12' r='3.5'/%3E%3Cpath d='M3.5 12h17'/%3E%3C/svg%3E") no-repeat center / contain;
 }
 
-/* pokemon thumb-strip inside a card — hidden in grid view, shown in list view */
+/* pokemon thumb-strip inside a card - hidden in grid view, shown in list view */
 .card-strip {
   display: none;
   align-items: center;
@@ -342,21 +393,24 @@ body {
   aspect-ratio: 4 / 3;
 }
 
+#grid.list-view .card-img img {
+  height: 100%; /* list thumbs are a fixed-size crop; grid tiles are not */
+}
+
 #grid.list-view .card-body {
   flex: 1;
   display: grid;
   grid-template-areas:
-    "title type"
-    "meta  meta"
-    "strip strip";
-  grid-template-columns: 1fr auto;
-  column-gap: 12px;
+    "title"
+    "meta"
+    "strip";
+  grid-template-columns: 1fr;
   row-gap: 4px;
   padding: 0;
 }
 
-#grid.list-view .card-title { grid-area: title; align-self: center; }
-#grid.list-view .card-type { grid-area: type; align-self: center; margin: 0; }
+#grid.list-view .card-title { grid-area: title; }
+#grid.list-view .card-type { display: none; } /* no type label in list view */
 #grid.list-view .card-meta { grid-area: meta; }
 #grid.list-view .card-strip { grid-area: strip; display: flex; }
 
@@ -378,13 +432,27 @@ body {
 }
 
 .back-link {
-  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--breadcrumb);
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px; /* reference back link: 14px/400 */
+  font-weight: 400;
   white-space: nowrap;
+  padding: 4px 8px 4px 4px;
+  margin: -4px 0 -4px -4px; /* keep the hit area tight against the container edge */
+  border-radius: var(--radius-sm);
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
-.back-link:hover { text-decoration: underline; }
+.back-link:hover {
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.04);
+  text-decoration: none;
+}
+
+.back-link .icon { width: 16px; height: 16px; flex: 0 0 auto; }
 
 #collected-count {
   font-size: 13px;
@@ -431,7 +499,7 @@ body {
 .switch input:checked + .switch-track { background: var(--accent); }
 .switch input:checked + .switch-track::after { left: 18px; background: #16181a; }
 
-/* export/import buttons — scoped by id so they don't clash with dropdowns */
+/* export/import buttons - scoped by id so they don't clash with dropdowns */
 #btn-export,
 #btn-import {
   height: 36px;
@@ -458,19 +526,21 @@ body {
 /* hero section */
 .hero {
   display: flex;
-  gap: 24px;
+  flex-direction: row-reverse;
+  gap: 80px;
   padding: 20px;
-  max-width: 960px;
+  max-width: 910px;
   margin-inline: auto;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
-.hero img {
-  width: min(560px, 100%);
-  aspect-ratio: 4 / 3;
+.hero > img {
+  width: min(384px, 100%);
+  aspect-ratio: 50 / 37; /* reference detail hero is a 50:37 crop (384x284 at 384w) */
   object-fit: cover;
-  border-radius: 2px;
-  border: 1px solid var(--border);
+  border-radius: 0;
+  border: 0;
   background: #000;
 }
 
@@ -482,24 +552,52 @@ body {
 
 #description { line-height: 1.5; }
 
-#event { display: flex; flex-direction: column; gap: 4px; }
+#event { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 10px 12px; align-items: center; }
 #event[hidden] { display: none; }
 #event a { color: var(--accent); }
+#event strong, #event span, #event a { grid-column: 2; }
 
-.section-title {
-  max-width: 960px;
-  margin: 10px auto;
-  padding: 0 20px;
-  font-size: 15px;
-  font-weight: 600;
+/* event thumbnail next to the event name (reference event-card style) */
+.event-thumb {
+  width: 80px;
+  height: 45px;
+  grid-row: 1 / span 3;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 0;
+  background: #000;
+  margin: 0;
 }
 
-/* pokemon list — compact tiles, pink ring when collected */
+/* heading row that right-aligns the shiny toggle + export/import controls so
+   they sit with the pokemon-grid controls, not corner-stuffed in the header */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  max-width: 910px;
+  margin: 10px auto;
+  padding: 0 20px;
+}
+
+.section-head .section-title {
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+}
+
+.section-head .toolbar {
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+/* pokemon list - compact tiles, pink ring when collected */
 .pokemon-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
   gap: 8px;
-  max-width: 960px;
+  max-width: 910px;
   margin-inline: auto;
   padding: 0 20px 24px;
 }
@@ -582,5 +680,7 @@ body {
 @media (max-width: 760px) {
   #search { width: 100%; }
   #pokemon-search { width: 100%; }
-  .toolbar-right { margin-left: 0; }
+  .pkm-search { width: 100%; }
+  .hero { flex-direction: column; gap: 16px; }
+  .hero > img { width: 100%; }
 }
