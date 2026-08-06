@@ -38,7 +38,7 @@ body {
 }
 
 .container {
-  max-width: 910px;
+  max-width: 1120px;
   margin-inline: auto;
   padding-inline: 20px;
 }
@@ -313,7 +313,7 @@ body {
 
 .card-img {
   background: #000;
-  border-radius: 2px;
+  border-radius: 10%;
   overflow: hidden;
   aspect-ratio: 50 / 37; /* reference renders the art in a 50:37 landscape box (203x150 at 203w) */
 }
@@ -537,7 +537,7 @@ body {
   flex-direction: row-reverse;
   gap: 80px;
   padding: 20px;
-  max-width: 910px;
+  max-width: 1120px;
   margin-inline: auto;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -547,7 +547,7 @@ body {
   width: min(384px, 100%);
   aspect-ratio: 50 / 37; /* reference detail hero is a 50:37 crop (384x284 at 384w) */
   object-fit: cover;
-  border-radius: 0;
+  border-radius: 10%;
   border: 0;
   background: #000;
 }
@@ -589,7 +589,7 @@ body {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  max-width: 910px;
+  max-width: 1120px;
   margin: 10px auto;
   padding: 0 20px;
 }
@@ -610,7 +610,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
   gap: 8px;
-  max-width: 910px;
+  max-width: 1120px;
   margin-inline: auto;
   padding: 0 20px 24px;
 }
