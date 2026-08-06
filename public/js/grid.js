@@ -274,9 +274,18 @@
     probe.remove();
 
     trigger.style.width = '';
-    const currentLabelWidth = label.getBoundingClientRect().width;
-    const chromeWidth = trigger.getBoundingClientRect().width - currentLabelWidth;
-    trigger.style.width = `${Math.ceil(maxLabelWidth + chromeWidth)}px`;
+    const children = [...trigger.children].filter((el) => el !== label);
+    const iconsWidth = children.reduce((sum, el) => {
+      const style = getComputedStyle(el);
+      return sum +
+        el.getBoundingClientRect().width +
+        parseFloat(style.marginLeft || 0) +
+        parseFloat(style.marginRight || 0);
+    }, 0);
+    const gapsWidth = parseFloat(triggerStyle.columnGap || triggerStyle.gap || 0) * Math.max(trigger.children.length - 1, 0);
+    const paddingWidth = parseFloat(triggerStyle.paddingLeft || 0) + parseFloat(triggerStyle.paddingRight || 0);
+    const width = Math.ceil(maxLabelWidth + iconsWidth + gapsWidth + paddingWidth);
+    trigger.style.width = `${width}px`;
   };
 
   const measureDropdownTriggers = () => {
