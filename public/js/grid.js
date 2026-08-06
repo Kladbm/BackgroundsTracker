@@ -32,6 +32,7 @@
     detailRequests: new Map(),
     view: 'grid',
     pokemonColumns: 20,
+    pokemonScope: 'all',
   };
 
   // Readable labels for the raw type codes used in index.json.
@@ -213,10 +214,12 @@
     const placements = [];
     for (const b of newestBackgrounds(visibleBackgrounds())) {
       for (const p of state.pokemonBySlug[b.slug] || []) {
+        const collected = storage.isCollected(state.collected, b.slug, p.pokedex_slug);
+        if (state.pokemonScope === 'owned' && !collected) continue;
         placements.push({
           background: b,
           pokemon: p,
-          collected: storage.isCollected(state.collected, b.slug, p.pokedex_slug),
+          collected,
         });
       }
     }
@@ -278,10 +281,12 @@
     const grid = $('#grid');
     if (state.view === 'pokemon') {
       const list = newestBackgrounds(visibleBackgrounds());
-      grid.replaceChildren(...pokemonPlacements().map(({ background, pokemon }) =>
+      const placements = pokemonPlacements();
+      grid.replaceChildren(...placements.map(({ background, pokemon }) =>
         buildPokemonPlacementTile(background, pokemon)
       ));
-      renderCountLabel(list.filter((b) => (state.pokemonBySlug[b.slug] || []).length > 0).length);
+      const visibleSlugs = new Set(placements.map(({ background }) => background.slug));
+      renderCountLabel(list.filter((b) => visibleSlugs.has(b.slug)).length);
       return;
     }
     const list = visibleBackgrounds();
@@ -445,7 +450,8 @@
       const collected = placements.filter((item) => item.collected).length;
       ctx.fillStyle = mutedColor;
       ctx.font = `500 13px ${font}`;
-      ctx.fillText(`${collected}/${placements.length} collected - ${columns} Pokemon per row`, pad, pad + 54);
+      const scopeLabel = state.pokemonScope === 'owned' ? 'owned only' : 'all';
+      ctx.fillText(`${collected}/${placements.length} collected - ${columns} Pokemon per row - ${scopeLabel}`, pad, pad + 54);
 
       ctx.fillStyle = accentColor;
       ctx.font = `600 13px ${font}`;
@@ -768,6 +774,14 @@
       updatePokemonColumns(pokemonWidth.value);
       pokemonWidth.addEventListener('input', () => updatePokemonColumns(pokemonWidth.value));
     }
+
+    $('#pokemon-scope-controls').addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn || !btn.dataset.scope) return;
+      state.pokemonScope = btn.dataset.scope;
+      setActive('#pokemon-scope-controls', btn);
+      render();
+    });
 
     const exportBtn = $('#pokemon-export-image');
     if (exportBtn) exportBtn.addEventListener('click', exportPokemonImage);

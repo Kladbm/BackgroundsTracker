@@ -71,6 +71,10 @@
       <button id="pokemon-export-image" type="button">Download</button>
       <button type="button">Upload</button>
     </div>
+    <div class="pokemon-scope-toggle" id="pokemon-scope-controls" role="group" aria-label="Pokemon table scope">
+      <button type="button" data-scope="all" class="active" aria-pressed="true">All</button>
+      <button type="button" data-scope="owned" aria-pressed="false">Owned only</button>
+    </div>
     <label class="pokemon-width-control" for="pokemon-row-width">
       <span>Pokemon per row</span>
       <input id="pokemon-row-width" type="range" min="15" max="30" value="20">
@@ -91,6 +95,6 @@
   </aside>
   <script src="js/storage.js?v=20260806-type-icons"></script>
   <script src="js/progress.js?v=20260806-progress-align"></script>
-  <script src="js/grid.js?v=20260806-pokemon-image-export"></script>
+  <script src="js/grid.js?v=20260806-pokemon-owned-toggle"></script>
 </body>
 </html>

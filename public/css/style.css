@@ -380,7 +380,8 @@ body {
   gap: 8px;
 }
 
-.pokemon-table-actions button {
+.pokemon-table-actions button,
+.pokemon-scope-toggle button {
   height: 34px;
   padding: 0 12px;
   border: 1px solid var(--border);
@@ -393,7 +394,8 @@ body {
   cursor: pointer;
 }
 
-.pokemon-table-actions button:hover {
+.pokemon-table-actions button:hover,
+.pokemon-scope-toggle button:hover {
   background: var(--active);
 }
 
@@ -401,6 +403,27 @@ body {
   color: var(--muted);
   cursor: wait;
   opacity: 0.75;
+}
+
+.pokemon-scope-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+}
+
+.pokemon-scope-toggle button {
+  height: 28px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted);
+}
+
+.pokemon-scope-toggle button.active {
+  background: var(--active);
+  color: var(--accent);
 }
 
 .pokemon-width-control {
