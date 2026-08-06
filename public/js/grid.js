@@ -176,45 +176,32 @@
     return copy;
   };
 
-  const buildPokemonViewRow = (b) => {
-    const pokemon = state.pokemonBySlug[b.slug] || [];
-    const row = document.createElement('a');
-    row.className = 'pokemon-row';
-    row.href = `background.html?slug=${encodeURIComponent(b.slug)}`;
-    row.dataset.slug = b.slug;
+  const buildPokemonPlacementTile = (b, p) => {
+    const tile = document.createElement('div');
+    tile.className = 'pokemon-placement';
+    tile.dataset.slug = b.slug;
+    tile.title = `${p.name} - ${b.title}`;
 
-    const head = document.createElement('div');
-    head.className = 'pokemon-row-head';
+    const bg = document.createElement('img');
+    bg.className = 'pokemon-placement-bg';
+    bg.src = `images/backgrounds/${b.slug}.png`;
+    bg.alt = '';
+    bg.loading = 'lazy';
+    bg.setAttribute('aria-hidden', 'true');
 
-    const title = document.createElement('h2');
-    title.className = 'pokemon-row-title';
-    title.textContent = b.title;
+    const spriteWrap = document.createElement('span');
+    spriteWrap.className = 'pokemon-placement-sprite-wrap';
 
-    const meta = document.createElement('span');
-    meta.className = 'pokemon-row-meta';
-    meta.textContent = fmtDate(b.release_date);
+    const sprite = document.createElement('img');
+    sprite.className = 'pokemon-placement-sprite';
+    sprite.src = p.image_normal;
+    sprite.alt = p.name;
+    sprite.loading = 'lazy';
+    spriteWrap.appendChild(sprite);
+    if (isShadowPokemon(p)) spriteWrap.appendChild(buildShadowBadge());
 
-    head.append(title, meta);
-
-    const strip = document.createElement('div');
-    strip.className = 'pokemon-row-strip';
-    strip.append(...pokemon.map((p) => {
-      const item = document.createElement('span');
-      item.className = 'pokemon-row-item';
-      item.title = p.name;
-
-      const img = document.createElement('img');
-      img.className = 'pokemon-row-img';
-      img.src = p.image_normal;
-      img.alt = p.name;
-      img.loading = 'lazy';
-      item.appendChild(img);
-      if (isShadowPokemon(p)) item.appendChild(buildShadowBadge());
-      return item;
-    }));
-
-    row.append(head, strip);
-    return row;
+    tile.append(bg, spriteWrap);
+    return tile;
   };
 
   // First few pokemon of a background, as lazy <img> thumbnails. Empty (no
@@ -271,10 +258,15 @@
   const render = () => {
     const grid = $('#grid');
     if (state.view === 'pokemon') {
-      const list = newestBackgrounds(visibleBackgrounds())
-        .filter((b) => (state.pokemonBySlug[b.slug] || []).length > 0);
-      grid.replaceChildren(...list.map(buildPokemonViewRow));
-      renderCountLabel(list.length);
+      const list = newestBackgrounds(visibleBackgrounds());
+      const tiles = [];
+      for (const b of list) {
+        for (const p of state.pokemonBySlug[b.slug] || []) {
+          tiles.push(buildPokemonPlacementTile(b, p));
+        }
+      }
+      grid.replaceChildren(...tiles);
+      renderCountLabel(list.filter((b) => (state.pokemonBySlug[b.slug] || []).length > 0).length);
       return;
     }
     const list = visibleBackgrounds();
