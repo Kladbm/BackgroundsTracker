@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260806-dropdown-width-formula">
+  <link rel="stylesheet" href="css/style.css?v=20260806-progress-rail">
 </head>
 <body>
   <header class="topbar">
@@ -64,7 +64,15 @@
     </div>
   </header>
   <main id="grid" class="grid-view"></main>
+  <aside class="progress-rail" aria-label="Collection progress">
+    <div class="progress-percent" id="progress-percent">0%</div>
+    <div class="progress-track" aria-hidden="true">
+      <div class="progress-fill" id="progress-fill"></div>
+      <div class="progress-marker" id="progress-marker"></div>
+    </div>
+    <div class="progress-caption" id="progress-caption">0 / 0</div>
+  </aside>
   <script src="js/storage.js?v=20260806-type-icons"></script>
-  <script src="js/grid.js?v=20260806-dropdown-width-formula"></script>
+  <script src="js/grid.js?v=20260806-progress-rail"></script>
 </body>
 </html>
