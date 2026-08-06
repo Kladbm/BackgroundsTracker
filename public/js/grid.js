@@ -512,8 +512,11 @@
       const yyyy = String(now.getFullYear());
       const mm = String(now.getMonth() + 1).padStart(2, '0');
       const dd = String(now.getDate()).padStart(2, '0');
+      const hh = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
       link.href = url;
-      link.download = `pokemon-go-backgrounds-collection-${yyyy}-${mm}-${dd}.png`;
+      link.download = `pokemon-go-backgrounds-collection-${yyyy}-${mm}-${dd}-${hh}-${min}-${ss}.png`;
       document.body.appendChild(link);
       link.click();
       link.remove();
