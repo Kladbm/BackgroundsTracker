@@ -313,6 +313,7 @@ body {
 .card-img img {
   width: 100%;
   height: 100%;
+  aspect-ratio: 50 / 37;
   object-fit: cover; /* edge-to-edge crop of the square art, matching the reference exactly */
   object-position: top;
   display: block;
