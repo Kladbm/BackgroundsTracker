@@ -380,24 +380,7 @@ body {
   gap: 8px;
 }
 
-.pokemon-table-actions button {
-  height: 34px;
-  padding: 0 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--btn);
-  color: var(--text);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.pokemon-table-actions button:hover {
-  background: var(--active);
-}
-
-.pokemon-table-actions button:disabled {
+.pokemon-table-actions > button.dropdown-trigger:disabled {
   color: var(--muted);
   cursor: wait;
   opacity: 0.75;
@@ -405,10 +388,6 @@ body {
 
 .pokemon-scope-dropdown {
   flex: 0 0 auto;
-}
-
-.pokemon-table-actions .pokemon-scope-dropdown .dropdown-trigger {
-  background: var(--btn);
 }
 
 .pokemon-width-control {
