@@ -163,6 +163,60 @@
     return card;
   };
 
+  const newestBackgrounds = (list) => {
+    const copy = [...list];
+    copy.sort((a, b) => {
+      const aNull = !a.release_date;
+      const bNull = !b.release_date;
+      if (aNull && bNull) return 0;
+      if (aNull) return 1;
+      if (bNull) return -1;
+      return -a.release_date.localeCompare(b.release_date);
+    });
+    return copy;
+  };
+
+  const buildPokemonViewRow = (b) => {
+    const pokemon = state.pokemonBySlug[b.slug] || [];
+    const row = document.createElement('a');
+    row.className = 'pokemon-row';
+    row.href = `background.html?slug=${encodeURIComponent(b.slug)}`;
+    row.dataset.slug = b.slug;
+
+    const head = document.createElement('div');
+    head.className = 'pokemon-row-head';
+
+    const title = document.createElement('h2');
+    title.className = 'pokemon-row-title';
+    title.textContent = b.title;
+
+    const meta = document.createElement('span');
+    meta.className = 'pokemon-row-meta';
+    meta.textContent = fmtDate(b.release_date);
+
+    head.append(title, meta);
+
+    const strip = document.createElement('div');
+    strip.className = 'pokemon-row-strip';
+    strip.append(...pokemon.map((p) => {
+      const item = document.createElement('span');
+      item.className = 'pokemon-row-item';
+      item.title = p.name;
+
+      const img = document.createElement('img');
+      img.className = 'pokemon-row-img';
+      img.src = p.image_normal;
+      img.alt = p.name;
+      img.loading = 'lazy';
+      item.appendChild(img);
+      if (isShadowPokemon(p)) item.appendChild(buildShadowBadge());
+      return item;
+    }));
+
+    row.append(head, strip);
+    return row;
+  };
+
   // First few pokemon of a background, as lazy <img> thumbnails. Empty (no
   // imgs) until that slug's detail JSON has been fetched.
   const stripImages = (slug) => {
@@ -216,6 +270,13 @@
 
   const render = () => {
     const grid = $('#grid');
+    if (state.view === 'pokemon') {
+      const list = newestBackgrounds(visibleBackgrounds())
+        .filter((b) => (state.pokemonBySlug[b.slug] || []).length > 0);
+      grid.replaceChildren(...list.map(buildPokemonViewRow));
+      renderCountLabel(list.length);
+      return;
+    }
     const list = visibleBackgrounds();
     grid.replaceChildren(...list.map(buildCard));
     renderCountLabel(list.length);
@@ -237,11 +298,13 @@
           addToPokemonIndex(b.slug);
           updateCount(b.slug);
           refreshStrip(b.slug);
+          if (state.view === 'pokemon') render();
           if (pkmInput().value.trim() && !state.selectedPokemon) renderPkmDropdown(pkmInput().value);
         })
         .catch(() => {
           state.yBySlug[b.slug] = null;
           updateCount(b.slug);
+          if (state.view === 'pokemon') render();
         });
     }
   };
@@ -493,6 +556,8 @@
       const grid = $('#grid');
       grid.classList.toggle('grid-view', state.view === 'grid');
       grid.classList.toggle('list-view', state.view === 'list');
+      grid.classList.toggle('pokemon-view', state.view === 'pokemon');
+      render();
     });
   };
 
