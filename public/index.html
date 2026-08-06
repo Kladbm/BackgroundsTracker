@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon GO Backgrounds Tracker</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Crect%20width='16'%20height='16'%20rx='3'%20fill='%234fc3f7'/%3E%3Ctext%20x='8'%20y='12'%20font-size='10'%20text-anchor='middle'%20fill='%23131316'%20font-family='sans-serif'%20font-weight='bold'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Pokémon GO Backgrounds</h1>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search backgrounds…" autocomplete="off" aria-label="Search backgrounds">
+      <div class="segmented" id="sort-controls" role="group" aria-label="Sort by date">
+        <button data-sort="newest" class="active" aria-pressed="true">Newest</button>
+        <button data-sort="oldest" aria-pressed="false">Oldest</button>
+      </div>
+      <div class="segmented" id="type-controls" role="group" aria-label="Filter by type">
+        <button data-type="All" class="active" aria-pressed="true">All</button>
+      </div>
+      <div class="segmented" id="view-controls" role="group" aria-label="View">
+        <button data-view="grid" class="active" aria-pressed="true">Grid</button>
+        <button data-view="list" aria-pressed="false">List</button>
+      </div>
+      <span id="count-label"></span>
+    </div>
+  </header>
+  <main id="grid" class="grid-view"></main>
+  <script src="js/grid.js"></script>
+</body>
+</html>
