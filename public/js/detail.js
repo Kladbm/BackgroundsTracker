@@ -160,7 +160,11 @@
       types.appendChild(icon);
     }
 
-    btn.append(check, imgWrap, name, dex, types);
+    const meta = document.createElement('span');
+    meta.className = 'p-meta';
+    meta.append(dex, types);
+
+    btn.append(check, imgWrap, name, meta);
     return btn;
   };
 

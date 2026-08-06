@@ -642,11 +642,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 5px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 7px 5px;
+  min-height: 136px;
+  padding: 9px 6px;
   cursor: pointer;
   color: var(--text);
   font-family: inherit;
@@ -656,7 +657,7 @@ body {
 }
 
 .pokemon-card:hover { opacity: 1; }
-.pokemon-card.collected { border: 2px solid var(--accent); background: var(--panel); opacity: 1; padding: 6px 4px; }
+.pokemon-card.collected { border: 2px solid var(--accent); background: var(--panel); opacity: 1; padding: 8px 5px; }
 
 .p-check {
   position: absolute;
@@ -678,16 +679,16 @@ body {
 
 .p-img-wrap {
   position: relative;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
 .p-img {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
 }
 
@@ -724,18 +725,29 @@ body {
 .p-dex {
   font-size: 10px;
   color: var(--muted);
+  line-height: 1;
+}
+
+.p-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 14px;
+  width: 100%;
 }
 
 .p-types {
   display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: nowrap;
   justify-content: center;
 }
 
 .type-icon {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
 }
 
