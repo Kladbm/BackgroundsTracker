@@ -29,6 +29,7 @@
     search: '',
     selectedPokemon: null,   // exact pokemon name picked from the dropdown
     pokemonIndex: new Map(), // lowercased name -> { name, image } (from detail JSONs)
+    detailRequests: new Map(),
     view: 'grid',
     pokemonColumns: 20,
   };
@@ -208,6 +209,20 @@
     return tile;
   };
 
+  const pokemonPlacements = () => {
+    const placements = [];
+    for (const b of newestBackgrounds(visibleBackgrounds())) {
+      for (const p of state.pokemonBySlug[b.slug] || []) {
+        placements.push({
+          background: b,
+          pokemon: p,
+          collected: storage.isCollected(state.collected, b.slug, p.pokedex_slug),
+        });
+      }
+    }
+    return placements;
+  };
+
   // First few pokemon of a background, as lazy <img> thumbnails. Empty (no
   // imgs) until that slug's detail JSON has been fetched.
   const stripImages = (slug) => {
@@ -263,13 +278,9 @@
     const grid = $('#grid');
     if (state.view === 'pokemon') {
       const list = newestBackgrounds(visibleBackgrounds());
-      const tiles = [];
-      for (const b of list) {
-        for (const p of state.pokemonBySlug[b.slug] || []) {
-          tiles.push(buildPokemonPlacementTile(b, p));
-        }
-      }
-      grid.replaceChildren(...tiles);
+      grid.replaceChildren(...pokemonPlacements().map(({ background, pokemon }) =>
+        buildPokemonPlacementTile(background, pokemon)
+      ));
       renderCountLabel(list.filter((b) => (state.pokemonBySlug[b.slug] || []).length > 0).length);
       return;
     }
@@ -298,25 +309,205 @@
     if (card) card.querySelector('.card-count').textContent = countText(slug);
   };
 
+  const loadBackgroundDetail = (b) => {
+    if (state.detailRequests.has(b.slug)) return state.detailRequests.get(b.slug);
+    const req = fetch(`data/backgrounds/${b.slug}.json`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+      .then((d) => {
+        state.yBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon.length : 0;
+        state.pokemonBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon : [];
+        addToPokemonIndex(b.slug);
+        updateCount(b.slug);
+        refreshStrip(b.slug);
+        if (state.view === 'pokemon') render();
+        if (pkmInput().value.trim() && !state.selectedPokemon) renderPkmDropdown(pkmInput().value);
+        return d;
+      })
+      .catch((err) => {
+        state.yBySlug[b.slug] = null;
+        updateCount(b.slug);
+        if (state.view === 'pokemon') render();
+        throw err;
+      });
+    state.detailRequests.set(b.slug, req);
+    return req;
+  };
+
   // Fetch every detail JSON in the background; fill in Y as each arrives.
   const loadDetails = () => {
     for (const b of state.backgrounds) {
-      fetch(`data/backgrounds/${b.slug}.json`)
-        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
-        .then((d) => {
-          state.yBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon.length : 0;
-          state.pokemonBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon : [];
-          addToPokemonIndex(b.slug);
-          updateCount(b.slug);
-          refreshStrip(b.slug);
-          if (state.view === 'pokemon') render();
-          if (pkmInput().value.trim() && !state.selectedPokemon) renderPkmDropdown(pkmInput().value);
-        })
-        .catch(() => {
-          state.yBySlug[b.slug] = null;
-          updateCount(b.slug);
-          if (state.view === 'pokemon') render();
-        });
+      loadBackgroundDetail(b).catch(() => {});
+    }
+  };
+
+  const waitForCurrentDetails = async () => {
+    await Promise.allSettled(visibleBackgrounds().map(loadBackgroundDetail));
+  };
+
+  const loadCanvasImage = (() => {
+    const cache = new Map();
+    return (src) => {
+      if (cache.has(src)) return cache.get(src);
+      const promise = new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error(`Failed to load ${src}`));
+        img.src = src;
+      });
+      cache.set(src, promise);
+      return promise;
+    };
+  })();
+
+  const roundedRect = (ctx, x, y, w, h, r) => {
+    const radius = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + w - radius, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+    ctx.lineTo(x + w, y + h - radius);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+    ctx.lineTo(x + radius, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+  };
+
+  const drawCover = (ctx, img, x, y, w, h) => {
+    const iw = img.naturalWidth || img.width;
+    const ih = img.naturalHeight || img.height;
+    const scale = Math.max(w / iw, h / ih);
+    const dw = iw * scale;
+    const dh = ih * scale;
+    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  };
+
+  const drawContain = (ctx, img, x, y, w, h) => {
+    const iw = img.naturalWidth || img.width;
+    const ih = img.naturalHeight || img.height;
+    const scale = Math.min(w / iw, h / ih);
+    const dw = iw * scale;
+    const dh = ih * scale;
+    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+  };
+
+  const exportPokemonImage = async () => {
+    const btn = $('#pokemon-export-image');
+    const previousText = btn ? btn.textContent : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Preparing...';
+    }
+    try {
+      state.collected = storage.read();
+      await waitForCurrentDetails();
+      const placements = pokemonPlacements();
+      if (!placements.length) {
+        window.alert('There are no Pokemon to export with the current filters.');
+        return;
+      }
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+
+      const root = getComputedStyle(document.documentElement);
+      const bgColor = root.getPropertyValue('--bg').trim() || '#16181a';
+      const panelColor = root.getPropertyValue('--panel').trim() || '#222426';
+      const textColor = root.getPropertyValue('--text').trim() || '#fcf7ff';
+      const mutedColor = root.getPropertyValue('--muted').trim() || '#858e96';
+      const accentColor = root.getPropertyValue('--accent').trim() || '#f4a4f8';
+      const borderColor = root.getPropertyValue('--border').trim() || 'rgba(255, 255, 255, 0.1)';
+      const font = root.getPropertyValue('--font').trim() || 'Poppins, sans-serif';
+
+      const columns = state.pokemonColumns;
+      const tile = 56;
+      const gap = 4;
+      const pad = 24;
+      const header = 84;
+      const rows = Math.ceil(placements.length / columns);
+      const width = pad * 2 + columns * tile + (columns - 1) * gap;
+      const height = pad * 2 + header + rows * tile + Math.max(rows - 1, 0) * gap;
+      const scale = 2;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width * scale;
+      canvas.height = height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = textColor;
+      ctx.font = `700 24px ${font}`;
+      ctx.fillText('Pokemon GO Backgrounds Collection', pad, pad + 28);
+
+      const collected = placements.filter((item) => item.collected).length;
+      ctx.fillStyle = mutedColor;
+      ctx.font = `500 13px ${font}`;
+      ctx.fillText(`${collected}/${placements.length} collected - ${columns} Pokemon per row`, pad, pad + 54);
+
+      ctx.fillStyle = accentColor;
+      ctx.font = `600 13px ${font}`;
+      ctx.textAlign = 'right';
+      ctx.fillText(`${Math.round((collected / placements.length) * 100)}%`, width - pad, pad + 54);
+      ctx.textAlign = 'left';
+
+      const shadowIcon = await loadCanvasImage('images/icons/shadow.png').catch(() => null);
+      const startY = pad + header;
+      for (let i = 0; i < placements.length; i += 1) {
+        const item = placements[i];
+        const x = pad + (i % columns) * (tile + gap);
+        const y = startY + Math.floor(i / columns) * (tile + gap);
+        const bg = await loadCanvasImage(`images/backgrounds/${item.background.slug}.png`).catch(() => null);
+        const sprite = await loadCanvasImage(item.pokemon.image_normal).catch(() => null);
+
+        ctx.save();
+        roundedRect(ctx, x, y, tile, tile, 4);
+        ctx.clip();
+        ctx.fillStyle = item.collected ? panelColor : 'rgb(13, 13, 13)';
+        ctx.fillRect(x, y, tile, tile);
+        if (bg) {
+          ctx.globalAlpha = item.collected ? 1 : 0.05;
+          drawCover(ctx, bg, x, y, tile, tile);
+          ctx.globalAlpha = 1;
+        }
+        if (sprite) {
+          ctx.filter = item.collected ? 'none' : 'brightness(0.05)';
+          drawContain(ctx, sprite, x + tile * 0.09, y + tile * 0.09, tile * 0.82, tile * 0.82);
+          ctx.filter = 'none';
+        }
+        if (shadowIcon && isShadowPokemon(item.pokemon)) {
+          ctx.filter = item.collected ? 'none' : 'brightness(0.05)';
+          drawContain(ctx, shadowIcon, x + 3, y + tile - 12, 9, 9);
+          ctx.filter = 'none';
+        }
+        ctx.restore();
+
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = 1;
+        roundedRect(ctx, x + 0.5, y + 0.5, tile - 1, tile - 1, 4);
+        ctx.stroke();
+      }
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+      if (!blob) throw new Error('Canvas export failed');
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'pokemon-go-backgrounds-collection.png';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Image export failed:', err);
+      window.alert(`Image export failed: ${err.message}`);
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = previousText;
+      }
     }
   };
 
@@ -577,6 +768,9 @@
       updatePokemonColumns(pokemonWidth.value);
       pokemonWidth.addEventListener('input', () => updatePokemonColumns(pokemonWidth.value));
     }
+
+    const exportBtn = $('#pokemon-export-image');
+    if (exportBtn) exportBtn.addEventListener('click', exportPokemonImage);
   };
 
   const main = async () => {

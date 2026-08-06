@@ -397,6 +397,12 @@ body {
   background: var(--active);
 }
 
+.pokemon-table-actions button:disabled {
+  color: var(--muted);
+  cursor: wait;
+  opacity: 0.75;
+}
+
 .pokemon-width-control {
   display: inline-flex;
   align-items: center;
