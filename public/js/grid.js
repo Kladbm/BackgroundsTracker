@@ -169,7 +169,11 @@
     for (const p of state.pokemonBySlug[slug] || []) {
       const key = p.name.toLowerCase();
       if (!state.pokemonIndex.has(key)) {
-        state.pokemonIndex.set(key, { name: p.name, image: p.image_normal });
+        state.pokemonIndex.set(key, {
+          name: p.name,
+          image: p.image_normal,
+          pokedex_slug: p.pokedex_slug,
+        });
       }
     }
   };
@@ -277,14 +281,19 @@
       btn.type = 'button';
       btn.role = 'option';
       btn.dataset.name = p.name;
+      const imgWrap = document.createElement('span');
+      imgWrap.className = 'pkm-option-thumb';
       const img = document.createElement('img');
+      img.className = 'pkm-option-img';
       img.src = p.image;
       img.alt = '';
       img.loading = 'lazy';
+      imgWrap.appendChild(img);
+      if (isShadowPokemon(p)) imgWrap.appendChild(buildShadowBadge());
       const label = document.createElement('span');
       label.className = 'pkm-option-name';
       label.textContent = p.name;
-      btn.append(img, label);
+      btn.append(imgWrap, label);
       return btn;
     }));
     openPkmDropdown();

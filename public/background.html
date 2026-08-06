@@ -28,17 +28,14 @@
       <div class="hero-meta">
         <p id="meta-date"></p>
         <p id="description" hidden></p>
-        <p id="event" hidden>
+        <a id="event" href="#" target="_blank" rel="noopener" hidden>
           <img class="event-thumb" id="event-thumb" alt="" hidden>
           <strong id="event-name"></strong>
           <span id="event-dates"></span>
-          <a id="event-link" href="#" target="_blank" rel="noopener">Event page →</a>
-        </p>
+        </a>
       </div>
     </section>
 
-    <!-- shiny toggle + export/import sit with the pokemon-grid controls
-         (right-aligned), not corner-stuffed in the header -->
     <div class="section-head">
       <h2 class="section-title">Pokémon <span id="pokemon-count"></span></h2>
       <div class="toolbar">
@@ -47,9 +44,6 @@
           <span class="switch-track" aria-hidden="true"></span>
           <span>Shiny</span>
         </label>
-        <button id="btn-export" type="button">Export JSON</button>
-        <button id="btn-import" type="button">Import JSON</button>
-        <span id="msg" class="msg" role="status"></span>
       </div>
     </div>
     <div id="pokemon-list" class="pokemon-grid"></div>

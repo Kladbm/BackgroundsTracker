@@ -78,11 +78,9 @@
     const evt = $('#event');
     evt.hidden = !state.data.event;
     if (state.data.event) {
+      evt.href = state.data.event.url || '#';
       $('#event-name').textContent = state.data.event.name;
       $('#event-dates').textContent = state.data.event.date_range || '';
-      const link = $('#event-link');
-      link.href = state.data.event.url || '#';
-      link.hidden = !state.data.event.url;
 
       // Event thumbnail sits above the event name; hide when the file is
       // missing (older JSONs have no image path, some downloads 404).
@@ -210,74 +208,6 @@
     });
   };
 
-  const flashMsg = (text) => {
-    const el = $('#msg');
-    el.textContent = text;
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.textContent = ''; }, 3000);
-  };
-
-  const copyText = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (err) {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.setAttribute('readonly', '');
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.select();
-      let ok = false;
-      try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
-      ta.remove();
-      return ok;
-    }
-  };
-
-  const readClipboard = async () => {
-    try {
-      return await navigator.clipboard.readText();
-    } catch (err) {
-      return prompt('Paste your exported collected JSON here:');
-    }
-  };
-
-  const exportJSON = async () => {
-    const text = JSON.stringify(state.collected, null, 2);
-    const ok = await copyText(text);
-    if (ok) {
-      flashMsg(`Copied progress for ${Object.keys(state.collected).length} background(s) to clipboard`);
-    } else {
-      flashMsg('Copy failed — your browser blocked clipboard access');
-      console.log('Exported collected JSON:', text);
-    }
-  };
-
-  const importJSON = async () => {
-    const text = await readClipboard();
-    if (text == null) return; // cancelled
-    try {
-      const parsed = JSON.parse(text);
-      if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
-        throw new Error('not a plain object');
-      }
-      state.collected = parsed;
-      storage.write(state.collected);
-      renderPokemon();
-      renderCounter();
-      flashMsg(`Imported progress for ${Object.keys(parsed).length} background(s)`);
-    } catch (err) {
-      flashMsg('Import failed — that is not valid collected JSON');
-    }
-  };
-
-  const wireButtons = () => {
-    $('#btn-export').addEventListener('click', exportJSON);
-    $('#btn-import').addEventListener('click', importJSON);
-  };
-
   // ---- boot ----
 
   const main = async () => {
@@ -295,7 +225,6 @@
     render();
     wireShiny();
     wireCards();
-    wireButtons();
   };
 
   main().catch((err) => {
