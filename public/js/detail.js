@@ -78,6 +78,8 @@
     const evt = $('#event');
     evt.hidden = !state.data.event;
     if (state.data.event) {
+      evt.classList.remove('has-event-image', 'no-event-image');
+      evt.classList.add('no-event-image');
       evt.href = state.data.event.url || '#';
       $('#event-name').textContent = state.data.event.name;
       $('#event-dates').textContent = state.data.event.date_range || '';
@@ -89,8 +91,16 @@
       thumb.alt = state.data.event.name;
       if (state.data.event.image) {
         thumb.src = state.data.event.image;
-        thumb.onload = () => { thumb.hidden = false; };
-        thumb.onerror = () => { thumb.hidden = true; };
+        thumb.onload = () => {
+          thumb.hidden = false;
+          evt.classList.remove('no-event-image');
+          evt.classList.add('has-event-image');
+        };
+        thumb.onerror = () => {
+          thumb.hidden = true;
+          evt.classList.remove('has-event-image');
+          evt.classList.add('no-event-image');
+        };
       }
     }
   };

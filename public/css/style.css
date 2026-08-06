@@ -443,6 +443,9 @@ body {
   align-items: baseline;
   gap: 12px;
   flex-wrap: wrap;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-inline: 20px;
 }
 
 .detail-head h1 {
@@ -451,6 +454,12 @@ body {
   font-weight: 700;
   letter-spacing: -0.01em;
   flex: 1 1 auto;
+}
+
+.detail-nav {
+  max-width: 1120px;
+  margin: 12px auto 0;
+  padding: 0 20px;
 }
 
 .back-link {
@@ -477,6 +486,11 @@ body {
 .back-link .icon { width: 16px; height: 16px; flex: 0 0 auto; }
 
 #collected-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding-left: 10px;
+  border-left: 1px solid var(--border);
   font-size: 13px;
   font-weight: 700;
   color: var(--muted);
@@ -562,6 +576,16 @@ body {
 #event:hover strong { color: var(--accent); }
 #event strong, #event span { grid-column: 2; }
 
+#event.no-event-image {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+}
+
+#event.no-event-image strong,
+#event.no-event-image span { grid-column: 1; }
+
+#event.no-event-image .event-thumb { display: none; }
+
 /* event thumbnail next to the event name (reference event-card style) */
 .event-thumb {
   width: 80px;
@@ -612,9 +636,9 @@ body {
   align-items: center;
   gap: 3px;
   background: var(--bg);
-  border: 2px solid transparent;
+  border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 6px 4px;
+  padding: 7px 5px;
   cursor: pointer;
   color: var(--text);
   font-family: inherit;
@@ -624,7 +648,7 @@ body {
 }
 
 .pokemon-card:hover { opacity: 1; }
-.pokemon-card.collected { border-color: var(--accent); background: var(--panel); opacity: 1; }
+.pokemon-card.collected { border: 2px solid var(--accent); background: var(--panel); opacity: 1; padding: 6px 4px; }
 
 .p-check {
   position: absolute;
