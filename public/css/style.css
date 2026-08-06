@@ -309,7 +309,7 @@ body {
   background-color: var(--panel);
   text-decoration: none;
   color: inherit;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -331,20 +331,9 @@ body {
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 8px;
   min-width: 0;
-  padding: 0 2px 2px;
-}
-
-.card-type {
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--breadcrumb);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 12px 14px 14px;
 }
 
 .card-title {
@@ -444,7 +433,6 @@ body {
 }
 
 #grid.list-view .card-title { grid-area: title; }
-#grid.list-view .card-type { display: none; } /* no type label in list view */
 #grid.list-view .card-meta { grid-area: meta; }
 #grid.list-view .card-strip { grid-area: strip; display: flex; }
 
@@ -549,7 +537,7 @@ body {
   width: min(384px, 100%);
   aspect-ratio: 50 / 37; /* reference detail hero is a 50:37 crop (384x284 at 384w) */
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 0;
   background: #000;
 }

@@ -110,11 +110,6 @@
     const body = document.createElement('div');
     body.className = 'card-body';
 
-    const typeBadge = document.createElement('span');
-    typeBadge.className = 'card-type';
-    typeBadge.dataset.type = b.type;
-    typeBadge.textContent = TYPE_LABELS[b.type] || b.type;
-
     const title = document.createElement('h2');
     title.className = 'card-title';
     title.textContent = b.title;
@@ -140,7 +135,7 @@
     const imgs = stripImages(b.slug);
     if (imgs.length) strip.append(...imgs);
 
-    body.append(typeBadge, title, meta, strip);
+    body.append(title, meta, strip);
     card.append(imgWrap, body);
     return card;
   };
