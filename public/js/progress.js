@@ -17,7 +17,48 @@ const progressRail = (() => {
     collected: $('#collection-progress-collected'),
   });
 
+  const ensureRail = () => {
+    if ($('#collection-progress')) return;
+    const rail = document.createElement('aside');
+    rail.className = 'collection-progress';
+    rail.id = 'collection-progress';
+    rail.setAttribute('aria-label', 'Overall collection progress');
+
+    const readout = document.createElement('div');
+    readout.className = 'collection-progress-readout';
+    const percent = document.createElement('span');
+    percent.id = 'collection-progress-percent';
+    percent.textContent = '0%';
+    const marker = document.createElement('span');
+    marker.className = 'collection-progress-marker';
+    marker.id = 'collection-progress-marker';
+    marker.setAttribute('aria-hidden', 'true');
+    readout.append(percent, marker);
+
+    const total = document.createElement('div');
+    total.className = 'collection-progress-total';
+    total.id = 'collection-progress-total';
+    total.textContent = '0';
+
+    const track = document.createElement('div');
+    track.className = 'collection-progress-track';
+    track.setAttribute('aria-hidden', 'true');
+    const fill = document.createElement('div');
+    fill.className = 'collection-progress-fill';
+    fill.id = 'collection-progress-fill';
+    track.appendChild(fill);
+
+    const collected = document.createElement('div');
+    collected.className = 'collection-progress-collected';
+    collected.id = 'collection-progress-collected';
+    collected.textContent = '0';
+
+    rail.append(readout, total, track, collected);
+    document.body.appendChild(rail);
+  };
+
   const updatePosition = () => {
+    ensureRail();
     const dom = els();
     if (!dom.rail) return;
     const topbar = $('.topbar');
@@ -27,6 +68,7 @@ const progressRail = (() => {
   };
 
   const render = (collected, total) => {
+    ensureRail();
     const dom = els();
     if (!dom.rail || !dom.fill || !dom.marker || !dom.percent || !dom.total || !dom.collected) return;
     updatePosition();
@@ -71,6 +113,7 @@ const progressRail = (() => {
   };
 
   const start = () => {
+    ensureRail();
     updatePosition();
     window.addEventListener('resize', updatePosition);
     render(0, 0);
