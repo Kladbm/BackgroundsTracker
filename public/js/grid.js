@@ -30,7 +30,7 @@
     selectedPokemon: null,   // exact pokemon name picked from the dropdown
     pokemonIndex: new Map(), // lowercased name -> { name, image } (from detail JSONs)
     view: 'grid',
-    pokemonColumns: 30,
+    pokemonColumns: 20,
   };
 
   // Readable labels for the raw type codes used in index.json.

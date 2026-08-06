@@ -448,7 +448,7 @@ body {
 
 #grid.pokemon-view {
   display: grid;
-  grid-template-columns: repeat(var(--pokemon-columns, 30), minmax(0, 1fr));
+  grid-template-columns: repeat(var(--pokemon-columns, 20), minmax(0, 1fr));
   gap: 4px;
   max-width: 1120px;
   margin-inline: auto;
@@ -499,6 +499,10 @@ body {
 
 .pokemon-placement.uncollected .pokemon-placement-sprite {
   filter: brightness(0.05) drop-shadow(0 2px 3px rgba(0, 0, 0, 0.6));
+}
+
+.pokemon-placement.uncollected .shadow-badge {
+  filter: brightness(0.05);
 }
 
 .pokemon-placement-sprite-wrap .shadow-badge {
