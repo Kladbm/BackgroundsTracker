@@ -361,6 +361,64 @@ body {
 
 /* ---- grid / list containers ---- */
 
+.pokemon-table-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1120px;
+  margin: 16px auto 0;
+  padding: 0 20px;
+}
+
+.pokemon-table-controls[hidden] {
+  display: none;
+}
+
+.pokemon-table-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.pokemon-table-actions button {
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--btn);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pokemon-table-actions button:hover {
+  background: var(--active);
+}
+
+.pokemon-width-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pokemon-width-control input {
+  width: 160px;
+  accent-color: var(--accent);
+}
+
+.pokemon-width-control output {
+  min-width: 2ch;
+  color: var(--text);
+  font-weight: 600;
+  text-align: right;
+}
+
 #grid.grid-view {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -390,7 +448,7 @@ body {
 
 #grid.pokemon-view {
   display: grid;
-  grid-template-columns: repeat(30, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--pokemon-columns, 30), minmax(0, 1fr));
   gap: 4px;
   max-width: 1120px;
   margin-inline: auto;
@@ -442,11 +500,24 @@ body {
   #grid.pokemon-view {
     grid-template-columns: repeat(15, minmax(0, 1fr));
   }
+
+  .pokemon-table-controls {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 480px) {
   #grid.pokemon-view {
     grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .pokemon-width-control {
+    width: 100%;
+  }
+
+  .pokemon-width-control input {
+    flex: 1 1 auto;
+    width: auto;
   }
 }
 

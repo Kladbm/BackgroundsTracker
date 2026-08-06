@@ -30,6 +30,7 @@
     selectedPokemon: null,   // exact pokemon name picked from the dropdown
     pokemonIndex: new Map(), // lowercased name -> { name, image } (from detail JSONs)
     view: 'grid',
+    pokemonColumns: 30,
   };
 
   // Readable labels for the raw type codes used in index.json.
@@ -272,6 +273,21 @@
     const list = visibleBackgrounds();
     grid.replaceChildren(...list.map(buildCard));
     renderCountLabel(list.length);
+  };
+
+  const updatePokemonViewControls = () => {
+    const controls = $('#pokemon-table-controls');
+    if (!controls) return;
+    controls.hidden = state.view !== 'pokemon';
+  };
+
+  const updatePokemonColumns = (value) => {
+    const columns = Math.max(15, Math.min(30, Number(value) || 30));
+    state.pokemonColumns = columns;
+    const grid = $('#grid');
+    if (grid) grid.style.setProperty('--pokemon-columns', String(columns));
+    const output = $('#pokemon-row-width-value');
+    if (output) output.textContent = String(columns);
   };
 
   const updateCount = (slug) => {
@@ -549,8 +565,15 @@
       grid.classList.toggle('grid-view', state.view === 'grid');
       grid.classList.toggle('list-view', state.view === 'list');
       grid.classList.toggle('pokemon-view', state.view === 'pokemon');
+      updatePokemonViewControls();
       render();
     });
+
+    const pokemonWidth = $('#pokemon-row-width');
+    if (pokemonWidth) {
+      updatePokemonColumns(pokemonWidth.value);
+      pokemonWidth.addEventListener('input', () => updatePokemonColumns(pokemonWidth.value));
+    }
   };
 
   const main = async () => {
@@ -563,6 +586,7 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDropdownTriggers);
     wireControls();
     wirePkmSearch();
+    updatePokemonViewControls();
     render();
     loadDetails();
   };

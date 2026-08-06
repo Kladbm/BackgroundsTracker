@@ -66,6 +66,17 @@
       </div>
     </div>
   </header>
+  <section class="pokemon-table-controls" id="pokemon-table-controls" aria-label="Pokemon table controls" hidden>
+    <div class="pokemon-table-actions">
+      <button type="button">Download</button>
+      <button type="button">Upload</button>
+    </div>
+    <label class="pokemon-width-control" for="pokemon-row-width">
+      <span>Pokemon per row</span>
+      <input id="pokemon-row-width" type="range" min="15" max="30" value="30">
+      <output id="pokemon-row-width-value" for="pokemon-row-width">30</output>
+    </label>
+  </section>
   <main id="grid" class="grid-view"></main>
   <aside class="collection-progress" id="collection-progress" aria-label="Overall collection progress">
     <div class="collection-progress-readout">
@@ -80,6 +91,6 @@
   </aside>
   <script src="js/storage.js?v=20260806-type-icons"></script>
   <script src="js/progress.js?v=20260806-progress-align"></script>
-  <script src="js/grid.js?v=20260806-pokemon-placement"></script>
+  <script src="js/grid.js?v=20260806-pokemon-table-controls"></script>
 </body>
 </html>
