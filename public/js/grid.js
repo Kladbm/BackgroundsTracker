@@ -297,7 +297,11 @@
   const updatePokemonViewControls = () => {
     const controls = $('#pokemon-table-controls');
     if (!controls) return;
-    controls.hidden = state.view !== 'pokemon';
+    const visible = state.view === 'pokemon';
+    controls.hidden = !visible;
+    if (visible) {
+      requestAnimationFrame(() => measureDropdownTrigger('#pokemon-scope-controls'));
+    }
   };
 
   const updatePokemonColumns = (value) => {
