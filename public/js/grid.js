@@ -19,6 +19,7 @@
 'use strict';
 
 (() => {
+  const UI_PREFS_KEY = 'gridPreferences';
   const state = {
     backgrounds: [],      // raw entries from index.json
     collected: {},        // parsed localStorage 'collected'
@@ -39,6 +40,27 @@
   const TYPE_LABELS = { sb: 'Special', lc: 'Location' };
 
   const $ = (sel) => document.querySelector(sel);
+
+  const readUiPrefs = () => {
+    try {
+      const raw = localStorage.getItem(UI_PREFS_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  };
+
+  const writeUiPrefs = () => {
+    const prefs = {
+      sort: state.sort,
+      type: state.type,
+      pokemonScope: state.pokemonScope,
+      pokemonColumns: state.pokemonColumns,
+    };
+    try {
+      localStorage.setItem(UI_PREFS_KEY, JSON.stringify(prefs));
+    } catch {}
+  };
 
   const fmtDate = (iso) => {
     if (!iso) return '-';
@@ -600,6 +622,55 @@
     measureDropdownTrigger('#pokemon-scope-controls');
   };
 
+  const syncUiControls = () => {
+    const sortBtn = $(`#sort-controls .dropdown-menu button[data-sort="${state.sort}"]`) ||
+      $('#sort-controls .dropdown-menu button[data-sort="newest"]');
+    if (sortBtn) {
+      setActive('#sort-controls', sortBtn);
+      $('#sort-label').textContent = sortBtn.textContent;
+    }
+
+    const typeBtn = $(`#type-controls .dropdown-menu button[data-type="${state.type}"]`) ||
+      $('#type-controls .dropdown-menu button[data-type="All"]');
+    if (typeBtn) {
+      state.type = typeBtn.dataset.type;
+      setActive('#type-controls', typeBtn);
+      $('#type-label').textContent = typeBtn.textContent;
+    }
+
+    const scopeBtn = $(`#pokemon-scope-controls .dropdown-menu button[data-scope="${state.pokemonScope}"]`) ||
+      $('#pokemon-scope-controls .dropdown-menu button[data-scope="all"]');
+    if (scopeBtn) {
+      state.pokemonScope = scopeBtn.dataset.scope;
+      setActive('#pokemon-scope-controls', scopeBtn);
+      $('#pokemon-scope-label').textContent = scopeBtn.textContent;
+    }
+
+    const pokemonWidth = $('#pokemon-row-width');
+    if (pokemonWidth) {
+      pokemonWidth.value = String(state.pokemonColumns);
+      updatePokemonColumns(state.pokemonColumns);
+    }
+  };
+
+  const restoreUiPrefs = () => {
+    const prefs = readUiPrefs();
+    if (prefs.sort === 'newest' || prefs.sort === 'oldest' || prefs.sort === 'az' || prefs.sort === 'za') {
+      state.sort = prefs.sort;
+    }
+    if (prefs.type === 'All' || prefs.type === 'sb' || prefs.type === 'lc') {
+      state.type = prefs.type;
+    }
+    if (prefs.pokemonScope === 'all' || prefs.pokemonScope === 'owned') {
+      state.pokemonScope = prefs.pokemonScope;
+    }
+    const cols = Number(prefs.pokemonColumns);
+    if (Number.isFinite(cols)) {
+      state.pokemonColumns = Math.max(15, Math.min(30, cols));
+    }
+    syncUiControls();
+  };
+
   const setActive = (containerSel, activeBtn) => {
     $(containerSel).querySelectorAll('button').forEach((b) => {
       const on = b === activeBtn;
@@ -762,6 +833,7 @@
       setActive('#sort-controls', btn);
       $('#sort-label').textContent = btn.textContent;
       $('#sort-controls').open = false; // native <details> close
+      writeUiPrefs();
       render();
     });
 
@@ -772,6 +844,7 @@
       setActive('#type-controls', btn);
       $('#type-label').textContent = btn.textContent;
       $('#type-controls').open = false; // native <details> close
+      writeUiPrefs();
       render();
     });
 
@@ -790,8 +863,10 @@
 
     const pokemonWidth = $('#pokemon-row-width');
     if (pokemonWidth) {
-      updatePokemonColumns(pokemonWidth.value);
-      pokemonWidth.addEventListener('input', () => updatePokemonColumns(pokemonWidth.value));
+      pokemonWidth.addEventListener('input', () => {
+        updatePokemonColumns(pokemonWidth.value);
+        writeUiPrefs();
+      });
     }
 
     $('#pokemon-scope-controls').addEventListener('click', (e) => {
@@ -801,6 +876,7 @@
       setActive('#pokemon-scope-controls', btn);
       $('#pokemon-scope-label').textContent = btn.textContent;
       $('#pokemon-scope-controls').open = false;
+      writeUiPrefs();
       render();
     });
 
@@ -814,6 +890,7 @@
     if (!res.ok) throw new Error(`HTTP ${res.status} for data/index.json`);
     state.backgrounds = (await res.json()).backgrounds;
     buildTypeControls();
+    restoreUiPrefs();
     measureDropdownTriggers();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDropdownTriggers);
     wireControls();
