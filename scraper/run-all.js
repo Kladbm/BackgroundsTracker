@@ -31,6 +31,7 @@ const path = require('path');
 const {
   fetchDetail,
   downloadDetailImages,
+  download,
   delay,
   IMAGES_DIR,
   IMAGE_DELAY_MS,
@@ -54,6 +55,14 @@ const ONLY_SLUGS = process.env.ONLY_SLUGS
   : null;
 
 const fmtBytes = (n) => (n >= 1024 ? `${(n / 1024).toFixed(1)} KB` : `${n} B`);
+const SHADOW_ICON_URL = 'https://www.dittobase.com/images/shadow-pokemon-go.png';
+
+async function downloadShadowIcon() {
+  return download(
+    SHADOW_ICON_URL,
+    path.join(IMAGES_DIR, 'icons', 'shadow.png')
+  );
+}
 
 // Images-only backfill: for every existing data/backgrounds/{slug}.json, run
 // downloadDetailImages against the JSON on disk. Cached files skip (no
@@ -82,6 +91,21 @@ async function imagesOnly() {
   let totalSkipped = 0;
   let totalBytes = 0;
   const failures = [];
+
+  try {
+    const icon = await downloadShadowIcon();
+    if (icon.skipped) {
+      totalSkipped += 1;
+      console.log('static icon: icons/shadow.png cached');
+    } else {
+      totalDownloaded += 1;
+      totalBytes += icon.size;
+      console.log(`static icon: icons/shadow.png downloaded (${fmtBytes(icon.size)})`);
+    }
+  } catch (err) {
+    failures.push(`icons/shadow.png: ${err.message}`);
+    console.log(`static icon: icons/shadow.png fail - ${err.message}`);
+  }
 
   for (let i = 0; i < total; i++) {
     const slug = slugs[i];
@@ -133,6 +157,20 @@ async function main() {
   let totalDownloaded = 0;
   let totalSkipped = 0;
   let totalBytes = 0;
+
+  try {
+    const icon = await downloadShadowIcon();
+    if (icon.skipped) {
+      totalSkipped += 1;
+      console.log('static icon: icons/shadow.png cached');
+    } else {
+      totalDownloaded += 1;
+      totalBytes += icon.size;
+      console.log(`static icon: icons/shadow.png downloaded (${fmtBytes(icon.size)})`);
+    }
+  } catch (err) {
+    console.log(`static icon: icons/shadow.png fail - ${err.message}`);
+  }
 
   for (let i = 0; i < total; i++) {
     const bg = backgrounds[i];

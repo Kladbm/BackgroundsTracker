@@ -43,6 +43,18 @@
   const imageFor = (p) =>
     state.shinyOn && p.shiny_available && p.image_shiny ? p.image_shiny : p.image_normal;
 
+  const isShadowPokemon = (p) => String(p.pokedex_slug || '').endsWith('-shadow');
+
+  const buildShadowBadge = () => {
+    const badge = document.createElement('img');
+    badge.className = 'shadow-badge';
+    badge.src = 'images/icons/shadow.png';
+    badge.alt = '';
+    badge.loading = 'lazy';
+    badge.setAttribute('aria-hidden', 'true');
+    return badge;
+  };
+
   // ---- rendering ----
 
   const renderTitle = () => {
@@ -115,6 +127,11 @@
       }
     });
 
+    const imgWrap = document.createElement('span');
+    imgWrap.className = 'p-img-wrap';
+    imgWrap.appendChild(img);
+    if (isShadowPokemon(p)) imgWrap.appendChild(buildShadowBadge());
+
     const name = document.createElement('span');
     name.className = 'p-name';
     name.textContent = p.name;
@@ -132,7 +149,7 @@
       types.appendChild(badge);
     }
 
-    btn.append(check, img, name, dex, types);
+    btn.append(check, imgWrap, name, dex, types);
     return btn;
   };
 

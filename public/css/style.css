@@ -366,10 +366,19 @@ body {
   overflow: hidden;
 }
 
-.card-strip img {
+.card-strip-item {
+  position: relative;
   width: 48px;
   height: 48px;
   flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-strip-img {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   border-radius: 6px;
   background: var(--active);
@@ -641,10 +650,38 @@ body {
 
 .pokemon-card.collected .p-check { display: flex; }
 
+.p-img-wrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .p-img {
   width: 56px;
   height: 56px;
   object-fit: contain;
+}
+
+.shadow-badge {
+  position: absolute;
+  left: -2px;
+  bottom: -2px;
+  width: 18px;
+  height: 18px;
+  padding: 2px;
+  border-radius: 50%;
+  background: rgba(20, 22, 25, 0.92);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.card-strip-item .shadow-badge {
+  width: 16px;
+  height: 16px;
 }
 
 .p-name {

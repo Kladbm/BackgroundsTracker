@@ -44,6 +44,18 @@
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   };
 
+  const isShadowPokemon = (p) => String(p.pokedex_slug || '').endsWith('-shadow');
+
+  const buildShadowBadge = () => {
+    const badge = document.createElement('img');
+    badge.className = 'shadow-badge';
+    badge.src = 'images/icons/shadow.png';
+    badge.alt = '';
+    badge.loading = 'lazy';
+    badge.setAttribute('aria-hidden', 'true');
+    return badge;
+  };
+
   // Newest/oldest by release_date; backgrounds without a date sort last in
   // both directions.
   const sortBackgrounds = (list) => {
@@ -138,11 +150,17 @@
   const stripImages = (slug) => {
     const pokemon = state.pokemonBySlug[slug] || [];
     return pokemon.slice(0, 8).map((p) => {
+      const item = document.createElement('span');
+      item.className = 'card-strip-item';
+
       const s = document.createElement('img');
+      s.className = 'card-strip-img';
       s.src = p.image_normal;
       s.alt = p.name;
       s.loading = 'lazy';
-      return s;
+      item.appendChild(s);
+      if (isShadowPokemon(p)) item.appendChild(buildShadowBadge());
+      return item;
     });
   };
 
