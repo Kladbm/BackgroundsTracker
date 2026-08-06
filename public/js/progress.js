@@ -13,19 +13,21 @@ const progressRail = (() => {
     fill: $('#collection-progress-fill'),
     marker: $('#collection-progress-marker'),
     percent: $('#collection-progress-percent'),
-    caption: $('#collection-progress-caption'),
+    total: $('#collection-progress-total'),
+    collected: $('#collection-progress-collected'),
   });
 
   const render = (collected, total) => {
     const dom = els();
-    if (!dom.rail || !dom.fill || !dom.marker || !dom.percent || !dom.caption) return;
+    if (!dom.rail || !dom.fill || !dom.marker || !dom.percent || !dom.total || !dom.collected) return;
     const pct = total ? Math.round((collected / total) * 100) : 0;
     const progress = `${pct}%`;
-    const progressOffset = `${(pct / 100) * 220}px`;
+    const progressOffset = `${(pct / 100) * 320}px`;
     dom.rail.style.setProperty('--progress', progress);
     dom.rail.style.setProperty('--progress-offset', progressOffset);
     dom.percent.textContent = progress;
-    dom.caption.textContent = `${collected} / ${total}`;
+    dom.total.textContent = total;
+    dom.collected.textContent = collected;
   };
 
   const loadTotals = async () => {
