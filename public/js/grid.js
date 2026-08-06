@@ -579,6 +579,7 @@
   const measureDropdownTriggers = () => {
     measureDropdownTrigger('#sort-controls');
     measureDropdownTrigger('#type-controls');
+    measureDropdownTrigger('#pokemon-scope-controls');
   };
 
   const setActive = (containerSel, activeBtn) => {
@@ -775,12 +776,13 @@
       pokemonWidth.addEventListener('input', () => updatePokemonColumns(pokemonWidth.value));
     }
 
-    const ownedOnlyToggle = $('#pokemon-owned-only');
-    if (ownedOnlyToggle) ownedOnlyToggle.addEventListener('change', () => {
-      state.pokemonScope = ownedOnlyToggle.checked ? 'owned' : 'all';
-      document.querySelectorAll('[data-scope-label]').forEach((label) => {
-        label.classList.toggle('active', label.dataset.scopeLabel === state.pokemonScope);
-      });
+    $('#pokemon-scope-controls').addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn || !btn.dataset.scope) return;
+      state.pokemonScope = btn.dataset.scope;
+      setActive('#pokemon-scope-controls', btn);
+      $('#pokemon-scope-label').textContent = btn.textContent;
+      $('#pokemon-scope-controls').open = false;
       render();
     });
 
