@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=20260806-scope-switch">
+  <link rel="stylesheet" href="css/style.css?v=20260806-owned-toggle-switch">
 </head>
 <body>
   <header class="topbar">
@@ -71,9 +71,15 @@
       <button id="pokemon-export-image" type="button">Download</button>
       <button type="button">Upload</button>
     </div>
-    <div class="pokemon-scope-toggle" id="pokemon-scope-controls" role="group" aria-label="Pokemon table scope">
-      <button type="button" data-scope="all" class="active" aria-pressed="true">All</button>
-      <button type="button" data-scope="owned" aria-pressed="false">Owned only</button>
+    <div class="pokemon-scope-switch" id="pokemon-scope-controls">
+      <span class="pokemon-scope-label active" data-scope-label="all">All</span>
+      <label class="pokemon-toggle-switch" for="pokemon-owned-only">
+        <input id="pokemon-owned-only" type="checkbox" aria-label="Show owned Pokemon only">
+        <span class="pokemon-toggle-track" aria-hidden="true">
+          <span class="pokemon-toggle-thumb"></span>
+        </span>
+      </label>
+      <span class="pokemon-scope-label" data-scope-label="owned">Owned only</span>
     </div>
     <label class="pokemon-width-control" for="pokemon-row-width">
       <span>Pokemon per row</span>
@@ -95,6 +101,6 @@
   </aside>
   <script src="js/storage.js?v=20260806-type-icons"></script>
   <script src="js/progress.js?v=20260806-progress-align"></script>
-  <script src="js/grid.js?v=20260806-pokemon-owned-toggle"></script>
+  <script src="js/grid.js?v=20260806-owned-toggle-switch"></script>
 </body>
 </html>
