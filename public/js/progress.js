@@ -17,9 +17,19 @@ const progressRail = (() => {
     collected: $('#collection-progress-collected'),
   });
 
+  const updatePosition = () => {
+    const dom = els();
+    if (!dom.rail) return;
+    const topbar = $('.topbar');
+    const topbarHeight = topbar ? topbar.getBoundingClientRect().height : 0;
+    const centerTop = topbarHeight + ((window.innerHeight - topbarHeight) / 2);
+    dom.rail.style.setProperty('--progress-center-top', `${centerTop}px`);
+  };
+
   const render = (collected, total) => {
     const dom = els();
     if (!dom.rail || !dom.fill || !dom.marker || !dom.percent || !dom.total || !dom.collected) return;
+    updatePosition();
     const pct = total ? Math.round((collected / total) * 100) : 0;
     const progress = `${pct}%`;
     const progressOffset = `${(pct / 100) * 320}px`;
@@ -61,6 +71,8 @@ const progressRail = (() => {
   };
 
   const start = () => {
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
     render(0, 0);
     refresh().catch(() => render(0, 0));
   };

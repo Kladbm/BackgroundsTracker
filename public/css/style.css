@@ -48,8 +48,9 @@ body {
 .collection-progress {
   --progress: 0%;
   --progress-offset: 0px;
+  --progress-center-top: 50vh;
   position: fixed;
-  top: 50%;
+  top: var(--progress-center-top);
   left: max(12px, calc((100vw - 1120px) / 2 - 82px));
   z-index: 18;
   transform: translateY(-50%);
@@ -67,6 +68,7 @@ body {
   position: relative;
   grid-column: 2;
   grid-row: 2;
+  justify-self: center;
   width: 18px;
   height: 320px;
   overflow: hidden;
@@ -115,9 +117,10 @@ body {
 .collection-progress-total,
 .collection-progress-collected {
   grid-column: 2;
+  justify-self: center;
   color: var(--muted);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
