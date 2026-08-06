@@ -642,12 +642,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 0;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 6px;
-  min-height: 170px;
-  padding: 9px 6px 13px;
+  min-height: 160px;
+  padding: 8px 6px 10px;
   cursor: pointer;
   color: var(--text);
   font-family: inherit;
@@ -657,7 +657,7 @@ body {
 }
 
 .pokemon-card:hover { opacity: 1; }
-.pokemon-card.collected { border: 2px solid var(--accent); background: var(--panel); opacity: 1; padding: 8px 5px 12px; }
+.pokemon-card.collected { border: 2px solid var(--accent); background: var(--panel); opacity: 1; padding: 7px 5px 9px; }
 
 .p-check {
   position: absolute;
@@ -679,16 +679,16 @@ body {
 
 .p-img-wrap {
   position: relative;
-  width: 84px;
-  height: 84px;
+  width: 92px;
+  height: 92px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
 .p-img {
-  width: 84px;
-  height: 84px;
+  width: 92px;
+  height: 92px;
   object-fit: contain;
 }
 
@@ -719,6 +719,7 @@ body {
 .p-name {
   font-size: 15px;
   font-weight: 700;
+  margin-top: 10px;
   text-align: center;
   line-height: 1.2;
 }
