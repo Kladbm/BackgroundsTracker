@@ -84,6 +84,8 @@
   const displayPokemonName = (p) =>
     isShadowPokemon(p) ? p.name.replace(/^Shadow\s+/i, '') : p.name;
 
+  const shinyOrNormalImage = (p) => p.image_shiny || p.image_normal;
+
   // Sort by date or title; backgrounds without a date sort last in both date
   // directions.
   const sortBackgrounds = (list) => {
@@ -222,7 +224,7 @@
 
     const sprite = document.createElement('img');
     sprite.className = 'pokemon-placement-sprite';
-    sprite.src = p.image_shiny;
+    sprite.src = shinyOrNormalImage(p);
     sprite.alt = p.name;
     sprite.loading = 'lazy';
     spriteWrap.appendChild(sprite);
@@ -258,7 +260,7 @@
 
       const s = document.createElement('img');
       s.className = 'card-strip-img';
-      s.src = p.image_shiny;
+      s.src = shinyOrNormalImage(p);
       s.alt = p.name;
       s.loading = 'lazy';
       item.appendChild(s);
@@ -496,7 +498,7 @@
         const x = pad + (i % columns) * (tile + gap);
         const y = startY + Math.floor(i / columns) * (tile + gap);
         const bg = await loadCanvasImage(`images/backgrounds/${item.background.slug}.png`).catch(() => null);
-        const sprite = await loadCanvasImage(item.pokemon.image_normal).catch(() => null);
+        const sprite = await loadCanvasImage(shinyOrNormalImage(item.pokemon)).catch(() => null);
 
         ctx.save();
         roundedRect(ctx, x, y, tile, tile, 4);
