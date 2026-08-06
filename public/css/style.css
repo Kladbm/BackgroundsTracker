@@ -314,6 +314,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover; /* edge-to-edge crop of the square art, matching the reference exactly */
+  object-position: top;
   display: block;
 }
 
@@ -341,6 +342,9 @@ body {
   font-size: 13px;
   font-weight: 600;
   line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* date + count on one line (reference layout) */
