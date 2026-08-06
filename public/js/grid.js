@@ -532,6 +532,7 @@
 
   const measureDropdownTrigger = (controlsSel) => {
     const controls = $(controlsSel);
+    if (!controls) return;
     const trigger = controls.querySelector('.dropdown-trigger');
     const label = controls.querySelector('.dropdown-label');
     const options = [...controls.querySelectorAll('.dropdown-menu button')].map((b) => b.textContent.trim());
@@ -561,6 +562,7 @@
       return Number.isFinite(n) ? n : 0;
     };
 
+    controls.style.width = '';
     trigger.style.width = '';
     const children = [...trigger.children].filter((el) => el !== label);
     const iconsWidth = children.reduce((sum, el) => {
@@ -573,7 +575,8 @@
     const gapsWidth = px(triggerStyle.columnGap || triggerStyle.gap) * Math.max(trigger.children.length - 1, 0);
     const paddingWidth = px(triggerStyle.paddingLeft) + px(triggerStyle.paddingRight);
     const width = Math.ceil(maxLabelWidth + iconsWidth + gapsWidth + paddingWidth);
-    trigger.style.width = `${width}px`;
+    controls.style.width = `${width}px`;
+    trigger.style.width = '100%';
   };
 
   const measureDropdownTriggers = () => {
