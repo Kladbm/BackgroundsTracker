@@ -220,6 +220,7 @@
     };
     state.collected = { ...(state.collected || {}), [state.slug]: slugObj };
     storage.write(state.collected);
+    if (window.progressRail) window.progressRail.refresh();
     renderPokemon();
     renderCounter();
   };
