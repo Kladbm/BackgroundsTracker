@@ -23,11 +23,16 @@
     backgrounds: [],      // raw entries from index.json
     collected: {},        // parsed localStorage 'collected'
     yBySlug: {},          // slug -> pokemon.length (detail JSON), null on failure
+    pokemonBySlug: {},    // slug -> pokemon[] (detail JSON), for pokemon-name search + list-view strips
     type: 'All',
     sort: 'newest',
     search: '',
+    pokemonSearch: '',
     view: 'grid',
   };
+
+  // Readable labels for the raw type codes used in index.json.
+  const TYPE_LABELS = { sb: 'Special Background', lc: 'Location Card' };
 
   const $ = (sel) => document.querySelector(sel);
 
@@ -56,11 +61,16 @@
 
   const visibleBackgrounds = () => {
     const q = state.search.trim().toLowerCase();
-    const filtered = state.backgrounds.filter(
-      (b) =>
-        (state.type === 'All' || b.type === state.type) &&
-        (!q || b.title.toLowerCase().includes(q))
-    );
+    const pq = state.pokemonSearch.trim().toLowerCase();
+    const filtered = state.backgrounds.filter((b) => {
+      if (state.type !== 'All' && b.type !== state.type) return false;
+      if (q && !b.title.toLowerCase().includes(q)) return false;
+      if (pq) {
+        const names = (state.pokemonBySlug[b.slug] || []).map((p) => p.name.toLowerCase());
+        if (!names.some((n) => n.includes(pq))) return false;
+      }
+      return true;
+    });
     return sortBackgrounds(filtered);
   };
 
@@ -91,11 +101,15 @@
     const typeBadge = document.createElement('span');
     typeBadge.className = 'card-type';
     typeBadge.dataset.type = b.type;
-    typeBadge.textContent = b.type;
+    typeBadge.textContent = TYPE_LABELS[b.type] || b.type;
 
     const title = document.createElement('h2');
     title.className = 'card-title';
     title.textContent = b.title;
+
+    // Release date + collected count sit together on one line (reference layout).
+    const meta = document.createElement('div');
+    meta.className = 'card-meta';
 
     const date = document.createElement('span');
     date.className = 'card-date';
@@ -105,9 +119,40 @@
     count.className = 'card-count';
     count.textContent = countText(b.slug);
 
-    body.append(typeBadge, title, date, count);
+    meta.append(date, count);
+
+    // Pokemon thumb-strip: filled from detail JSONs as they load; shown in
+    // list view (display:none in grid view, so lazy images never download).
+    const strip = document.createElement('div');
+    strip.className = 'card-strip';
+    const imgs = stripImages(b.slug);
+    if (imgs.length) strip.append(...imgs);
+
+    body.append(typeBadge, title, meta, strip);
     card.append(imgWrap, body);
     return card;
+  };
+
+  // First few pokemon of a background, as lazy <img> thumbnails. Empty (no
+  // imgs) until that slug's detail JSON has been fetched.
+  const stripImages = (slug) => {
+    const pokemon = state.pokemonBySlug[slug] || [];
+    return pokemon.slice(0, 8).map((p) => {
+      const s = document.createElement('img');
+      s.src = p.image_normal;
+      s.alt = p.name;
+      s.loading = 'lazy';
+      return s;
+    });
+  };
+
+  // Called as each detail JSON arrives: fill in the strip that buildCard left
+  // empty (and any strip on cards recreated by a later render).
+  const refreshStrip = (slug) => {
+    const strip = document.querySelector(`.card[data-slug="${slug}"] .card-strip`);
+    if (!strip) return;
+    const imgs = stripImages(slug);
+    if (imgs.length) strip.replaceChildren(...imgs);
   };
 
   const render = () => {
@@ -129,7 +174,9 @@
         .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
         .then((d) => {
           state.yBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon.length : 0;
+          state.pokemonBySlug[b.slug] = Array.isArray(d.pokemon) ? d.pokemon : [];
           updateCount(b.slug);
+          refreshStrip(b.slug);
         })
         .catch(() => {
           state.yBySlug[b.slug] = null;
@@ -140,11 +187,11 @@
 
   const buildTypeControls = () => {
     const types = [...new Set(state.backgrounds.map((b) => b.type))].sort();
-    const container = $('#type-controls');
+    const container = $('#type-controls .dropdown-menu');
     for (const t of types) {
       const btn = document.createElement('button');
       btn.dataset.type = t;
-      btn.textContent = t;
+      btn.textContent = TYPE_LABELS[t] || t;
       btn.setAttribute('aria-pressed', 'false');
       container.appendChild(btn);
     }
@@ -164,11 +211,18 @@
       render();
     });
 
+    $('#pokemon-search').addEventListener('input', (e) => {
+      state.pokemonSearch = e.target.value;
+      render();
+    });
+
     $('#sort-controls').addEventListener('click', (e) => {
       const btn = e.target.closest('button');
       if (!btn || !btn.dataset.sort) return;
       state.sort = btn.dataset.sort;
       setActive('#sort-controls', btn);
+      $('#sort-label').textContent = btn.textContent;
+      $('#sort-controls').open = false; // native <details> close
       render();
     });
 
@@ -177,6 +231,8 @@
       if (!btn || !btn.dataset.type) return;
       state.type = btn.dataset.type;
       setActive('#type-controls', btn);
+      $('#type-label').textContent = btn.textContent;
+      $('#type-controls').open = false; // native <details> close
       render();
     });
 

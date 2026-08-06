@@ -4,26 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pokémon GO Backgrounds Tracker</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Crect%20width='16'%20height='16'%20rx='3'%20fill='%234fc3f7'/%3E%3Ctext%20x='8'%20y='12'%20font-size='10'%20text-anchor='middle'%20fill='%23131316'%20font-family='sans-serif'%20font-weight='bold'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Crect%20width='16'%20height='16'%20rx='3'%20fill='%23f4a4f8'/%3E%3Ctext%20x='8'%20y='12'%20font-size='10'%20text-anchor='middle'%20fill='%23161618'%20font-family='sans-serif'%20font-weight='bold'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header class="topbar">
-    <h1>Pokémon GO Backgrounds</h1>
-    <div class="toolbar">
-      <input id="search" type="search" placeholder="Search backgrounds…" autocomplete="off" aria-label="Search backgrounds">
-      <div class="segmented" id="sort-controls" role="group" aria-label="Sort by date">
-        <button data-sort="newest" class="active" aria-pressed="true">Newest</button>
-        <button data-sort="oldest" aria-pressed="false">Oldest</button>
+    <div class="container">
+      <h1>Pokémon GO Backgrounds</h1>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search backgrounds…" autocomplete="off" aria-label="Search backgrounds">
+
+        <details class="dropdown" id="sort-controls">
+          <summary class="dropdown-trigger" aria-haspopup="menu">
+            <span class="dropdown-label" id="sort-label">Newest</span>
+            <svg class="icon chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="dropdown-menu" role="menu">
+            <button type="button" data-sort="newest" class="active" aria-pressed="true">Newest</button>
+            <button type="button" data-sort="oldest" aria-pressed="false">Oldest</button>
+          </div>
+        </details>
+
+        <details class="dropdown" id="type-controls">
+          <summary class="dropdown-trigger" aria-haspopup="menu">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+            <span class="dropdown-label" id="type-label">All</span>
+            <svg class="icon chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="dropdown-menu" role="menu">
+            <button type="button" data-type="All" class="active" aria-pressed="true">All</button>
+          </div>
+        </details>
+
+        <input id="pokemon-search" type="search" placeholder="Search Pokémon…" autocomplete="off" aria-label="Search Pokémon by name">
+
+        <span id="count-label" class="toolbar-right"></span>
       </div>
-      <div class="segmented" id="type-controls" role="group" aria-label="Filter by type">
-        <button data-type="All" class="active" aria-pressed="true">All</button>
+
+      <!-- reference puts the grid/list view toggle on its own toolbar row -->
+      <div class="view-toggle" id="view-controls" role="group" aria-label="View">
+        <button data-view="grid" class="active" aria-pressed="true" title="Grid view">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </button>
+        <button data-view="list" aria-pressed="false" title="List view">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        </button>
       </div>
-      <div class="segmented" id="view-controls" role="group" aria-label="View">
-        <button data-view="grid" class="active" aria-pressed="true">Grid</button>
-        <button data-view="list" aria-pressed="false">List</button>
-      </div>
-      <span id="count-label"></span>
     </div>
   </header>
   <main id="grid" class="grid-view"></main>
