@@ -20,12 +20,30 @@
 
 (() => {
   const slug = new URLSearchParams(location.search).get('slug');
+  const SHINY_PREF_KEY = 'shinyPreference';
+
+  const readShinyPreference = () => {
+    try {
+      const value = localStorage.getItem(SHINY_PREF_KEY);
+      return value === null ? true : value === 'true';
+    } catch {
+      return true;
+    }
+  };
+
+  const writeShinyPreference = (enabled) => {
+    try {
+      localStorage.setItem(SHINY_PREF_KEY, String(enabled));
+    } catch {
+      // Ignore storage failures; the toggle still works for this page view.
+    }
+  };
 
   const state = {
     slug,
     data: null,
     collected: storage.read(),
-    shinyOn: false, // display toggle
+    shinyOn: readShinyPreference(), // display toggle, persisted globally
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -207,8 +225,11 @@
   };
 
   const wireShiny = () => {
-    $('#shiny-toggle').addEventListener('change', (e) => {
+    const toggle = $('#shiny-toggle');
+    toggle.checked = state.shinyOn;
+    toggle.addEventListener('change', (e) => {
       state.shinyOn = e.target.checked;
+      writeShinyPreference(state.shinyOn);
       renderPokemon(); // re-picks imageFor for every card; collected marks unchanged
     });
   };
