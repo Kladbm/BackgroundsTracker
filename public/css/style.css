@@ -214,7 +214,7 @@ body {
 .dropdown-trigger .icon { width: 14px; height: 14px; flex: 0 0 auto; }
 
 .dropdown-trigger .chevron {
-  margin-left: 2px;
+  margin-left: auto;
   transition: transform 0.15s ease;
 }
 
@@ -302,7 +302,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-width: 910px;
+  max-width: 1120px;
   margin-inline: auto;
   padding: 20px;
 }
@@ -345,7 +345,7 @@ body {
 
 .card-title {
   margin: 0;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.3;
   overflow: hidden;
@@ -435,13 +435,15 @@ body {
     "meta"
     "strip";
   grid-template-columns: 1fr;
+  align-content: start;
+  justify-items: start;
   row-gap: 4px;
   padding: 0;
 }
 
 #grid.list-view .card-title { grid-area: title; }
 #grid.list-view .card-meta { grid-area: meta; }
-#grid.list-view .card-strip { grid-area: strip; display: flex; }
+#grid.list-view .card-strip { grid-area: strip; display: flex; min-height: 48px; }
 
 /* ===================== detail page ===================== */
 

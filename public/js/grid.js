@@ -56,6 +56,9 @@
     return badge;
   };
 
+  const displayPokemonName = (p) =>
+    isShadowPokemon(p) ? p.name.replace(/^Shadow\s+/i, '') : p.name;
+
   // Sort by date or title; backgrounds without a date sort last in both date
   // directions.
   const sortBackgrounds = (list) => {
@@ -273,17 +276,22 @@
     }
     probe.remove();
 
+    const px = (value) => {
+      const n = parseFloat(value);
+      return Number.isFinite(n) ? n : 0;
+    };
+
     trigger.style.width = '';
     const children = [...trigger.children].filter((el) => el !== label);
     const iconsWidth = children.reduce((sum, el) => {
       const style = getComputedStyle(el);
       return sum +
         el.getBoundingClientRect().width +
-        parseFloat(style.marginLeft || 0) +
-        parseFloat(style.marginRight || 0);
+        px(style.marginLeft) +
+        px(style.marginRight);
     }, 0);
-    const gapsWidth = parseFloat(triggerStyle.columnGap || triggerStyle.gap || 0) * Math.max(trigger.children.length - 1, 0);
-    const paddingWidth = parseFloat(triggerStyle.paddingLeft || 0) + parseFloat(triggerStyle.paddingRight || 0);
+    const gapsWidth = px(triggerStyle.columnGap || triggerStyle.gap) * Math.max(trigger.children.length - 1, 0);
+    const paddingWidth = px(triggerStyle.paddingLeft) + px(triggerStyle.paddingRight);
     const width = Math.ceil(maxLabelWidth + iconsWidth + gapsWidth + paddingWidth);
     trigger.style.width = `${width}px`;
   };
@@ -318,10 +326,31 @@
   const pkmMatches = (query) => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    return [...state.pokemonIndex.entries()]
+    const matches = [...state.pokemonIndex.entries()]
       .filter(([key]) => key.includes(q))
-      .slice(0, 30)
       .map(([, p]) => p);
+
+    const bySlug = new Map(matches.map((p) => [p.pokedex_slug, p]));
+    const used = new Set();
+    const ordered = [];
+    for (const p of matches) {
+      if (used.has(p.pokedex_slug)) continue;
+      if (isShadowPokemon(p)) {
+        const baseSlug = p.pokedex_slug.replace(/-shadow$/, '');
+        if (bySlug.has(baseSlug)) continue;
+      }
+      ordered.push(p);
+      used.add(p.pokedex_slug);
+      const shadowSlug = `${p.pokedex_slug}-shadow`;
+      if (bySlug.has(shadowSlug) && !used.has(shadowSlug)) {
+        ordered.push(bySlug.get(shadowSlug));
+        used.add(shadowSlug);
+      }
+    }
+    for (const p of matches) {
+      if (!used.has(p.pokedex_slug)) ordered.push(p);
+    }
+    return ordered.slice(0, 30);
   };
 
   const setPkmHighlight = (index) => {
@@ -354,7 +383,7 @@
       if (isShadowPokemon(p)) imgWrap.appendChild(buildShadowBadge());
       const label = document.createElement('span');
       label.className = 'pkm-option-name';
-      label.textContent = p.name;
+      label.textContent = displayPokemonName(p);
       btn.append(imgWrap, label);
       return btn;
     }));
