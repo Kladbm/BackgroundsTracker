@@ -167,7 +167,7 @@
   // imgs) until that slug's detail JSON has been fetched.
   const stripImages = (slug) => {
     const pokemon = state.pokemonBySlug[slug] || [];
-    return pokemon.slice(0, 8).map((p) => {
+    const items = pokemon.slice(0, 6).map((p) => {
       const item = document.createElement('span');
       item.className = 'card-strip-item';
 
@@ -180,6 +180,15 @@
       if (isShadowPokemon(p)) item.appendChild(buildShadowBadge());
       return item;
     });
+    const hiddenCount = pokemon.length - 6;
+    if (hiddenCount > 0) {
+      const more = document.createElement('span');
+      more.className = 'card-strip-more';
+      more.textContent = `+${hiddenCount}`;
+      more.title = `${hiddenCount} more Pokemon`;
+      items.push(more);
+    }
+    return items;
   };
 
   // Index one background's Pokemon for the dropdown, deduping repeated species.

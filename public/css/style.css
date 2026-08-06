@@ -406,6 +406,21 @@ body {
   background: var(--active);
 }
 
+.card-strip-more {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--active);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
 /* ---- list view ---- */
 
 #grid.list-view .card {
@@ -443,7 +458,7 @@ body {
 }
 
 #grid.list-view .card-title { grid-area: title; }
-#grid.list-view .card-meta { grid-area: meta; }
+#grid.list-view .card-meta { grid-area: meta; width: 100%; }
 #grid.list-view .card-date { min-width: 0; }
 #grid.list-view .card-count { margin-left: auto; }
 #grid.list-view .card-strip { grid-area: strip; display: flex; min-height: 48px; }
