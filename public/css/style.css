@@ -406,23 +406,50 @@ body {
 }
 
 .pokemon-scope-toggle {
-  display: inline-flex;
-  gap: 4px;
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  width: 172px;
+  height: 34px;
+  gap: 0;
   padding: 3px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--panel);
+  border-radius: 999px;
+  background: var(--bg);
+  isolation: isolate;
+}
+
+.pokemon-scope-toggle::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  z-index: -1;
+  width: calc((100% - 6px) / 2);
+  border-radius: 999px;
+  background: var(--active);
+  box-shadow: inset 0 0 0 1px rgba(244, 164, 248, 0.16);
+  transition: transform 0.16s ease;
+}
+
+.pokemon-scope-toggle:has(button[data-scope="owned"].active)::before {
+  transform: translateX(100%);
 }
 
 .pokemon-scope-toggle button {
   height: 28px;
-  border-color: transparent;
+  position: relative;
+  z-index: 1;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 999px;
   background: transparent;
   color: var(--muted);
 }
 
 .pokemon-scope-toggle button.active {
-  background: var(--active);
+  background: transparent;
   color: var(--accent);
 }
 
