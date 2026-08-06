@@ -487,6 +487,17 @@ async function downloadDetailImages(data, delayMs = IMAGE_DELAY_MS) {
     );
   }
 
+  const typeSlugs = [...new Set(
+    data.pokemon.flatMap((p) => Array.isArray(p.types) ? p.types : [])
+  )].sort();
+  for (const type of typeSlugs) {
+    await tryOne(
+      `${ASSET_BASE}/go/types/${type}.png`,
+      path.join(IMAGES_DIR, 'types', `${type}.png`),
+      `types/${type}.png`
+    );
+  }
+
   for (const p of data.pokemon) {
     const file = p.image_normal.split('/').pop();
     await tryOne(

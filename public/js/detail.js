@@ -151,10 +151,13 @@
     const types = document.createElement('span');
     types.className = 'p-types';
     for (const t of p.types || []) {
-      const badge = document.createElement('span');
-      badge.className = `type-badge type-${t}`;
-      badge.textContent = t;
-      types.appendChild(badge);
+      const icon = document.createElement('img');
+      icon.className = 'type-icon';
+      icon.src = `images/types/${t}.png`;
+      icon.alt = t;
+      icon.title = t;
+      icon.loading = 'lazy';
+      types.appendChild(icon);
     }
 
     btn.append(check, imgWrap, name, dex, types);
