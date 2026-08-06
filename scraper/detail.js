@@ -96,6 +96,153 @@ function collapse(text) {
   return text.replace(/\s+/g, ' ').trim();
 }
 
+// ---- React Server Components (RSC) payload parsing -------------------------
+//
+// dittobase is a Next.js App Router site, so the FULL pokemon list — including
+// the evolution forms the page hides behind its "Show evolved" toggle — is
+// embedded in the initial HTML as RSC flight-payload chunks:
+//
+//   self.__next_f.push([1,"...escaped json string..."]);
+//
+// The chunks are JSON-string-escaped fragments of one big payload. That whole
+// payload is NOT JSON.parse-able standalone (it uses $D<id> reference markers
+// for server components), but its nested plain-JSON arrays ARE valid. We
+// brace-match every '"pokemon":[' array, JSON.parse each object, map it to our
+// entry shape, merge all arrays, and dedupe by (dex, pokedex_slug).
+//
+// RSC entry schema (confirmed by probing live pages):
+//   {
+//     goPokemonSlug,                 // e.g. "treecko"
+//     canBeShiny,
+//     manuallyEvolved,               // true = evolution form (toggle-hidden)
+//     goPokemon: {
+//       slug,                        // same as goPokemonSlug
+//       speciesId,                   // dex
+//       isShadow, isMega, isDynamax, isGigantamax,
+//       GoPokemonName: [{ name }],   // base species name
+//       GoPokemonManualData: { nameOverride },  // display name (evolutions)
+//       PokemonImage: [{ imageUrl, isShiny }],
+//       PokemonTypes: [{ slot, type: { slug, TypeNames: [{ name }] } }],
+//     },
+//   }
+//
+// Gigantamax forms have manuallyEvolved:false and live in a SEPARATE page
+// section, so they appear in their own "pokemon" array. That's why we scan for
+// every '"pokemon":[' token instead of taking the first one.
+const NEXT_F_CHUNK_RE = /self\.__next_f\.push\(\[1,"((?:[^"\\]|\\.)*)"\]\)/g;
+
+// Decodes all RSC flight chunks into one concatenated string. Each chunk's
+// content is an escaped JSON string literal; unescaping it and appending in
+// document order reconstructs the payload.
+function decodeRscPayload(html) {
+  let out = '';
+  let m;
+  NEXT_F_CHUNK_RE.lastIndex = 0;
+  while ((m = NEXT_F_CHUNK_RE.exec(html))) {
+    try { out += JSON.parse('"' + m[1] + '"'); }
+    catch { out += m[1]; }
+  }
+  return out;
+}
+
+// Brace-matches the array that starts at '"pokemon":[' and JSON.parses each
+// top-level object in it, keeping only entries that look like pokemon
+// (goPokemonSlug set + numeric speciesId). Returns [] on malformed input; the
+// DOM fallback in parsePage is the safety net, so this never throws.
+function mapPokemonArray(full, start) {
+  const bodyStart = start + '"pokemon":['.length;
+  let depth = 1; // count the array's own opening '['
+  let j = bodyStart;
+  for (; j < full.length && depth > 0; j++) {
+    if (full[j] === '[') depth++;
+    else if (full[j] === ']') depth--;
+  }
+  const slice = full.slice(bodyStart, j - 1);
+  const entries = [];
+  let d = 0, s = -1;
+  for (let i = 0; i < slice.length; i++) {
+    const c = slice[i];
+    if (c === '{') { if (d === 0) s = i; d++; }
+    else if (c === '}') {
+      d--;
+      if (d === 0) {
+        try {
+          const raw = JSON.parse(slice.slice(s, i + 1));
+          const g = raw.goPokemon;
+          if (raw.goPokemonSlug && g && typeof g.speciesId === 'number') entries.push(raw);
+        } catch { /* malformed object — skip */ }
+      }
+    }
+  }
+  return entries;
+}
+
+// Extracts the pokemon list from the RSC payload. Merges EVERY '"pokemon":[
+// array (the main list + the Gigantamax section), maps entries to our JSON
+// shape, and dedupes by (dex, pokedex_slug). Returns null when the payload
+// yields zero entries — e.g. a non-RSC page — so parsePage can fall back to
+// the SSR card markup.
+//
+// Image paths are read from the payload's PokemonImage[].imageUrl rather than
+// reconstructed: shadow forms carry the BASE form's sprite filename (Shadow
+// Zapdos -> 145-zapdos.png, not 145-zapdos-shadow.png), and evolutions /
+// Gigantamax forms carry their own real files. Reconstructing "{dex}-{slug}.png"
+// invents filenames that 403 on the CDN. We fall back to that reconstruction
+// only when the payload has no imageUrl for a slot.
+function parsePokemonFromRsc(html) {
+  const full = decodeRscPayload(html);
+  if (!full.includes('"pokemon":[')) return null;
+
+  // Converts an absolute asset URL to our relative images/pokemon/{file} path.
+  const rel = (url) => (url ? `images/pokemon/${url.split('/').pop()}` : null);
+
+  const pokemon = [];
+  let i = -1;
+  while ((i = full.indexOf('"pokemon":[', i + 1)) !== -1) {
+    for (const raw of mapPokemonArray(full, i)) {
+      const g = raw.goPokemon;
+      const name = (g.GoPokemonManualData && g.GoPokemonManualData.nameOverride)
+        || (g.GoPokemonName && g.GoPokemonName[0] && g.GoPokemonName[0].name)
+        || g.slug;
+      const types = (g.PokemonTypes || [])
+        .slice()
+        .sort((a, b) => (a.slot || 0) - (b.slot || 0))
+        .map((t) => t.type && t.type.slug)
+        .filter(Boolean);
+      const imgs = g.PokemonImage || [];
+      const normalUrl = (imgs.find((im) => !im.isShiny) || {}).imageUrl;
+      const shinyUrl = (imgs.find((im) => im.isShiny) || {}).imageUrl;
+      const constructed = `images/pokemon/${g.speciesId}-${raw.goPokemonSlug}.png`;
+      const entry = {
+        dex: g.speciesId,
+        name,
+        pokedex_slug: raw.goPokemonSlug,
+        types,
+        shiny_available: raw.canBeShiny === true,
+        image_normal: rel(normalUrl) || constructed,
+      };
+      if (entry.shiny_available) {
+        entry.image_shiny = rel(shinyUrl) || `images/pokemon/${g.speciesId}-${raw.goPokemonSlug}-shiny.png`;
+      }
+      pokemon.push(entry);
+    }
+  }
+  if (!pokemon.length) return null;
+
+  // Dedupe by (dex, pokedex_slug), the same key and duplicate situations as
+  // the DOM path (featured + full-list overlap). Silently dropped here: a
+  // species can legitimately appear in both the main and Gigantamax arrays.
+  const seen = new Set();
+  const unique = [];
+  for (const p of pokemon) {
+    const key = `${p.dex}|${p.pokedex_slug}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    unique.push(p);
+  }
+  return unique;
+}
+
 // Parses one detail page into the spec's data/backgrounds/<slug>.json shape.
 // The slug is passed in by the caller (run-all.js loops over the index; the
 // standalone entry derives it from DETAIL_URL).
@@ -140,70 +287,77 @@ function parsePage(html, slug) {
     };
   }
 
-  const pokemon = [];
-  $(POKEDEX_CARD_SELECTOR).each((_, el) => {
-    const card = $(el);
-    const pokedex_slug = (card.attr('href') || '').split('/').filter(Boolean).pop();
+  // Pokemon list: prefer the RSC flight payload, which carries the FULL list
+  // including the evolution forms hidden behind the page's "Show evolved"
+  // toggle (see parsePokemonFromRsc). Fall back to the SSR card markup (which
+  // only renders the catchable forms) when the payload yields nothing.
+  let unique = parsePokemonFromRsc(html);
+  if (!unique) {
+    const pokemon = [];
+    $(POKEDEX_CARD_SELECTOR).each((_, el) => {
+      const card = $(el);
+      const pokedex_slug = (card.attr('href') || '').split('/').filter(Boolean).pop();
 
-    // Normal sprite: the first go/pokemon img that is NOT the -shiny variant.
-    // Its filename is "{dex}-{pokedexSlug}.png" (e.g. 386-deoxys-attack.png).
-    const normalImg = card.find(POKEMON_IMG_SELECTOR)
-      .filter((_, e) => !($(e).attr('src') || '').includes('-shiny'))
-      .first();
-    const imgSrc = normalImg.attr('src') || '';
-    const imgFile = imgSrc.split('/').pop();
-    const m = /^(\d+)-(.+)\.png$/.exec(imgFile);
-    if (!m) {
-      problems.push({ slug: pokedex_slug, reason: `unparseable pokemon image "${imgSrc}"` });
-      return;
+      // Normal sprite: the first go/pokemon img that is NOT the -shiny variant.
+      // Its filename is "{dex}-{pokedexSlug}.png" (e.g. 386-deoxys-attack.png).
+      const normalImg = card.find(POKEMON_IMG_SELECTOR)
+        .filter((_, e) => !($(e).attr('src') || '').includes('-shiny'))
+        .first();
+      const imgSrc = normalImg.attr('src') || '';
+      const imgFile = imgSrc.split('/').pop();
+      const m = /^(\d+)-(.+)\.png$/.exec(imgFile);
+      if (!m) {
+        problems.push({ slug: pokedex_slug, reason: `unparseable pokemon image "${imgSrc}"` });
+        return;
+      }
+      const dex = Number(m[1]);
+      const imgSlug = m[2];
+      if (imgSlug !== pokedex_slug) {
+        problems.push({
+          slug: pokedex_slug,
+          reason: `image slug "${imgSlug}" != href slug "${pokedex_slug}"`,
+        });
+      }
+
+      const name = card.find('p').first().text().trim();
+      const types = card.find(TYPE_IMG_SELECTOR).map((_, e) => {
+        const t = /\/go\/types\/([a-z]+)\.png$/.exec($(e).attr('src') || '');
+        return t ? t[1] : null;
+      }).get().filter(Boolean);
+      const shiny_available = card.find(SHINY_MARKER_SELECTOR).length > 0;
+
+      if (!name) problems.push({ slug: pokedex_slug, reason: 'empty name' });
+      if (!types.length) problems.push({ slug: pokedex_slug, reason: 'no types found' });
+
+      const entry = {
+        dex,
+        name,
+        pokedex_slug,
+        types,
+        shiny_available,
+        image_normal: `images/pokemon/${imgFile}`,
+      };
+      if (shiny_available) {
+        entry.image_shiny = `images/pokemon/${dex}-${pokedex_slug}-shiny.png`;
+      }
+      pokemon.push(entry);
+    });
+
+    // Dedupe by (dex, pokedex_slug): dittobase repeats some pokemon across a
+    // "featured" section AND the full list (Kyurem Black/White each twice,
+    // Blanche Lapras twice, the Regis, ...). Keep the first occurrence and
+    // record each dropped duplicate so run-all.js surfaces them in its WARN log.
+    const seen = new Set();
+    unique = [];
+    for (const p of pokemon) {
+      const key = `${p.dex}|${p.pokedex_slug}`;
+      if (seen.has(key)) {
+        problems.push({ slug: key, reason: 'duplicate card dropped (featured + full-list overlap)' });
+        continue;
+      }
+      seen.add(key);
+      unique.push(p);
     }
-    const dex = Number(m[1]);
-    const imgSlug = m[2];
-    if (imgSlug !== pokedex_slug) {
-      problems.push({
-        slug: pokedex_slug,
-        reason: `image slug "${imgSlug}" != href slug "${pokedex_slug}"`,
-      });
-    }
-
-    const name = card.find('p').first().text().trim();
-    const types = card.find(TYPE_IMG_SELECTOR).map((_, e) => {
-      const t = /\/go\/types\/([a-z]+)\.png$/.exec($(e).attr('src') || '');
-      return t ? t[1] : null;
-    }).get().filter(Boolean);
-    const shiny_available = card.find(SHINY_MARKER_SELECTOR).length > 0;
-
-    if (!name) problems.push({ slug: pokedex_slug, reason: 'empty name' });
-    if (!types.length) problems.push({ slug: pokedex_slug, reason: 'no types found' });
-
-    const entry = {
-      dex,
-      name,
-      pokedex_slug,
-      types,
-      shiny_available,
-      image_normal: `images/pokemon/${imgFile}`,
-    };
-    if (shiny_available) {
-      entry.image_shiny = `images/pokemon/${dex}-${pokedex_slug}-shiny.png`;
-    }
-    pokemon.push(entry);
-  });
-
-  // Dedupe by (dex, pokedex_slug): dittobase repeats some pokemon across a
-  // "featured" section AND the full list (Kyurem Black/White each twice,
-  // Blanche Lapras twice, the Regis, ...). Keep the first occurrence and record
-  // each dropped duplicate so run-all.js surfaces them in its WARN log.
-  const seen = new Set();
-  const unique = [];
-  for (const p of pokemon) {
-    const key = `${p.dex}|${p.pokedex_slug}`;
-    if (seen.has(key)) {
-      problems.push({ slug: key, reason: 'duplicate card dropped (featured + full-list overlap)' });
-      continue;
-    }
-    seen.add(key);
-    unique.push(p);
   }
 
   // Hero image: the /go/backgrounds/ img whose filename equals {slug}.{ext}.
