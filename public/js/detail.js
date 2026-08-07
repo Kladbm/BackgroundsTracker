@@ -61,11 +61,6 @@
   const imageFor = (p) =>
     state.shinyOn && p.shiny_available && p.image_shiny ? p.image_shiny : p.image_normal;
 
-  // In shiny mode, hide pokemon that are not shiny-available for this specific
-  // background. In normal mode, show the full list.
-  const visiblePokemon = () =>
-    state.shinyOn ? state.data.pokemon.filter((p) => p.shiny_available) : state.data.pokemon;
-
   const isShadowPokemon = (p) => String(p.pokedex_slug || '').endsWith('-shadow');
 
   const buildShadowBadge = () => {
@@ -193,15 +188,13 @@
 
   const renderPokemon = () => {
     const list = $('#pokemon-list');
-    const pokemon = visiblePokemon();
-    list.replaceChildren(...pokemon.map(buildPokemonCard));
-    $('#pokemon-count').textContent = `(${pokemon.length})`;
+    list.replaceChildren(...state.data.pokemon.map(buildPokemonCard));
+    $('#pokemon-count').textContent = `(${state.data.pokemon.length})`;
   };
 
   const renderCounter = () => {
-    const pokemon = visiblePokemon();
-    const x = storage.collectedCount(state.collected, state.slug, pokemon);
-    $('#collected-count').textContent = `${x} / ${pokemon.length}`;
+    const x = storage.collectedCount(state.collected, state.slug, state.data.pokemon);
+    $('#collected-count').textContent = `${x} / ${state.data.pokemon.length}`;
   };
 
   const render = () => {
@@ -238,8 +231,7 @@
     toggle.addEventListener('change', (e) => {
       state.shinyOn = e.target.checked;
       writeShinyPreference(state.shinyOn);
-      renderPokemon();
-      renderCounter();
+      renderPokemon(); // re-picks imageFor for every card; collected marks unchanged
     });
   };
 
