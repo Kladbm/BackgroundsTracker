@@ -1,4 +1,4 @@
-background.mooo.com {
+http://background.mooo.com {
 	root * /srv
 	encode gzip zstd
 	file_server
