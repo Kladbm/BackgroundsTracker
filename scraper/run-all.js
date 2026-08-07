@@ -28,6 +28,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { fetchIndex, BASE_URL } = require('./scrape');
 const {
   fetchDetail,
   downloadDetailImages,
@@ -37,8 +38,6 @@ const {
   IMAGE_DELAY_MS,
 } = require('./detail');
 
-const INDEX_SOURCE = process.env.INDEX_SOURCE ||
-  path.join(__dirname, '..', 'docs', 'sample-index.json');
 const DATA_DIR = process.env.DATA_DIR ||
   path.join(__dirname, '..', 'public', 'data');
 const PAGE_DELAY_MS = Number(process.env.REQUEST_DELAY_MS || 500);
@@ -138,7 +137,8 @@ async function imagesOnly() {
 async function main() {
   if (IMAGES_ONLY) return imagesOnly();
 
-  const index = JSON.parse(fs.readFileSync(INDEX_SOURCE, 'utf8'));
+  console.log(`Fetching live index from ${BASE_URL} ...`);
+  const index = await fetchIndex();
   const allBackgrounds = index.backgrounds;
   const backgrounds = ONLY_SLUGS
     ? allBackgrounds.filter((b) => ONLY_SLUGS.has(b.slug))
@@ -147,6 +147,10 @@ async function main() {
 
   console.log(`Processing ${total} backgrounds` +
     (ONLY_SLUGS ? ` (ONLY_SLUGS: ${total} of ${allBackgrounds.length})` : ''));
+  if (index.problems.length) {
+    console.log(`  index parse warnings: ${index.problems.length}`);
+    for (const p of index.problems) console.log(`    WARN index ${p.slug}: ${p.reason}`);
+  }
   console.log(`  page delay   : ${PAGE_DELAY_MS}ms  (REQUEST_DELAY_MS)`);
   console.log(`  image delay  : ${IMAGE_DELAY_MS}ms  (IMAGE_DELAY_MS)`);
   console.log(`  detail JSON  -> ${DATA_DIR}/backgrounds/`);
@@ -263,7 +267,7 @@ async function main() {
   const outIndex = { updated_at: new Date().toISOString(), backgrounds: allBackgrounds };
   fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(path.join(DATA_DIR, 'index.json'), JSON.stringify(outIndex, null, 2) + '\n');
-  console.log(`\nWrote ${DATA_DIR}/index.json (${backgrounds.length} entries)`);
+  console.log(`\nWrote ${DATA_DIR}/index.json (${allBackgrounds.length} entries)`);
 }
 
 main().catch((err) => {

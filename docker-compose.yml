@@ -1,0 +1,38 @@
+services:
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile.caddy
+    container_name: dittotracker-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - public_data:/srv/data
+      - public_images:/srv/images
+
+  scraper:
+    build:
+      context: .
+      dockerfile: Dockerfile.scraper
+    container_name: dittotracker-scraper
+    profiles:
+      - manual
+    environment:
+      REQUEST_DELAY_MS: "500"
+      IMAGE_DELAY_MS: "150"
+      DATA_DIR: /app/public/data
+      IMAGES_DIR: /app/public/images
+    volumes:
+      - public_data:/app/public/data
+      - public_images:/app/public/images
+    command: ["node", "scraper/run-all.js"]
+
+volumes:
+  caddy_data:
+  caddy_config:
+  public_data:
+  public_images:

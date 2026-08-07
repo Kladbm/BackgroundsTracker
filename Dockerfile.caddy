@@ -1,0 +1,13 @@
+FROM caddy:2.10-alpine
+
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY public/ /srv/
+
+RUN mkdir -p \
+    /srv/data/backgrounds \
+    /srv/images/backgrounds \
+    /srv/images/events \
+    /srv/images/icons \
+    /srv/images/pokemon \
+    /srv/images/types
+

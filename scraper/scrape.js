@@ -95,13 +95,16 @@ function parseCards(html) {
   return { backgrounds, problems };
 }
 
-async function main() {
-  console.log(`Fetching ${BASE_URL} ...`);
-  const res = await fetch(BASE_URL, { headers: { 'User-Agent': USER_AGENT } });
+async function fetchIndex(baseUrl = BASE_URL) {
+  const res = await fetch(baseUrl, { headers: { 'User-Agent': USER_AGENT } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
   const html = await res.text();
+  return parseCards(html);
+}
 
-  const { backgrounds, problems } = parseCards(html);
+async function main() {
+  console.log(`Fetching ${BASE_URL} ...`);
+  const { backgrounds, problems } = await fetchIndex(BASE_URL);
 
   console.log(`Parsed ${backgrounds.length} background cards.`);
 
@@ -128,7 +131,18 @@ async function main() {
   console.log(`\nSaved ${backgrounds.length} entries -> ${OUTPUT_FILE}`);
 }
 
-main().catch((err) => {
-  console.error('Scrape failed:', err.message);
-  process.exit(1);
-});
+module.exports = {
+  BASE_URL,
+  USER_AGENT,
+  OUTPUT_FILE,
+  parseReleaseDate,
+  parseCards,
+  fetchIndex,
+};
+
+if (require.main === module) {
+  main().catch((err) => {
+    console.error('Scrape failed:', err.message);
+    process.exit(1);
+  });
+}

@@ -287,7 +287,7 @@
       if (!state.pokemonIndex.has(key)) {
         state.pokemonIndex.set(key, {
           name: p.name,
-          image: p.image_normal,
+          image: shinyOrNormalImage(p),
           pokedex_slug: p.pokedex_slug,
         });
       }
