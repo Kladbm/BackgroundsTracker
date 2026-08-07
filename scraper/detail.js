@@ -5,8 +5,12 @@
 // description, event {name, date_range, url, image}, and the pokemon list
 // (dex, name, pokedex_slug, types, shiny_available, image paths).
 //
-// Also downloads the background hero image, every pokemon's NORMAL image, and
-// every pokemon's SHINY image (where shiny_available) into
+// Only pokemon with shiny_available:true are kept in the final per-background
+// list. Entries without a shiny variant for that specific background are
+// filtered out before the JSON is written and before any sprite downloads run.
+//
+// Also downloads the background hero image, every kept pokemon's NORMAL image,
+// and every kept pokemon's SHINY image (where shiny_available) into
 // public/images/{backgrounds,pokemon}/, skipping files that already exist
 // locally. Shadow-form shiny sprites ({dex}-{slug}-shadow-shiny.png) usually
 // 403/404 on the asset CDN — those are logged as failures and skipped; the
@@ -412,6 +416,8 @@ function parsePage(html, slug) {
   }).first();
   const heroSrc = (heroImg.length ? heroImg : heroCandidates.first()).attr('src') || null;
 
+  const filtered = unique.filter((p) => p.shiny_available);
+
   return {
     slug,
     type: slug.split('-')[0],
@@ -419,7 +425,7 @@ function parsePage(html, slug) {
     release_date,
     description,
     event,
-    pokemon: unique,
+    pokemon: filtered,
     heroSrc,
     problems,
   };
