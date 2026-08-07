@@ -1,82 +1,85 @@
-# VPS deploy
+# GitHub Pages deploy
 
-This project is deployed as:
+This project is deployed with GitHub Actions and GitHub Pages.
 
-- `caddy`: serves the static frontend from `public/` over HTTP/HTTPS
-- `scraper`: a one-shot Node container that runs `node scraper/run-all.js`
-  and fetches the live dittobase homepage on every run to discover the
-  current background slug list
-- shared Docker volumes:
-  - `public_data` -> generated JSON (`/public/data`)
-  - `public_images` -> generated images (`/public/images`)
+The frontend is static. The scraper runs fresh in GitHub Actions, writes
+generated JSON and images into `public/data/` and `public/images/`, then the
+entire `public/` folder is uploaded as the GitHub Pages artifact.
 
-The daily scrape is intentionally scheduled from the VPS host cron, not from
-inside a long-running container. That keeps the scraper stateless and makes
-manual re-runs identical to the scheduled job.
+Generated data and images are not committed to git history. `public/data/` and
+`public/images/` stay gitignored.
 
-## Domain
+## One-time GitHub settings
 
-This repo is configured for:
+These repository settings must be enabled once:
 
-- `background.mooo.com`
+- Repository visibility: public
+- Settings -> Pages -> Build and deployment -> Source: GitHub Actions
 
-If you want a different hostname later, update `Caddyfile`.
+## Workflow
 
-## First deploy
+Workflow file:
 
-1. Clone the repo onto the VPS.
-2. Start Caddy with `docker compose up -d caddy`.
-3. Run one initial scrape with `docker compose run --rm scraper`.
-4. Install the daily cron entry:
-
-   `0 3 * * * cd /opt/dittotracker && /usr/bin/docker compose run --rm scraper >> /var/log/dittotracker-scrape.log 2>&1`
-
-## Manual scrape
-
-From the project directory on the VPS:
-
-```bash
-docker compose run --rm scraper
+```text
+.github/workflows/scrape-and-deploy.yml
 ```
+
+Triggers:
+
+- Push to `main`: redeploys immediately with a fresh scrape.
+- Manual run: Actions tab -> Scrape and deploy -> Run workflow.
+- Schedule: `0 3 * * *`, which is 03:00 UTC daily.
+
+The workflow:
+
+1. Checks out the repository.
+2. Installs scraper dependencies with Node 22.
+3. Runs `node scraper/run-all.js`.
+4. Uploads `public/` as the Pages artifact.
+5. Deploys that artifact to GitHub Pages.
+
+## Manual scrape and deploy
+
+Use the GitHub web UI:
+
+1. Open the repository on GitHub.
+2. Go to Actions.
+3. Select `Scrape and deploy`.
+4. Click `Run workflow`.
+5. Choose branch `main`.
+6. Click `Run workflow`.
 
 ## Logs
 
-Web server:
+Scraper and deploy logs are in the workflow run:
 
-```bash
-docker compose logs -f caddy
-```
-
-Manual or cron scraper run:
-
-```bash
-docker compose run --rm scraper
-tail -f /var/log/dittotracker-scrape.log
-```
+1. Open GitHub -> repository -> Actions.
+2. Select `Scrape and deploy`.
+3. Open the latest run.
+4. Open the `scrape-and-deploy` job.
+5. Expand `Run scraper` for scraper output.
+6. Expand `Deploy to GitHub Pages` for the final Pages URL.
 
 ## Verification
 
-HTTP:
+After a successful run, the site should be available at:
 
-```bash
-curl -I http://background.mooo.com
+```text
+https://kladbm.github.io/BackgroundsTracker/
 ```
 
-HTTPS:
+Check generated files in the deployed site:
 
-```bash
-curl -I https://background.mooo.com
+```text
+https://kladbm.github.io/BackgroundsTracker/data/index.json
+https://kladbm.github.io/BackgroundsTracker/images/icons/shadow.png
 ```
 
-Generated data:
+A successful run shows:
 
-```bash
-curl -I https://background.mooo.com/data/index.json
-curl -I https://background.mooo.com/images/icons/shadow.png
-```
+- green checkmark on the workflow run
+- `Run scraper` completed without a non-zero exit
+- `Upload Pages artifact` completed
+- `Deploy to GitHub Pages` completed
+- deployment URL shown in the job summary
 
-Certificate details:
-
-```bash
-echo | openssl s_client -connect background.mooo.com:443 -servername background.mooo.com 2>/dev/null | openssl x509 -noout -issuer -subject -dates
-```
