@@ -37,6 +37,11 @@ const {
   IMAGES_DIR,
   IMAGE_DELAY_MS,
 } = require('./detail');
+const {
+  loadOverrides,
+  applyOverrides,
+  copyCustomImages,
+} = require('./overrides');
 
 const DATA_DIR = process.env.DATA_DIR ||
   path.join(__dirname, '..', 'public', 'data');
@@ -106,9 +111,11 @@ async function imagesOnly() {
     console.log(`static icon: icons/shadow.png fail - ${err.message}`);
   }
 
+  const detailsBySlug = new Map();
   for (let i = 0; i < total; i++) {
     const slug = slugs[i];
     const data = JSON.parse(fs.readFileSync(path.join(bgDir, `${slug}.json`), 'utf8'));
+    detailsBySlug.set(slug, data);
     const { downloaded, skipped, failed } = await downloadDetailImages(data);
     totalDownloaded += downloaded.length;
     totalSkipped += skipped.length;
@@ -119,10 +126,17 @@ async function imagesOnly() {
     );
   }
 
+  const overrides = loadOverrides();
+  const customImages = copyCustomImages(detailsBySlug, IMAGES_DIR, overrides);
+  totalDownloaded += customImages.copied.length;
+  totalSkipped += customImages.skipped.length;
+
   console.log('');
   console.log('='.repeat(64));
   console.log(`Files downloaded:       ${totalDownloaded}  (${fmtBytes(totalBytes)})`);
   console.log(`Files already cached:   ${totalSkipped}`);
+  console.log(`Custom images copied:   ${customImages.copied.length}`);
+  console.log(`Custom images missing:  ${customImages.missing.length}`);
   console.log(`Files failed:           ${failures.length}`);
   if (failures.length) {
     const unique = [...new Set(failures.map((f) => f.split(': ')[1]))];
@@ -158,6 +172,7 @@ async function main() {
   console.log('');
 
   const results = [];
+  const detailsBySlug = new Map();
   let totalDownloaded = 0;
   let totalSkipped = 0;
   let totalBytes = 0;
@@ -201,17 +216,7 @@ async function main() {
       for (const d of downloaded) totalBytes += d.size;
       for (const f of failed) console.log(`    image fail: ${f}`);
 
-      const outDir = path.join(DATA_DIR, 'backgrounds');
-      fs.mkdirSync(outDir, { recursive: true });
-      const { heroSrc, ...clean } = data;
-      // imageSrc is download-time only (see scraper/detail.js) — the saved
-      // schema keeps the local images/events/{slug}.jpg path, matching how
-      // heroSrc is dropped above.
-      if (clean.event) delete clean.event.imageSrc;
-      fs.writeFileSync(
-        path.join(outDir, `${slug}.json`),
-        JSON.stringify({ ...clean, problems: undefined }, null, 2) + '\n'
-      );
+      detailsBySlug.set(slug, data);
 
       results.push({
         slug,
@@ -262,6 +267,35 @@ async function main() {
     console.log('POKEMON-COUNT MISMATCHES (index vs parsed):');
     for (const r of withCountMismatch) console.log(`  - ${r.slug}: ${r.pokemon}`);
   }
+
+  const overrides = loadOverrides();
+  applyOverrides(allBackgrounds, detailsBySlug, overrides);
+  const customImages = copyCustomImages(detailsBySlug, IMAGES_DIR, overrides);
+
+  const outDir = path.join(DATA_DIR, 'backgrounds');
+  fs.mkdirSync(outDir, { recursive: true });
+  if (!ONLY_SLUGS) {
+    for (const file of fs.readdirSync(outDir)) {
+      if (!file.endsWith('.json')) continue;
+      const slug = file.replace(/\.json$/, '');
+      if (!detailsBySlug.has(slug)) fs.unlinkSync(path.join(outDir, file));
+    }
+  }
+  for (const [slug, data] of detailsBySlug) {
+    const { heroSrc, ...clean } = data;
+    // imageSrc is download-time only (see scraper/detail.js) - the saved
+    // schema keeps the local images/events/{slug}.jpg path, matching how
+    // heroSrc is dropped above.
+    if (clean.event) delete clean.event.imageSrc;
+    fs.writeFileSync(
+      path.join(outDir, `${slug}.json`),
+      JSON.stringify({ ...clean, problems: undefined }, null, 2) + '\n'
+    );
+  }
+  console.log(`Custom images copied:       ${customImages.copied.length}`);
+  console.log(`Custom images skipped:      ${customImages.skipped.length}`);
+  console.log(`Custom images missing:      ${customImages.missing.length}`);
+  console.log(`Wrote ${detailsBySlug.size} background JSON file(s)`);
 
   // ---- index -> final location ----
   const outIndex = { updated_at: new Date().toISOString(), backgrounds: allBackgrounds };
