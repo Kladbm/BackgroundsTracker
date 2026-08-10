@@ -79,8 +79,16 @@
     const res = await fetch(`${POKEAPI_BASE}${encodeURIComponent(dex)}`);
     if (!res.ok) throw new Error(`PokeAPI returned HTTP ${res.status} for dex ${dex}`);
     const data = await res.json();
+    let nationalDex = data.id;
+    if (data.species && data.species.url) {
+      const speciesRes = await fetch(data.species.url);
+      if (speciesRes.ok) {
+        const species = await speciesRes.json();
+        if (Number.isFinite(species.id)) nationalDex = species.id;
+      }
+    }
     return {
-      dex: data.id,
+      dex: nationalDex,
       name: displayPokemonName(data.name),
       pokedex_slug: data.name,
       types: (data.types || []).sort((a, b) => a.slot - b.slot).map((entry) => entry.type.name),
