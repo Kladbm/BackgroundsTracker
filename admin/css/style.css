@@ -5,6 +5,11 @@
   display: none;
 }
 
+#grid[hidden],
+#detail[hidden] {
+  display: none !important;
+}
+
 .admin-grid-head {
   display: block;
 }
@@ -167,4 +172,129 @@
 
 #pending-list:empty {
   display: none;
+}
+
+
+.admin-custom-head[hidden],
+#custom-detail[hidden] {
+  display: none !important;
+}
+
+.admin-form-panel {
+  max-width: 1120px;
+  margin: 16px auto;
+  padding: 0 20px;
+}
+
+.admin-inline-fields,
+.admin-two-column-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+
+.admin-two-column-fields {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-inline-fields .dropdown-trigger {
+  height: 40px;
+  justify-content: center;
+}
+
+.admin-status {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.admin-status.error {
+  color: #ff9a9a;
+}
+
+.admin-status.ok {
+  color: var(--accent);
+}
+
+.admin-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.admin-preview[hidden] {
+  display: none;
+}
+
+.preview-tile {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-width: min(100%, 280px);
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+}
+
+.preview-tile img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: var(--active);
+}
+
+.preview-tile strong,
+.preview-tile span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-tile span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.admin-manual-upload {
+  margin-top: 10px;
+}
+
+.admin-staged-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.admin-staged-list:empty::before {
+  content: 'No Pokemon staged for this custom background.';
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.staged-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--text);
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .admin-inline-fields,
+  .admin-two-column-fields {
+    grid-template-columns: 1fr;
+  }
 }

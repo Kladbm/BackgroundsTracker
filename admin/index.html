@@ -40,6 +40,8 @@
             <button type="button" data-type="All" class="active" aria-pressed="true">All</button>
           </div>
         </details>
+
+        <button id="new-custom-background" class="dropdown-trigger" type="button">Add custom background</button>
       </div>
       <div class="count-row">
         <span id="count-label" role="status">Loading live data...</span>
@@ -49,6 +51,14 @@
     <div class="detail-head admin-detail-head" hidden>
       <h1 id="page-title">Loading...</h1>
       <button class="back-link" id="back-to-grid" type="button">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Back to all backgrounds</span>
+      </button>
+    </div>
+
+    <div class="detail-head admin-custom-head" hidden>
+      <h1>Add custom background</h1>
+      <button class="back-link" id="custom-back-to-grid" type="button">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
         <span>Back to all backgrounds</span>
       </button>
@@ -84,6 +94,25 @@
       </div>
     </section>
 
+    <section class="admin-form-panel" id="detail-add-pokemon-panel">
+      <div class="admin-edit-head">
+        <h2 class="section-title">Add Pokemon</h2>
+      </div>
+      <div class="admin-inline-fields">
+        <label class="admin-field" for="detail-add-dex">
+          <span>Dex number</span>
+          <input id="detail-add-dex" type="number" min="1" inputmode="numeric" autocomplete="off">
+        </label>
+        <button id="detail-add-stage" class="dropdown-trigger" type="button" disabled>Stage addition</button>
+      </div>
+      <p id="detail-add-status" class="admin-status">Enter a dex number, then press Enter or leave the field.</p>
+      <div id="detail-add-preview" class="admin-preview" hidden></div>
+      <label class="admin-field admin-manual-upload" id="detail-add-upload-wrap" for="detail-add-upload" hidden>
+        <span>Manual sprite upload</span>
+        <input id="detail-add-upload" type="file" accept="image/*">
+      </label>
+    </section>
+
     <div class="section-head">
       <h2 class="section-title">Pokemon <span id="pokemon-count"></span></h2>
     </div>
@@ -94,6 +123,59 @@
         <h2 class="section-title">Excluded Pokemon <span id="excluded-count"></span></h2>
       </div>
       <div id="excluded-list" class="admin-excluded-list"></div>
+    </section>
+  </main>
+
+  <main id="custom-detail" hidden>
+    <section class="admin-form-panel">
+      <div class="admin-edit-head">
+        <h2 class="section-title">Background details</h2>
+        <span id="custom-slug-status" class="count-pill">Slug pending</span>
+      </div>
+      <div class="admin-two-column-fields">
+        <label class="admin-field" for="custom-title">
+          <span>Title</span>
+          <input id="custom-title" type="text" autocomplete="off">
+        </label>
+        <label class="admin-field" for="custom-release-date">
+          <span>Release date</span>
+          <input id="custom-release-date" type="date">
+        </label>
+      </div>
+      <label class="admin-field" for="custom-slug">
+        <span>Slug</span>
+        <input id="custom-slug" type="text" autocomplete="off">
+      </label>
+      <label class="admin-field" for="custom-description">
+        <span>Description</span>
+        <textarea id="custom-description" rows="5"></textarea>
+      </label>
+      <label class="admin-field" for="custom-hero-upload">
+        <span>Hero image</span>
+        <input id="custom-hero-upload" type="file" accept="image/*">
+      </label>
+      <div id="custom-hero-preview" class="admin-preview" hidden></div>
+    </section>
+
+    <section class="admin-form-panel" id="custom-add-pokemon-panel">
+      <div class="admin-edit-head">
+        <h2 class="section-title">Custom background Pokemon</h2>
+        <button id="custom-stage-background" class="dropdown-trigger" type="button">Stage custom background</button>
+      </div>
+      <div class="admin-inline-fields">
+        <label class="admin-field" for="custom-add-dex">
+          <span>Dex number</span>
+          <input id="custom-add-dex" type="number" min="1" inputmode="numeric" autocomplete="off">
+        </label>
+        <button id="custom-add-stage" class="dropdown-trigger" type="button" disabled>Add to custom list</button>
+      </div>
+      <p id="custom-add-status" class="admin-status">Enter a dex number, then press Enter or leave the field.</p>
+      <div id="custom-add-preview" class="admin-preview" hidden></div>
+      <label class="admin-field admin-manual-upload" id="custom-add-upload-wrap" for="custom-add-upload" hidden>
+        <span>Manual sprite upload</span>
+        <input id="custom-add-upload" type="file" accept="image/*">
+      </label>
+      <div id="custom-pokemon-list" class="admin-staged-list"></div>
     </section>
   </main>
 
