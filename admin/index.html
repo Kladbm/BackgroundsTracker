@@ -181,9 +181,12 @@
   </main>
 
   <aside id="pending-panel" class="pending-panel" aria-live="polite">
-    <button id="pending-toggle" class="pending-toggle" type="button" aria-expanded="true">
-      <strong>Pending changes</strong>
-      <span id="pending-dot" class="pending-dot" hidden></span>
+    <button id="pending-toggle" class="pending-toggle" type="button" aria-expanded="true" title="Collapse pending changes">
+      <span class="pending-toggle-label">
+        <strong>Pending changes</strong>
+        <span id="pending-dot" class="pending-dot" hidden></span>
+      </span>
+      <svg class="icon pending-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
     </button>
     <div id="pending-body">
       <span id="pending-summary">No pending changes</span>

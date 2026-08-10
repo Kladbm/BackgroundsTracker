@@ -1,4 +1,4 @@
-@import url("../../public/css/style.css?v=20260806-controls-match-dropdowns");
+﻿@import url("../../public/css/style.css?v=20260806-controls-match-dropdowns");
 
 .admin-detail-head[hidden],
 .admin-grid-head[hidden] {
@@ -101,9 +101,11 @@
 }
 
 .admin-excluded-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 10px;
+  max-width: 1120px;
+  margin: 0 auto;
   padding: 0 20px;
 }
 
@@ -111,22 +113,6 @@
   content: 'No excluded Pokemon for this background.';
   color: var(--muted);
   font-size: 13px;
-}
-
-.excluded-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 36px;
-  padding: 4px 4px 4px 10px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--panel);
-}
-
-.excluded-item span {
-  font-size: 12px;
-  color: var(--text);
 }
 
 .pending-panel {
@@ -290,7 +276,7 @@
   cursor: default;
 }
 
-.admin-remove-pokemon {
+.admin-pokemon-action {
   position: absolute;
   top: 5px;
   right: 5px;
@@ -311,12 +297,12 @@
   cursor: pointer;
 }
 
-.admin-remove-pokemon:hover:not(:disabled) {
+.admin-pokemon-action:hover:not(:disabled) {
   border-color: #ff9a9a;
   color: #ff9a9a;
 }
 
-.admin-remove-pokemon:disabled {
+.admin-pokemon-action:disabled {
   color: var(--muted);
   cursor: default;
 }
@@ -349,9 +335,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  width: 100%;
-  padding: 0;
+  width: calc(100% + 12px);
+  margin: -6px -6px 4px;
+  padding: 6px;
   border: 0;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text);
   font: inherit;
@@ -359,8 +347,25 @@
   cursor: pointer;
 }
 
+.pending-toggle:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .pending-toggle strong {
   margin-bottom: 0;
+}
+
+.pending-toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pending-chevron {
+  display: block;
+  flex: 0 0 auto;
+  transform-origin: center;
+  transition: transform 140ms ease;
 }
 
 .pending-dot {
@@ -378,4 +383,9 @@
 
 .pending-panel.collapsed #pending-body {
   display: none;
+}
+
+.pending-panel.collapsed .pending-chevron,
+.pending-toggle[aria-expanded="false"] .pending-chevron {
+  transform: rotate(-90deg);
 }

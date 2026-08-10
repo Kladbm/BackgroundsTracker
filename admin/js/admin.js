@@ -369,10 +369,30 @@
     return badge;
   };
 
-  const buildPokemonCard = (p) => {
-    const staged = effectiveExcludedSlugs(state.activeSlug).has(p.pokedex_slug);
+  const buildActionIcon = (kind) => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "icon");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("stroke", "currentColor");
+    svg.setAttribute("stroke-width", "2");
+    svg.setAttribute("stroke-linecap", "round");
+    svg.setAttribute("stroke-linejoin", "round");
+    svg.setAttribute("aria-hidden", "true");
+    const paths = kind === "restore"
+      ? ["M3 7v6h6", "M21 17a9 9 0 0 0-15-6.7L3 13"]
+      : ["M3 6h18", "M8 6V4h8v2", "M19 6l-1 14H6L5 6", "M10 11v6", "M14 11v6"];
+    for (const d of paths) {
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d);
+      svg.appendChild(path);
+    }
+    return svg;
+  };
+
+  const buildPokemonCard = (p, action = "exclude") => {
     const card = document.createElement("div");
-    card.className = "pokemon-card admin-pokemon-card" + (staged ? " staged-excluded" : "");
+    card.className = "pokemon-card admin-pokemon-card";
     card.dataset.pokedexSlug = p.pokedex_slug;
     card.title = p.name;
 
@@ -412,51 +432,49 @@
     meta.className = "p-meta";
     meta.append(dex, buildTypeIcons(p.types));
 
-    const remove = document.createElement("button");
-    remove.type = "button";
-    remove.className = "admin-remove-pokemon";
-    remove.dataset.action = "exclude";
-    remove.dataset.pokedexSlug = p.pokedex_slug;
-    remove.textContent = staged ? "✓" : "×";
-    remove.title = staged ? "Staged for removal" : "Remove " + p.name;
-    remove.setAttribute("aria-label", remove.title);
-    remove.disabled = staged;
+    const actionBtn = document.createElement("button");
+    actionBtn.type = "button";
+    actionBtn.className = "admin-pokemon-action";
+    actionBtn.dataset.action = action;
+    actionBtn.dataset.pokedexSlug = p.pokedex_slug;
+    const label = action === "restore" ? "Restore " + p.name : "Remove " + p.name;
+    actionBtn.title = label;
+    actionBtn.setAttribute("aria-label", label);
+    actionBtn.appendChild(buildActionIcon(action));
 
-    card.append(check, imgWrap, name, meta, remove);
+    card.append(check, imgWrap, name, meta, actionBtn);
     return card;
   };
 
-  const buildExcludedItem = (pokedexSlug) => {
-    const item = document.createElement("div");
-    item.className = "excluded-item";
-
-    const label = document.createElement("span");
-    label.textContent = pokemonNameForSlug(state.activeSlug, pokedexSlug);
-
-    const restore = document.createElement("button");
-    restore.type = "button";
-    restore.className = "dropdown-trigger";
-    restore.dataset.action = "restore";
-    restore.dataset.pokedexSlug = pokedexSlug;
-    restore.textContent = "Restore";
-
-    item.append(label, restore);
-    return item;
+  const pokemonBySlugForActive = () => {
+    const data = state.detailBySlug.get(state.activeSlug);
+    const map = new Map();
+    if (data && typeof data.then !== "function") {
+      for (const p of data.pokemon || []) map.set(p.pokedex_slug, p);
+    }
+    return map;
   };
 
   const renderPokemonForActive = () => {
     if (!state.activeSlug) return;
     const data = state.detailBySlug.get(state.activeSlug);
     if (!data || typeof data.then === "function") return;
-    const pokemon = Array.isArray(data.pokemon) ? data.pokemon : [];
-    $("#pokemon-list").replaceChildren(...pokemon.map(buildPokemonCard));
+    const excluded = effectiveExcludedSlugs(state.activeSlug);
+    const pokemon = Array.isArray(data.pokemon) ? data.pokemon.filter((p) => !excluded.has(p.pokedex_slug)) : [];
+    $("#pokemon-count").textContent = "(" + pokemon.length + ")";
+    $("#pokemon-list").replaceChildren(...pokemon.map((p) => buildPokemonCard(p, "exclude")));
   };
 
   const renderExcludedForActive = () => {
     if (!state.activeSlug) return;
     const excluded = [...effectiveExcludedSlugs(state.activeSlug)];
-    $("#excluded-count").textContent = `(${excluded.length})`;
-    $("#excluded-list").replaceChildren(...excluded.map(buildExcludedItem));
+    const pokemonBySlug = pokemonBySlugForActive();
+    const cards = excluded
+      .map((pokedexSlug) => pokemonBySlug.get(pokedexSlug))
+      .filter(Boolean)
+      .map((p) => buildPokemonCard(p, "restore"));
+    $("#excluded-count").textContent = "(" + excluded.length + ")";
+    $("#excluded-list").replaceChildren(...cards);
   };
 
 
@@ -471,7 +489,7 @@
     const tile = document.createElement("div");
     tile.className = "preview-tile";
     const img = document.createElement("img");
-    img.src = draft.preview_normal || draft.image_normal || "";
+    img.src = draft.shiny_available && draft.image_shiny ? draft.image_shiny : draft.preview_normal || draft.image_normal || "";
     img.alt = draft.name;
     const text = document.createElement("span");
     const strong = document.createElement("strong");
@@ -718,6 +736,7 @@
     $("#pending-dot").hidden = !hasPending || !state.pendingCollapsed;
     $("#pending-panel").classList.toggle("collapsed", state.pendingCollapsed);
     $("#pending-toggle").setAttribute("aria-expanded", String(!state.pendingCollapsed));
+    $("#pending-toggle").title = state.pendingCollapsed ? "Expand pending changes" : "Collapse pending changes";
 
     const items = [];
     for (const slug of patchSlugs) items.push(li("Patch: " + slug));
