@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Browse - Pokemon GO Backgrounds Tracker</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Crect%20width='16'%20height='16'%20rx='3'%20fill='%23f4a4f8'/%3E%3Ctext%20x='8'%20y='12'%20font-size='10'%20text-anchor='middle'%20fill='%23161618'%20font-family='sans-serif'%20font-weight='bold'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container admin-grid-head">
+      <h1>Pokemon GO Backgrounds Admin</h1>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search backgrounds..." autocomplete="off" aria-label="Search backgrounds">
+
+        <details class="dropdown" id="sort-controls">
+          <summary class="dropdown-trigger" aria-haspopup="menu">
+            <span class="dropdown-label" id="sort-label">Newest</span>
+            <svg class="icon chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="dropdown-menu" role="menu">
+            <button type="button" data-sort="newest" class="active" aria-pressed="true">Newest</button>
+            <button type="button" data-sort="oldest" aria-pressed="false">Oldest</button>
+            <button type="button" data-sort="az" aria-pressed="false">A to Z</button>
+            <button type="button" data-sort="za" aria-pressed="false">Z to A</button>
+          </div>
+        </details>
+
+        <details class="dropdown" id="type-controls">
+          <summary class="dropdown-trigger" aria-haspopup="menu">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+            <span class="dropdown-label" id="type-label">All</span>
+            <svg class="icon chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <div class="dropdown-menu" role="menu">
+            <button type="button" data-type="All" class="active" aria-pressed="true">All</button>
+          </div>
+        </details>
+      </div>
+      <div class="count-row">
+        <span id="count-label" role="status">Loading live data...</span>
+      </div>
+    </div>
+
+    <div class="detail-head admin-detail-head" hidden>
+      <h1 id="page-title">Loading...</h1>
+      <button class="back-link" id="back-to-grid" type="button">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        <span>Back to all backgrounds</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="grid" class="grid-view" aria-live="polite"></main>
+
+  <main id="detail" hidden>
+    <section class="hero">
+      <img id="hero-img" alt="">
+      <div class="hero-meta">
+        <p id="meta-date"></p>
+        <p id="description" hidden></p>
+        <a id="event" href="#" target="_blank" rel="noopener" hidden>
+          <img class="event-thumb" id="event-thumb" alt="" hidden>
+          <strong id="event-name"></strong>
+          <span id="event-dates"></span>
+        </a>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <h2 class="section-title">Pokemon <span id="pokemon-count"></span></h2>
+    </div>
+    <div id="pokemon-list" class="pokemon-grid"></div>
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

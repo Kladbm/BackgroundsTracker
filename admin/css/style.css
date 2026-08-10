@@ -1,0 +1,40 @@
+@import url("../../public/css/style.css?v=20260806-controls-match-dropdowns");
+
+.admin-detail-head[hidden],
+.admin-grid-head[hidden] {
+  display: none;
+}
+
+.admin-grid-head {
+  display: block;
+}
+
+.admin-detail-head {
+  padding-block: 0;
+}
+
+.back-link {
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.admin-empty {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 20px;
+  color: var(--muted);
+}
+
+.pokemon-card {
+  cursor: default;
+}
+
+.pokemon-card:hover {
+  opacity: 0.75;
+}
