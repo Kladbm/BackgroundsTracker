@@ -20,6 +20,7 @@
 
 (() => {
   const UI_PREFS_KEY = 'gridPreferences';
+  const PAGE_STATE_KEY = 'gridPageState';
   const state = {
     backgrounds: [],      // raw entries from index.json
     collected: {},        // parsed localStorage 'collected'
@@ -32,7 +33,7 @@
     pokemonIndex: new Map(), // lowercased name -> { name, image } (from detail JSONs)
     detailRequests: new Map(),
     view: 'grid',
-    pokemonColumns: 20,
+    pokemonColumns: 5,
     pokemonScope: 'all',
   };
 
@@ -54,12 +55,41 @@
     const prefs = {
       sort: state.sort,
       type: state.type,
+      view: state.view,
       pokemonScope: state.pokemonScope,
       pokemonColumns: state.pokemonColumns,
     };
     try {
       localStorage.setItem(UI_PREFS_KEY, JSON.stringify(prefs));
     } catch {}
+  };
+
+  const readPageState = () => {
+    try {
+      const raw = sessionStorage.getItem(PAGE_STATE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  };
+
+  const writePageState = () => {
+    try {
+      sessionStorage.setItem(PAGE_STATE_KEY, JSON.stringify({
+        scrollY: window.scrollY || window.pageYOffset || 0,
+      }));
+    } catch {}
+  };
+
+  const restoreScrollPosition = () => {
+    const pageState = readPageState();
+    const y = Number(pageState.scrollY);
+    if (!Number.isFinite(y) || y <= 0) return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, y);
+      });
+    });
   };
 
   const fmtDate = (iso) => {
@@ -332,7 +362,7 @@
   };
 
   const updatePokemonColumns = (value) => {
-    const columns = Math.max(15, Math.min(30, Number(value) || 30));
+    const columns = Math.max(5, Math.min(30, Number(value) || 5));
     state.pokemonColumns = columns;
     const grid = $('#grid');
     if (grid) grid.style.setProperty('--pokemon-columns', String(columns));
@@ -627,6 +657,14 @@
     measureDropdownTrigger('#pokemon-scope-controls');
   };
 
+  const applyViewState = () => {
+    const grid = $('#grid');
+    if (!grid) return;
+    grid.classList.toggle('grid-view', state.view === 'grid');
+    grid.classList.toggle('list-view', state.view === 'list');
+    grid.classList.toggle('pokemon-view', state.view === 'pokemon');
+  };
+
   const setDetailsDisabled = (controlsSel, disabled) => {
     const controls = $(controlsSel);
     if (!controls) return;
@@ -671,6 +709,13 @@
       $('#type-label').textContent = typeBtn.textContent;
     }
 
+    const viewBtn = $(`#view-controls button[data-view="${state.view}"]`) ||
+      $('#view-controls button[data-view="grid"]');
+    if (viewBtn) {
+      state.view = viewBtn.dataset.view;
+      setActive('#view-controls', viewBtn);
+    }
+
     const scopeBtn = $(`#pokemon-scope-controls .dropdown-menu button[data-scope="${state.pokemonScope}"]`) ||
       $('#pokemon-scope-controls .dropdown-menu button[data-scope="all"]');
     if (scopeBtn) {
@@ -697,9 +742,12 @@
     if (prefs.pokemonScope === 'all' || prefs.pokemonScope === 'owned') {
       state.pokemonScope = prefs.pokemonScope;
     }
+    if (prefs.view === 'grid' || prefs.view === 'list' || prefs.view === 'pokemon') {
+      state.view = prefs.view;
+    }
     const cols = Number(prefs.pokemonColumns);
     if (Number.isFinite(cols)) {
-      state.pokemonColumns = Math.max(15, Math.min(30, cols));
+      state.pokemonColumns = Math.max(5, Math.min(30, cols));
     }
     syncUiControls();
   };
@@ -886,11 +934,9 @@
       if (!btn || !btn.dataset.view) return;
       state.view = btn.dataset.view;
       setActive('#view-controls', btn);
-      const grid = $('#grid');
-      grid.classList.toggle('grid-view', state.view === 'grid');
-      grid.classList.toggle('list-view', state.view === 'list');
-      grid.classList.toggle('pokemon-view', state.view === 'pokemon');
+      applyViewState();
       updatePokemonViewControls();
+      writeUiPrefs();
       render();
     });
 
@@ -928,8 +974,13 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureDropdownTriggers);
     wireControls();
     wirePkmSearch();
+    window.addEventListener('scroll', writePageState, { passive: true });
+    window.addEventListener('pagehide', writePageState);
+    window.addEventListener('pageshow', restoreScrollPosition);
+    applyViewState();
     updatePokemonViewControls();
     render();
+    restoreScrollPosition();
     loadDetails();
   };
 
