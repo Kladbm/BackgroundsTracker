@@ -40,10 +40,6 @@
   cursor: default;
 }
 
-.pokemon-card:hover {
-  opacity: 0.75;
-}
-
 
 .admin-edit-panel {
   display: flex;
@@ -88,11 +84,6 @@
 .admin-field textarea {
   min-height: 118px;
   resize: vertical;
-}
-
-.pokemon-card .dropdown-trigger {
-  margin-top: auto;
-  height: 30px;
 }
 
 .pokemon-card.staged-excluded {
@@ -262,10 +253,6 @@
   font-size: 12px;
 }
 
-.admin-manual-upload {
-  margin-top: 10px;
-}
-
 .admin-staged-list {
   display: flex;
   flex-wrap: wrap;
@@ -297,4 +284,98 @@
   .admin-two-column-fields {
     grid-template-columns: 1fr;
   }
+}
+
+.admin-pokemon-card {
+  cursor: default;
+}
+
+.admin-remove-pokemon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: rgba(22, 24, 26, 0.86);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.admin-remove-pokemon:hover:not(:disabled) {
+  border-color: #ff9a9a;
+  color: #ff9a9a;
+}
+
+.admin-remove-pokemon:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.admin-variety-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.admin-variety-list[hidden] {
+  display: none;
+}
+
+.admin-variety-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-variety-list .dropdown-trigger.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.pending-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pending-toggle strong {
+  margin-bottom: 0;
+}
+
+.pending-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff9a9a;
+  box-shadow: 0 0 0 3px rgba(255, 116, 116, 0.16);
+}
+
+.pending-panel.collapsed {
+  width: auto;
+  padding: 10px 12px;
+}
+
+.pending-panel.collapsed #pending-body {
+  display: none;
 }

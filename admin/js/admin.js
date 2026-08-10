@@ -24,6 +24,8 @@
     sort: "newest",
     search: "",
     activeSlug: null,
+    shinyOn: true,
+    pendingCollapsed: false,
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -75,25 +77,44 @@
     reader.readAsDataURL(file);
   });
 
-  const pokemonFromPokeApi = async (dex) => {
-    const res = await fetch(`${POKEAPI_BASE}${encodeURIComponent(dex)}`);
-    if (!res.ok) throw new Error(`PokeAPI returned HTTP ${res.status} for dex ${dex}`);
+  const pokemonDraftFromApiData = (data, nationalDex) => ({
+    dex: nationalDex,
+    name: displayPokemonName(data.name),
+    pokedex_slug: data.name,
+    types: (data.types || []).sort((a, b) => a.slot - b.slot).map((entry) => entry.type.name),
+    shiny_available: false,
+  });
+
+  const pokemonChoicesFromPokeApi = async (dex) => {
+    const res = await fetch(POKEAPI_BASE + encodeURIComponent(dex));
+    if (!res.ok) throw new Error("PokeAPI returned HTTP " + res.status + " for dex " + dex);
     const data = await res.json();
-    let nationalDex = data.id;
-    if (data.species && data.species.url) {
-      const speciesRes = await fetch(data.species.url);
-      if (speciesRes.ok) {
-        const species = await speciesRes.json();
-        if (Number.isFinite(species.id)) nationalDex = species.id;
-      }
-    }
-    return {
-      dex: nationalDex,
-      name: displayPokemonName(data.name),
-      pokedex_slug: data.name,
-      types: (data.types || []).sort((a, b) => a.slot - b.slot).map((entry) => entry.type.name),
-      shiny_available: false,
-    };
+    if (!data.species || !data.species.url) throw new Error("PokeAPI response for " + dex + " did not include a species resource.");
+
+    const speciesRes = await fetch(data.species.url);
+    if (!speciesRes.ok) throw new Error("PokeAPI returned HTTP " + speciesRes.status + " for " + data.species.url);
+    const species = await speciesRes.json();
+    const nationalDex = Number.isFinite(species.id) ? species.id : data.id;
+    const varieties = Array.isArray(species.varieties) && species.varieties.length
+      ? species.varieties
+      : [{ pokemon: { name: data.name, url: POKEAPI_BASE + data.name } }];
+
+    const fetched = await Promise.all(varieties.map(async (entry) => {
+      if (entry.pokemon && entry.pokemon.name === data.name) return data;
+      const varietyRes = await fetch(entry.pokemon.url);
+      if (!varietyRes.ok) return null;
+      return varietyRes.json();
+    }));
+
+    const choices = fetched
+      .filter(Boolean)
+      .map((entry) => pokemonDraftFromApiData(entry, nationalDex));
+    choices.sort((a, b) => {
+      if (a.pokedex_slug === data.name) return -1;
+      if (b.pokedex_slug === data.name) return 1;
+      return a.pokedex_slug.localeCompare(b.pokedex_slug);
+    });
+    return choices;
   };
 
   const additionForOverrides = (draft) => ({
@@ -333,20 +354,51 @@
     return wrap;
   };
 
+  const imageFor = (p) =>
+    state.shinyOn && p.shiny_available && p.image_shiny ? resolveAsset(p.image_shiny) : resolveAsset(p.image_normal);
+
+  const isShadowPokemon = (p) => String(p.pokedex_slug || "").endsWith("-shadow");
+
+  const buildShadowBadge = () => {
+    const badge = document.createElement("img");
+    badge.className = "shadow-badge";
+    badge.src = resolveAsset("images/icons/shadow.png");
+    badge.alt = "";
+    badge.loading = "lazy";
+    badge.setAttribute("aria-hidden", "true");
+    return badge;
+  };
+
   const buildPokemonCard = (p) => {
+    const staged = effectiveExcludedSlugs(state.activeSlug).has(p.pokedex_slug);
     const card = document.createElement("div");
-    card.className = "pokemon-card";
+    card.className = "pokemon-card admin-pokemon-card" + (staged ? " staged-excluded" : "");
     card.dataset.pokedexSlug = p.pokedex_slug;
-    if (effectiveExcludedSlugs(state.activeSlug).has(p.pokedex_slug)) card.classList.add("staged-excluded");
+    card.title = p.name;
+
+    const check = document.createElement("span");
+    check.className = "p-check";
+    check.textContent = "";
+    check.setAttribute("aria-hidden", "true");
+
+    const img = document.createElement("img");
+    img.className = "p-img";
+    img.src = imageFor(p);
+    img.alt = p.name;
+    img.loading = "lazy";
+    img.addEventListener("error", () => {
+      if (img.dataset.fallback === "1") return;
+      const normalHref = new URL(resolveAsset(p.image_normal), location.href).href;
+      if (img.src !== normalHref) {
+        img.dataset.fallback = "1";
+        img.src = resolveAsset(p.image_normal);
+      }
+    });
 
     const imgWrap = document.createElement("span");
     imgWrap.className = "p-img-wrap";
-    const img = document.createElement("img");
-    img.className = "p-img";
-    img.src = resolveAsset(p.image_normal);
-    img.alt = p.name;
-    img.loading = "lazy";
     imgWrap.appendChild(img);
+    if (isShadowPokemon(p)) imgWrap.appendChild(buildShadowBadge());
 
     const name = document.createElement("span");
     name.className = "p-name";
@@ -362,17 +414,15 @@
 
     const remove = document.createElement("button");
     remove.type = "button";
-    remove.className = "dropdown-trigger";
+    remove.className = "admin-remove-pokemon";
     remove.dataset.action = "exclude";
     remove.dataset.pokedexSlug = p.pokedex_slug;
-    if (effectiveExcludedSlugs(state.activeSlug).has(p.pokedex_slug)) {
-      remove.textContent = "Staged";
-      remove.disabled = true;
-    } else {
-      remove.textContent = "Remove";
-    }
+    remove.textContent = staged ? "✓" : "×";
+    remove.title = staged ? "Staged for removal" : "Remove " + p.name;
+    remove.setAttribute("aria-label", remove.title);
+    remove.disabled = staged;
 
-    card.append(imgWrap, name, meta, remove);
+    card.append(check, imgWrap, name, meta, remove);
     return card;
   };
 
@@ -417,27 +467,48 @@
       box.replaceChildren();
       return;
     }
-    const normalTile = document.createElement("div");
-    normalTile.className = "preview-tile";
-    const normalImg = document.createElement("img");
-    normalImg.src = draft.preview_normal || draft.image_normal || "";
-    normalImg.alt = draft.name;
-    const normalText = document.createElement("span");
-    normalText.innerHTML = `<strong>${draft.name}</strong><span>${dexLabel(draft.dex)} / ${draft.pokedex_slug}</span><span>${draft.types.join(", ")}</span><span>${draft.normalSource}</span>`;
-    normalTile.append(normalImg, normalText);
-    const tiles = [normalTile];
-    if (draft.image_shiny) {
-      const shinyTile = document.createElement("div");
-      shinyTile.className = "preview-tile";
-      const shinyImg = document.createElement("img");
-      shinyImg.src = draft.image_shiny;
-      shinyImg.alt = `${draft.name} shiny`;
-      const shinyText = document.createElement("span");
-      shinyText.innerHTML = `<strong>Shiny preview</strong><span>${draft.image_shiny}</span>`;
-      shinyTile.append(shinyImg, shinyText);
-      tiles.push(shinyTile);
+
+    const tile = document.createElement("div");
+    tile.className = "preview-tile";
+    const img = document.createElement("img");
+    img.src = draft.preview_normal || draft.image_normal || "";
+    img.alt = draft.name;
+    const text = document.createElement("span");
+    const strong = document.createElement("strong");
+    strong.textContent = draft.name;
+    const meta = document.createElement("span");
+    meta.textContent = dexLabel(draft.dex) + " / " + draft.pokedex_slug;
+    const types = document.createElement("span");
+    types.textContent = draft.types.join(", ");
+    const source = document.createElement("span");
+    source.textContent = draft.normalSource;
+    const shiny = document.createElement("span");
+    shiny.textContent = draft.shiny_available ? "Shiny available" : "No shiny sprite found";
+    text.append(strong, meta, types, source, shiny);
+    tile.append(img, text);
+    box.replaceChildren(tile);
+    box.hidden = false;
+  };
+
+  const renderVarietyPicker = (prefix, choices) => {
+    const box = $("#" + prefix + "-varieties");
+    if (!choices || choices.length <= 1) {
+      box.hidden = true;
+      box.replaceChildren();
+      return;
     }
-    box.replaceChildren(...tiles);
+    const label = document.createElement("span");
+    label.className = "admin-variety-label";
+    label.textContent = "Choose form";
+    const buttons = choices.map((choice) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "dropdown-trigger";
+      btn.dataset.varietySlug = choice.pokedex_slug;
+      btn.textContent = choice.name;
+      return btn;
+    });
+    box.replaceChildren(label, ...buttons);
     box.hidden = false;
   };
 
@@ -450,14 +521,48 @@
 
   const resetAdder = (prefix) => {
     state.adders[prefix] = null;
-    $(`#${prefix}-stage`).disabled = true;
-    $(`#${prefix}-upload-wrap`).hidden = true;
-    $(`#${prefix}-upload`).value = "";
-    renderPreview(`#${prefix}-preview`, null);
+    $("#" + prefix + "-stage").disabled = true;
+    renderVarietyPicker(prefix, null);
+    renderPreview("#" + prefix + "-preview", null);
+  };
+
+  const selectAdderChoice = async (prefix, choice) => {
+    if (!choice) return;
+    const current = state.adders[prefix] || {};
+    const inputDex = current.inputDex || $("#" + prefix + "-dex").value.trim();
+    const choices = current.choices || [choice];
+    $("#" + prefix + "-stage").disabled = true;
+    renderPreview("#" + prefix + "-preview", null);
+    $("#" + prefix + "-varieties").querySelectorAll("button[data-variety-slug]").forEach((btn) => {
+      const active = btn.dataset.varietySlug === choice.pokedex_slug;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-pressed", String(active));
+    });
+
+    const draft = { ...choice, inputDex, choices };
+    const normalUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, false);
+    const shinyUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, true);
+    setAdderStatus(prefix, "Checking Dittobase sprite for " + draft.name + "...");
+    const [normalOk, shinyOk] = await Promise.all([checkImage(normalUrl), checkImage(shinyUrl)]);
+    draft.image_normal = normalOk ? normalUrl : "";
+    draft.image_shiny = shinyOk ? shinyUrl : "";
+    draft.shiny_available = shinyOk;
+    draft.normalSource = normalOk ? normalUrl : "Not available on Dittobase";
+    draft.preview_normal = normalOk ? normalUrl : "";
+    state.adders[prefix] = draft;
+
+    if (normalOk) {
+      $("#" + prefix + "-stage").disabled = false;
+      setAdderStatus(prefix, "Loaded " + draft.name + ". Dittobase sprite found: " + normalUrl, "ok");
+      renderPreview("#" + prefix + "-preview", draft);
+    } else {
+      setAdderStatus(prefix, "Dittobase sprite is not available at " + normalUrl + "; can't add this pokemon.", "error");
+      renderPreview("#" + prefix + "-preview", null);
+    }
   };
 
   const lookupAdderPokemon = async (prefix) => {
-    const input = $(`#${prefix}-dex`);
+    const input = $("#" + prefix + "-dex");
     const dex = input.value.trim();
     resetAdder(prefix);
     if (!dex) {
@@ -468,28 +573,17 @@
       setAdderStatus(prefix, "Dex must be a number.", "error");
       return;
     }
-    setAdderStatus(prefix, `Looking up dex ${dex}...`);
+    setAdderStatus(prefix, "Looking up dex " + dex + "...");
     try {
-      const draft = await pokemonFromPokeApi(dex);
-      draft.inputDex = dex;
-      const normalUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, false);
-      const shinyUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, true);
-      const normalOk = await checkImage(normalUrl);
-      const shinyOk = await checkImage(shinyUrl);
-      draft.image_normal = normalOk ? normalUrl : "";
-      draft.image_shiny = shinyOk ? shinyUrl : "";
-      draft.shiny_available = shinyOk;
-      draft.normalSource = normalOk ? normalUrl : "Manual upload required";
-      draft.preview_normal = normalOk ? normalUrl : "";
-      state.adders[prefix] = draft;
-      if (normalOk) {
-        $(`#${prefix}-stage`).disabled = false;
-        setAdderStatus(prefix, `Loaded ${draft.name}. Dittobase sprite found: ${normalUrl}`, "ok");
+      const choices = await pokemonChoicesFromPokeApi(dex);
+      if (!choices.length) throw new Error("No pokemon varieties were returned for dex " + dex + ".");
+      state.adders[prefix] = { inputDex: dex, choices };
+      renderVarietyPicker(prefix, choices);
+      if (choices.length > 1) {
+        setAdderStatus(prefix, "Found " + choices.length + " forms. Choose the specific form to add.", "ok");
       } else {
-        $(`#${prefix}-upload-wrap`).hidden = false;
-        setAdderStatus(prefix, `Loaded ${draft.name}, but no Dittobase sprite was found at ${normalUrl}. Upload a sprite to stage it.`, "error");
+        await selectAdderChoice(prefix, choices[0]);
       }
-      renderPreview(`#${prefix}-preview`, draft);
     } catch (err) {
       setAdderStatus(prefix, err.message, "error");
     }
@@ -499,35 +593,35 @@
     const slug = state.activeSlug;
     const draft = state.adders["detail-add"];
     if (!slug || !draft) return;
-    if (!draft.image_normal && !draft.manualFile) {
-      setAdderStatus("detail-add", "Upload a sprite before staging this Pokemon.", "error");
+    if (!draft.image_normal) {
+      setAdderStatus("detail-add", "This pokemon is not available on Dittobase and cannot be staged.", "error");
       return;
     }
-    const addition = { ...additionForOverrides(draft), _normal_url: draft.image_normal, _shiny_url: draft.image_shiny || "", _manual_file: draft.manualFile ? draft.manualFile.name : "" };
+    const addition = { ...additionForOverrides(draft), _normal_url: draft.image_normal, _shiny_url: draft.image_shiny || "" };
     const list = state.pending.pokemon_additions[slug] || [];
     const next = list.filter((p) => p.pokedex_slug !== addition.pokedex_slug);
     next.push(addition);
     state.pending.pokemon_additions[slug] = next;
-    setAdderStatus("detail-add", `Staged ${addition.name} for ${slug}.`, "ok");
+    setAdderStatus("detail-add", "Staged " + addition.name + " for " + slug + ".", "ok");
     renderPending();
   };
 
   const stageCustomPokemon = () => {
     const draft = state.adders["custom-add"];
     if (!draft) return;
-    if (!draft.image_normal && !draft.manualFile) {
-      setAdderStatus("custom-add", "Upload a sprite before adding this Pokemon.", "error");
+    if (!draft.image_normal) {
+      setAdderStatus("custom-add", "This pokemon is not available on Dittobase and cannot be added.", "error");
       return;
     }
-    const addition = { ...additionForOverrides(draft), _normal_url: draft.image_normal, _shiny_url: draft.image_shiny || "", _manual_file: draft.manualFile ? draft.manualFile.name : "" };
+    const addition = { ...additionForOverrides(draft), _normal_url: draft.image_normal, _shiny_url: draft.image_shiny || "" };
     state.customDraft.pokemon = state.customDraft.pokemon.filter((p) => p.pokedex_slug !== addition.pokedex_slug);
     state.customDraft.pokemon.push(addition);
-    setAdderStatus("custom-add", `Added ${addition.name} to the custom background draft.`, "ok");
+    setAdderStatus("custom-add", "Added " + addition.name + " to the custom background draft.", "ok");
     renderCustomDraft();
   };
 
   const bindAdder = (prefix, stageFn) => {
-    const input = $(`#${prefix}-dex`);
+    const input = $("#" + prefix + "-dex");
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -539,17 +633,13 @@
       if (current && current.inputDex === input.value.trim()) return;
       lookupAdderPokemon(prefix);
     });
-    $(`#${prefix}-stage`).addEventListener("click", stageFn);
-    $(`#${prefix}-upload`).addEventListener("change", async (e) => {
-      const draft = state.adders[prefix];
-      const file = e.target.files && e.target.files[0];
-      if (!draft || !file) return;
-      draft.manualFile = file;
-      draft.preview_normal = await filePreview(file);
-      draft.normalSource = `Manual upload: ${file.name}`;
-      $(`#${prefix}-stage`).disabled = false;
-      setAdderStatus(prefix, `Manual sprite ready: ${file.name}`, "ok");
-      renderPreview(`#${prefix}-preview`, draft);
+    $("#" + prefix + "-stage").addEventListener("click", stageFn);
+    $("#" + prefix + "-varieties").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-variety-slug]");
+      const current = state.adders[prefix];
+      if (!btn || !current || !current.choices) return;
+      const choice = current.choices.find((item) => item.pokedex_slug === btn.dataset.varietySlug);
+      selectAdderChoice(prefix, choice).catch((err) => setAdderStatus(prefix, err.message, "error"));
     });
   };
 
@@ -618,19 +708,23 @@
     const customCount = state.pending.custom_backgrounds.length;
 
     const parts = [];
-    if (patchSlugs.length) parts.push(`${patchSlugs.length} background patch${patchSlugs.length === 1 ? "" : "es"}`);
-    if (excludedCount) parts.push(`${excludedCount} pokemon excluded`);
-    if (restoredCount) parts.push(`${restoredCount} pokemon restored`);
-    if (additionCount) parts.push(`${additionCount} pokemon addition${additionCount === 1 ? "" : "s"}`);
-    if (customCount) parts.push(`${customCount} new custom background${customCount === 1 ? "" : "s"}`);
-    $("#pending-summary").textContent = parts.length ? parts.join(", ") : "No pending changes";
+    if (patchSlugs.length) parts.push(patchSlugs.length + " background patch" + (patchSlugs.length === 1 ? "" : "es"));
+    if (excludedCount) parts.push(excludedCount + " pokemon excluded");
+    if (restoredCount) parts.push(restoredCount + " pokemon restored");
+    if (additionCount) parts.push(additionCount + " pokemon addition" + (additionCount === 1 ? "" : "s"));
+    if (customCount) parts.push(customCount + " new custom background" + (customCount === 1 ? "" : "s"));
+    const hasPending = parts.length > 0;
+    $("#pending-summary").textContent = hasPending ? parts.join(", ") : "No pending changes";
+    $("#pending-dot").hidden = !hasPending || !state.pendingCollapsed;
+    $("#pending-panel").classList.toggle("collapsed", state.pendingCollapsed);
+    $("#pending-toggle").setAttribute("aria-expanded", String(!state.pendingCollapsed));
 
     const items = [];
-    for (const slug of patchSlugs) items.push(li(`Patch: ${slug}`));
-    for (const [slug, list] of Object.entries(state.pending.pokemon_exclusions)) for (const pSlug of list) items.push(li(`Exclude: ${slug}/${pSlug}`));
-    for (const [slug, list] of Object.entries(state.pending.pokemon_restores)) for (const pSlug of list) items.push(li(`Restore: ${slug}/${pSlug}`));
-    for (const [slug, list] of Object.entries(state.pending.pokemon_additions)) for (const p of list) items.push(li(`Add: ${slug}/${p.pokedex_slug}`));
-    for (const bg of state.pending.custom_backgrounds) items.push(li(`Custom background: ${bg.slug}`));
+    for (const slug of patchSlugs) items.push(li("Patch: " + slug));
+    for (const [slug, list] of Object.entries(state.pending.pokemon_exclusions)) for (const pSlug of list) items.push(li("Exclude: " + slug + "/" + pSlug));
+    for (const [slug, list] of Object.entries(state.pending.pokemon_restores)) for (const pSlug of list) items.push(li("Restore: " + slug + "/" + pSlug));
+    for (const [slug, list] of Object.entries(state.pending.pokemon_additions)) for (const p of list) items.push(li("Add: " + slug + "/" + p.pokedex_slug));
+    for (const bg of state.pending.custom_backgrounds) items.push(li("Custom background: " + bg.slug));
     $("#pending-list").replaceChildren(...items);
   };
 
@@ -693,6 +787,7 @@
   };
 
   const showDetail = async (slug) => {
+    window.scrollTo(0, 0);
     state.activeSlug = slug;
     hideAllViews();
     $(".admin-detail-head").hidden = false;
@@ -736,6 +831,7 @@
     renderPokemonForActive();
     renderExcludedForActive();
     renderPending();
+    requestAnimationFrame(() => window.scrollTo(0, 0));
   };
 
   const buildTypeControls = () => {
@@ -788,6 +884,15 @@
 
     $("#edit-title").addEventListener("input", stagePatchFromFields);
     $("#edit-description").addEventListener("input", stagePatchFromFields);
+    $("#admin-shiny-toggle").checked = state.shinyOn;
+    $("#admin-shiny-toggle").addEventListener("change", (e) => {
+      state.shinyOn = e.target.checked;
+      renderPokemonForActive();
+    });
+    $("#pending-toggle").addEventListener("click", () => {
+      state.pendingCollapsed = !state.pendingCollapsed;
+      renderPending();
+    });
 
     $("#grid").addEventListener("click", (e) => {
       const card = e.target.closest(".card");

@@ -106,15 +106,19 @@
         <button id="detail-add-stage" class="dropdown-trigger" type="button" disabled>Stage addition</button>
       </div>
       <p id="detail-add-status" class="admin-status">Enter a dex number, then press Enter or leave the field.</p>
+      <div id="detail-add-varieties" class="admin-variety-list" hidden></div>
       <div id="detail-add-preview" class="admin-preview" hidden></div>
-      <label class="admin-field admin-manual-upload" id="detail-add-upload-wrap" for="detail-add-upload" hidden>
-        <span>Manual sprite upload</span>
-        <input id="detail-add-upload" type="file" accept="image/*">
-      </label>
     </section>
 
     <div class="section-head">
       <h2 class="section-title">Pokemon <span id="pokemon-count"></span></h2>
+      <div class="toolbar">
+        <label class="switch" title="Display shiny forms where available">
+          <input type="checkbox" id="admin-shiny-toggle">
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>Shiny</span>
+        </label>
+      </div>
     </div>
     <div id="pokemon-list" class="pokemon-grid"></div>
 
@@ -170,19 +174,21 @@
         <button id="custom-add-stage" class="dropdown-trigger" type="button" disabled>Add to custom list</button>
       </div>
       <p id="custom-add-status" class="admin-status">Enter a dex number, then press Enter or leave the field.</p>
+      <div id="custom-add-varieties" class="admin-variety-list" hidden></div>
       <div id="custom-add-preview" class="admin-preview" hidden></div>
-      <label class="admin-field admin-manual-upload" id="custom-add-upload-wrap" for="custom-add-upload" hidden>
-        <span>Manual sprite upload</span>
-        <input id="custom-add-upload" type="file" accept="image/*">
-      </label>
       <div id="custom-pokemon-list" class="admin-staged-list"></div>
     </section>
   </main>
 
   <aside id="pending-panel" class="pending-panel" aria-live="polite">
-    <strong>Pending changes</strong>
-    <span id="pending-summary">No pending changes</span>
-    <ul id="pending-list"></ul>
+    <button id="pending-toggle" class="pending-toggle" type="button" aria-expanded="true">
+      <strong>Pending changes</strong>
+      <span id="pending-dot" class="pending-dot" hidden></span>
+    </button>
+    <div id="pending-body">
+      <span id="pending-summary">No pending changes</span>
+      <ul id="pending-list"></ul>
+    </div>
   </aside>
 
   <script src="js/admin.js"></script>

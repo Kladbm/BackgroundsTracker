@@ -107,16 +107,17 @@ Actions tab.
 
 ### Step C — Add pokemon / add custom background
 - "Add pokemon" on an existing background: user enters a dex number.
-  On blur/enter, autofill name + types from PokeAPI, and **try fetching
-  the sprite from `https://assets.dittobase.com/go/pokemon/{dex}-{pokedex_slug}.png`
+  On blur/enter, autofill name + types from PokeAPI, including all
+  species varieties/forms when the dex number has more than one. After
+  the user chooses a form, **try fetching the sprite from
+  `https://assets.dittobase.com/go/pokemon/{dex}-{pokedex_slug}.png`
   first** (same host/pattern the main scraper already uses) — dittobase
   hosts most real pokemon already, even ones not on this specific
-  background, so this will usually just work with zero manual upload.
-  Show a live preview. If that fetch fails (genuinely missing, e.g. an
-  unreleased/nonstandard form), fall back to letting the user manually
-  upload an image file. Same for the shiny variant (try
+  background. Show a live preview only when the normal Dittobase sprite
+  exists; if that fetch fails, show that the pokemon is unavailable and
+  do not allow it to be staged. Same for the shiny variant (try
   `{dex}-{pokedex_slug}-shiny.png` from the same host; optional field,
-  can be left unset).
+  can be left unset when it 404s).
 - "Add new custom background": form for title, release date,
   description, hero image (try nothing automatic here — always manual
   upload, since it's a background dittobase doesn't have by definition),
