@@ -38,3 +38,133 @@
 .pokemon-card:hover {
   opacity: 0.75;
 }
+
+
+.admin-edit-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.admin-edit-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-panel-title {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-field input,
+.admin-field textarea {
+  width: 100%;
+  padding: 9px 10px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font: inherit;
+}
+
+.admin-field textarea {
+  min-height: 118px;
+  resize: vertical;
+}
+
+.pokemon-card .dropdown-trigger {
+  margin-top: auto;
+  height: 30px;
+}
+
+.pokemon-card.staged-excluded {
+  opacity: 0.45;
+}
+
+.admin-excluded-panel {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding-bottom: 30px;
+}
+
+.admin-excluded-panel .section-head {
+  padding-inline: 20px;
+}
+
+.admin-excluded-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 20px;
+}
+
+.admin-excluded-list:empty::before {
+  content: 'No excluded Pokemon for this background.';
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.excluded-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 4px 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+}
+
+.excluded-item span {
+  font-size: 12px;
+  color: var(--text);
+}
+
+.pending-panel {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 30;
+  width: min(320px, calc(100vw - 36px));
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  box-shadow: var(--shadow-pop);
+}
+
+.pending-panel strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+#pending-summary {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#pending-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#pending-list:empty {
+  display: none;
+}

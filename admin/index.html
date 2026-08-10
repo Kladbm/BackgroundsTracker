@@ -62,7 +62,20 @@
       <img id="hero-img" alt="">
       <div class="hero-meta">
         <p id="meta-date"></p>
-        <p id="description" hidden></p>
+        <div class="admin-edit-panel">
+          <div class="admin-edit-head">
+            <span class="admin-panel-title">Background patch</span>
+            <span id="patch-status" class="count-pill">Not patched</span>
+          </div>
+          <label class="admin-field" for="edit-title">
+            <span>Title</span>
+            <input id="edit-title" type="text" autocomplete="off">
+          </label>
+          <label class="admin-field" for="edit-description">
+            <span>Description</span>
+            <textarea id="edit-description" rows="5"></textarea>
+          </label>
+        </div>
         <a id="event" href="#" target="_blank" rel="noopener" hidden>
           <img class="event-thumb" id="event-thumb" alt="" hidden>
           <strong id="event-name"></strong>
@@ -75,7 +88,20 @@
       <h2 class="section-title">Pokemon <span id="pokemon-count"></span></h2>
     </div>
     <div id="pokemon-list" class="pokemon-grid"></div>
+
+    <section class="admin-excluded-panel">
+      <div class="section-head">
+        <h2 class="section-title">Excluded Pokemon <span id="excluded-count"></span></h2>
+      </div>
+      <div id="excluded-list" class="admin-excluded-list"></div>
+    </section>
   </main>
+
+  <aside id="pending-panel" class="pending-panel" aria-live="polite">
+    <strong>Pending changes</strong>
+    <span id="pending-summary">No pending changes</span>
+    <ul id="pending-list"></ul>
+  </aside>
 
   <script src="js/admin.js"></script>
 </body>
