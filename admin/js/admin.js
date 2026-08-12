@@ -19,6 +19,7 @@
       custom_backgrounds: [],
     },
     adders: {},
+    adderRequests: {},
     customDraft: { pokemon: [], heroFile: null, heroPreviewUrl: "" },
     type: "All",
     sort: "newest",
@@ -66,6 +67,32 @@
     img.src = url;
   });
 
+  const probeSpriteHead = async (url) => {
+    try {
+      const res = await fetch(url, { method: "HEAD", cache: "no-store" });
+      if (res.ok) return true;
+      if (res.status) return false;
+    } catch {
+      // Some CDNs do not expose HEAD to static pages; image loading still
+      // verifies whether the sprite is usable in this UI.
+    }
+    return checkImage(url);
+  };
+
+  const probeSpriteAvailability = async (draft) => {
+    const normalUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, false);
+    const shinyUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, true);
+    const [normalOk, shinyOk] = await Promise.all([probeSpriteHead(normalUrl), probeSpriteHead(shinyUrl)]);
+    return {
+      ...draft,
+      image_normal: normalOk ? normalUrl : "",
+      image_shiny: shinyOk ? shinyUrl : "",
+      shiny_available: shinyOk,
+      normalSource: normalOk ? normalUrl : "Not available on Dittobase",
+      preview_normal: normalOk ? normalUrl : "",
+    };
+  };
+
   const filePreview = (file) => new Promise((resolve) => {
     if (!file) {
       resolve("");
@@ -106,14 +133,18 @@
       return varietyRes.json();
     }));
 
-    const choices = fetched
+    const allChoices = fetched
       .filter(Boolean)
       .map((entry) => pokemonDraftFromApiData(entry, nationalDex));
+    const probed = await Promise.all(allChoices.map(probeSpriteAvailability));
+    const choices = probed.filter((choice) => choice.image_normal);
     choices.sort((a, b) => {
       if (a.pokedex_slug === data.name) return -1;
       if (b.pokedex_slug === data.name) return 1;
       return a.pokedex_slug.localeCompare(b.pokedex_slug);
     });
+    choices.totalVarietyCount = allChoices.length;
+    choices.availableVarietyCount = choices.length;
     return choices;
   };
 
@@ -518,15 +549,28 @@
     const label = document.createElement("span");
     label.className = "admin-variety-label";
     label.textContent = "Choose form";
+    const strip = document.createElement("div");
+    strip.className = "admin-variety-strip";
     const buttons = choices.map((choice) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "dropdown-trigger";
+      btn.className = "admin-variety-tile";
       btn.dataset.varietySlug = choice.pokedex_slug;
-      btn.textContent = choice.name;
+      btn.setAttribute("aria-pressed", "false");
+
+      const img = document.createElement("img");
+      img.src = choice.shiny_available && choice.image_shiny ? choice.image_shiny : choice.image_normal;
+      img.alt = choice.name;
+      img.loading = "lazy";
+
+      const name = document.createElement("span");
+      name.textContent = choice.name;
+
+      btn.append(img, name);
       return btn;
     });
-    box.replaceChildren(label, ...buttons);
+    strip.replaceChildren(...buttons);
+    box.replaceChildren(label, strip);
     box.hidden = false;
   };
 
@@ -537,15 +581,24 @@
     el.classList.toggle("ok", kind === "ok");
   };
 
-  const resetAdder = (prefix) => {
+  const nextAdderToken = (prefix) => {
+    state.adderRequests[prefix] = (state.adderRequests[prefix] || 0) + 1;
+    return state.adderRequests[prefix];
+  };
+
+  const isCurrentAdderToken = (prefix, token) => state.adderRequests[prefix] === token;
+
+  const resetAdder = (prefix, token = nextAdderToken(prefix)) => {
     state.adders[prefix] = null;
     $("#" + prefix + "-stage").disabled = true;
     renderVarietyPicker(prefix, null);
     renderPreview("#" + prefix + "-preview", null);
+    return token;
   };
 
   const selectAdderChoice = async (prefix, choice) => {
     if (!choice) return;
+    const token = nextAdderToken(prefix);
     const current = state.adders[prefix] || {};
     const inputDex = current.inputDex || $("#" + prefix + "-dex").value.trim();
     const choices = current.choices || [choice];
@@ -558,31 +611,25 @@
     });
 
     const draft = { ...choice, inputDex, choices };
-    const normalUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, false);
-    const shinyUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, true);
-    setAdderStatus(prefix, "Checking Dittobase sprite for " + draft.name + "...");
-    const [normalOk, shinyOk] = await Promise.all([checkImage(normalUrl), checkImage(shinyUrl)]);
-    draft.image_normal = normalOk ? normalUrl : "";
-    draft.image_shiny = shinyOk ? shinyUrl : "";
-    draft.shiny_available = shinyOk;
-    draft.normalSource = normalOk ? normalUrl : "Not available on Dittobase";
-    draft.preview_normal = normalOk ? normalUrl : "";
-    state.adders[prefix] = draft;
-
-    if (normalOk) {
-      $("#" + prefix + "-stage").disabled = false;
-      setAdderStatus(prefix, "Loaded " + draft.name + ". Dittobase sprite found: " + normalUrl, "ok");
-      renderPreview("#" + prefix + "-preview", draft);
-    } else {
-      setAdderStatus(prefix, "Dittobase sprite is not available at " + normalUrl + "; can't add this pokemon.", "error");
+    if (!draft.image_normal) {
+      if (!isCurrentAdderToken(prefix, token)) return;
+      state.adders[prefix] = draft;
+      setAdderStatus(prefix, "Dittobase sprite is not available at " + assetPokemonUrl(draft.dex, draft.pokedex_slug, false) + "; can't add this pokemon.", "error");
       renderPreview("#" + prefix + "-preview", null);
+      return;
     }
+
+    if (!isCurrentAdderToken(prefix, token)) return;
+    state.adders[prefix] = draft;
+    $("#" + prefix + "-stage").disabled = false;
+    setAdderStatus(prefix, "Loaded " + draft.name + ". Dittobase sprite found: " + draft.image_normal, "ok");
+    renderPreview("#" + prefix + "-preview", draft);
   };
 
   const lookupAdderPokemon = async (prefix) => {
     const input = $("#" + prefix + "-dex");
     const dex = input.value.trim();
-    resetAdder(prefix);
+    const token = resetAdder(prefix);
     if (!dex) {
       setAdderStatus(prefix, "Enter a dex number, then press Enter or leave the field.");
       return;
@@ -591,18 +638,20 @@
       setAdderStatus(prefix, "Dex must be a number.", "error");
       return;
     }
-    setAdderStatus(prefix, "Looking up dex " + dex + "...");
+    setAdderStatus(prefix, "Looking up dex " + dex + " and checking Dittobase sprites...");
     try {
       const choices = await pokemonChoicesFromPokeApi(dex);
-      if (!choices.length) throw new Error("No pokemon varieties were returned for dex " + dex + ".");
+      if (!isCurrentAdderToken(prefix, token)) return;
+      if (!choices.length) throw new Error("No PokeAPI forms for dex " + dex + " have a Dittobase sprite.");
       state.adders[prefix] = { inputDex: dex, choices };
       renderVarietyPicker(prefix, choices);
       if (choices.length > 1) {
-        setAdderStatus(prefix, "Found " + choices.length + " forms. Choose the specific form to add.", "ok");
+        setAdderStatus(prefix, "Found " + choices.length + " available forms on Dittobase (" + choices.totalVarietyCount + " PokeAPI forms checked). Choose the specific form to add.", "ok");
       } else {
         await selectAdderChoice(prefix, choices[0]);
       }
     } catch (err) {
+      if (!isCurrentAdderToken(prefix, token)) return;
       setAdderStatus(prefix, err.message, "error");
     }
   };

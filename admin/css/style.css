@@ -284,15 +284,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 1px solid var(--border);
   border-radius: 50%;
   background: rgba(22, 24, 26, 0.86);
   color: var(--text);
   font: inherit;
-  font-size: 15px;
   line-height: 1;
   cursor: pointer;
 }
@@ -307,11 +306,14 @@
   cursor: default;
 }
 
+.admin-pokemon-action .icon {
+  width: 13px;
+  height: 13px;
+}
+
 .admin-variety-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 8px;
-  align-items: center;
   margin-top: 10px;
 }
 
@@ -325,9 +327,54 @@
   font-weight: 700;
 }
 
-.admin-variety-list .dropdown-trigger.active {
+.admin-variety-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 2px 2px 8px;
+  scroll-snap-type: inline proximity;
+}
+
+.admin-variety-tile {
+  flex: 0 0 106px;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-height: 126px;
+  padding: 8px 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+.admin-variety-tile:hover,
+.admin-variety-tile.active {
   border-color: var(--accent);
-  color: var(--accent);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.admin-variety-tile img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  background: var(--active);
+}
+
+.admin-variety-tile span {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
 }
 
 .pending-toggle {
@@ -363,7 +410,10 @@
 
 .pending-chevron {
   display: block;
-  flex: 0 0 auto;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
   transform-origin: center;
   transition: transform 140ms ease;
 }
@@ -378,7 +428,13 @@
 
 .pending-panel.collapsed {
   width: auto;
-  padding: 10px 12px;
+  padding: 0;
+}
+
+.pending-panel.collapsed .pending-toggle {
+  width: 100%;
+  margin: 0;
+  padding: 6px 8px;
 }
 
 .pending-panel.collapsed #pending-body {
