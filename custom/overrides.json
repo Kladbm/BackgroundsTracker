@@ -1,1 +1,18 @@
-{}
+{
+  "background_patches": {},
+  "pokemon_exclusions": {},
+  "pokemon_additions": {
+    "lc-pyeongchang-winter-festival": [
+      {
+        "dex": 26,
+        "name": "Beanie Raichu",
+        "pokedex_slug": "raichu-winter-2018",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ]
+  },
+  "custom_backgrounds": []
+}
