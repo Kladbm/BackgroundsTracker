@@ -42,6 +42,7 @@ const {
   applyOverrides,
   copyCustomImages,
 } = require('./overrides');
+const { writePokedexCatalog } = require('./pokedex-catalog');
 
 const DATA_DIR = process.env.DATA_DIR ||
   path.join(__dirname, '..', 'public', 'data');
@@ -302,6 +303,10 @@ async function main() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(path.join(DATA_DIR, 'index.json'), JSON.stringify(outIndex, null, 2) + '\n');
   console.log(`\nWrote ${DATA_DIR}/index.json (${allBackgrounds.length} entries)`);
+
+  const { outputFile, catalog } = await writePokedexCatalog();
+  const speciesCount = new Set(catalog.pokemon.map((p) => p.dex + '|' + p.species_slug)).size;
+  console.log('Wrote ' + outputFile + ' (' + catalog.pokemon.length + ' released forms, ' + speciesCount + ' species)');
 }
 
 main().catch((err) => {

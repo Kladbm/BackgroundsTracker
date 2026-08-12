@@ -3,8 +3,6 @@
 (() => {
   const LIVE_BASE = "https://kladbm.github.io/BackgroundsTracker/";
   const OVERRIDES_URL = "https://raw.githubusercontent.com/Kladbm/BackgroundsTracker/main/custom/overrides.json";
-  const POKEAPI_BASE = "https://pokeapi.co/api/v2/pokemon/";
-  const DITTOBASE_POKEMON_BASE = "https://assets.dittobase.com/go/pokemon/";
   const TYPE_LABELS = { sb: "Special", lc: "Location", custom: "Custom" };
 
   const state = {
@@ -21,6 +19,8 @@
     adders: {},
     adderRequests: {},
     customDraft: { pokemon: [], heroFile: null, heroPreviewUrl: "" },
+    pokedexCatalog: null,
+    pokedexCatalogSource: "",
     type: "All",
     sort: "newest",
     search: "",
@@ -31,7 +31,6 @@
 
   const $ = (sel) => document.querySelector(sel);
   const liveUrl = (path) => new URL(path, LIVE_BASE).href;
-  const assetPokemonUrl = (dex, slug, shiny = false) => `${DITTOBASE_POKEMON_BASE}${dex}-${slug}${shiny ? "-shiny" : ""}.png`;
 
   const normalizeOverrides = (value) => ({
     background_patches: {},
@@ -60,39 +59,6 @@
     .map((part) => part ? part[0].toUpperCase() + part.slice(1) : part)
     .join(" ");
 
-  const checkImage = (url) => new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(true);
-    img.onerror = () => resolve(false);
-    img.src = url;
-  });
-
-  const probeSpriteHead = async (url) => {
-    try {
-      const res = await fetch(url, { method: "HEAD", cache: "no-store" });
-      if (res.ok) return true;
-      if (res.status) return false;
-    } catch {
-      // Some CDNs do not expose HEAD to static pages; image loading still
-      // verifies whether the sprite is usable in this UI.
-    }
-    return checkImage(url);
-  };
-
-  const probeSpriteAvailability = async (draft) => {
-    const normalUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, false);
-    const shinyUrl = assetPokemonUrl(draft.dex, draft.pokedex_slug, true);
-    const [normalOk, shinyOk] = await Promise.all([probeSpriteHead(normalUrl), probeSpriteHead(shinyUrl)]);
-    return {
-      ...draft,
-      image_normal: normalOk ? normalUrl : "",
-      image_shiny: shinyOk ? shinyUrl : "",
-      shiny_available: shinyOk,
-      normalSource: normalOk ? normalUrl : "Not available on Dittobase",
-      preview_normal: normalOk ? normalUrl : "",
-    };
-  };
-
   const filePreview = (file) => new Promise((resolve) => {
     if (!file) {
       resolve("");
@@ -104,47 +70,49 @@
     reader.readAsDataURL(file);
   });
 
-  const pokemonDraftFromApiData = (data, nationalDex) => ({
-    dex: nationalDex,
-    name: displayPokemonName(data.name),
-    pokedex_slug: data.name,
-    types: (data.types || []).sort((a, b) => a.slot - b.slot).map((entry) => entry.type.name),
-    shiny_available: false,
-  });
+  const localDataUrl = (path) => new URL(`../public/${path}`, location.href).href;
 
-  const pokemonChoicesFromPokeApi = async (dex) => {
-    const res = await fetch(POKEAPI_BASE + encodeURIComponent(dex));
-    if (!res.ok) throw new Error("PokeAPI returned HTTP " + res.status + " for dex " + dex);
-    const data = await res.json();
-    if (!data.species || !data.species.url) throw new Error("PokeAPI response for " + dex + " did not include a species resource.");
+  const loadPokedexCatalog = async () => {
+    if (state.pokedexCatalog) return state.pokedexCatalog;
+    const urls = [liveUrl("data/pokedex-catalog.json"), localDataUrl("data/pokedex-catalog.json")];
+    let lastError = null;
+    for (const url of urls) {
+      try {
+        const data = await fetchJson(url);
+        state.pokedexCatalog = Array.isArray(data.pokemon) ? data.pokemon : [];
+        state.pokedexCatalogSource = url;
+        return state.pokedexCatalog;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+    throw lastError || new Error("Unable to load pokedex catalog.");
+  };
 
-    const speciesRes = await fetch(data.species.url);
-    if (!speciesRes.ok) throw new Error("PokeAPI returned HTTP " + speciesRes.status + " for " + data.species.url);
-    const species = await speciesRes.json();
-    const nationalDex = Number.isFinite(species.id) ? species.id : data.id;
-    const varieties = Array.isArray(species.varieties) && species.varieties.length
-      ? species.varieties
-      : [{ pokemon: { name: data.name, url: POKEAPI_BASE + data.name } }];
-
-    const fetched = await Promise.all(varieties.map(async (entry) => {
-      if (entry.pokemon && entry.pokemon.name === data.name) return data;
-      const varietyRes = await fetch(entry.pokemon.url);
-      if (!varietyRes.ok) return null;
-      return varietyRes.json();
-    }));
-
-    const allChoices = fetched
-      .filter(Boolean)
-      .map((entry) => pokemonDraftFromApiData(entry, nationalDex));
-    const probed = await Promise.all(allChoices.map(probeSpriteAvailability));
-    const choices = probed.filter((choice) => choice.image_normal);
-    choices.sort((a, b) => {
-      if (a.pokedex_slug === data.name) return -1;
-      if (b.pokedex_slug === data.name) return 1;
-      return a.pokedex_slug.localeCompare(b.pokedex_slug);
-    });
-    choices.totalVarietyCount = allChoices.length;
-    choices.availableVarietyCount = choices.length;
+  const pokemonChoicesFromCatalog = async (dex) => {
+    const numericDex = Number(dex);
+    const catalog = await loadPokedexCatalog();
+    const choices = catalog
+      .filter((entry) => entry.dex === numericDex)
+      .map((entry) => ({
+        dex: entry.dex,
+        name: entry.name || displayPokemonName(entry.pokedex_slug),
+        pokedex_slug: entry.pokedex_slug,
+        species_slug: entry.species_slug || entry.pokedex_slug,
+        types: Array.isArray(entry.types) ? entry.types : [],
+        shiny_available: entry.shiny_available === true && Boolean(entry.image_shiny),
+        image_normal: entry.image_normal || "",
+        image_shiny: entry.image_shiny || "",
+        preview_normal: entry.image_normal || "",
+        normalSource: entry.image_normal || "",
+      }))
+      .filter((entry) => entry.image_normal)
+      .sort((a, b) => {
+        if (a.pokedex_slug === a.species_slug && b.pokedex_slug !== b.species_slug) return -1;
+        if (b.pokedex_slug === b.species_slug && a.pokedex_slug !== a.species_slug) return 1;
+        return a.pokedex_slug.localeCompare(b.pokedex_slug);
+      });
+    choices.catalogSource = state.pokedexCatalogSource;
     return choices;
   };
 
@@ -614,7 +582,7 @@
     if (!draft.image_normal) {
       if (!isCurrentAdderToken(prefix, token)) return;
       state.adders[prefix] = draft;
-      setAdderStatus(prefix, "Dittobase sprite is not available at " + assetPokemonUrl(draft.dex, draft.pokedex_slug, false) + "; can't add this pokemon.", "error");
+      setAdderStatus(prefix, "Dittobase sprite is not available for " + draft.pokedex_slug + "; can't add this pokemon.", "error");
       renderPreview("#" + prefix + "-preview", null);
       return;
     }
@@ -638,15 +606,15 @@
       setAdderStatus(prefix, "Dex must be a number.", "error");
       return;
     }
-    setAdderStatus(prefix, "Looking up dex " + dex + " and checking Dittobase sprites...");
+    setAdderStatus(prefix, "Looking up dex " + dex + " in the Dittobase catalog...");
     try {
-      const choices = await pokemonChoicesFromPokeApi(dex);
+      const choices = await pokemonChoicesFromCatalog(dex);
       if (!isCurrentAdderToken(prefix, token)) return;
-      if (!choices.length) throw new Error("No PokeAPI forms for dex " + dex + " have a Dittobase sprite.");
+      if (!choices.length) throw new Error("No released Dittobase catalog entries found for dex " + dex + ".");
       state.adders[prefix] = { inputDex: dex, choices };
       renderVarietyPicker(prefix, choices);
       if (choices.length > 1) {
-        setAdderStatus(prefix, "Found " + choices.length + " available forms on Dittobase (" + choices.totalVarietyCount + " PokeAPI forms checked). Choose the specific form to add.", "ok");
+        setAdderStatus(prefix, "Found " + choices.length + " released Dittobase forms from " + choices.catalogSource + ". Choose the specific form to add.", "ok");
       } else {
         await selectAdderChoice(prefix, choices[0]);
       }
