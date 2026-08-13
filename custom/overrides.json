@@ -12,6 +12,17 @@
         ],
         "shiny_available": true
       }
+    ],
+    "lc-pokecenter-hiroshima": [
+      {
+        "dex": 26,
+        "name": "Raichu",
+        "pokedex_slug": "raichu",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
     ]
   },
   "custom_backgrounds": []
