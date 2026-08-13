@@ -117,26 +117,46 @@ function copyIfAvailable(src, dest, label, required, logger, copied, skipped, mi
       logger.log(`WARN custom image ${label}: destination already exists, keeping existing file`);
       skipped.push(label);
     }
-    return;
+    return true;
   }
 
   if (!fs.existsSync(src)) {
-    if (required) {
-      logger.log(`WARN custom image ${label}: missing ${src}`);
-      missing.push(label);
-    }
-    return;
+    return false;
   }
 
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.copyFileSync(src, dest);
   copied.push(label);
+  return true;
 }
 
-function copyCustomImages(detailsBySlug, imagesDir, overrides, logger = console) {
+async function downloadDittobasePokemonImage(label, dest, options, logger, downloaded, missing) {
+  if (!options || typeof options.download !== 'function') {
+    logger.log(`WARN custom image ${label}: missing ${path.join(CUSTOM_IMAGES_DIR, label)}`);
+    missing.push(label);
+    return;
+  }
+
+  const url = `${options.assetBase || 'https://assets.dittobase.com'}/go/pokemon/${path.basename(label)}`;
+  try {
+    const result = await options.download(url, dest);
+    if (result.skipped) return;
+    downloaded.push({ file: label, size: result.size, url });
+    logger.log(`custom image ${label}: downloaded from ${url}`);
+    if (typeof options.delay === 'function' && options.delayMs > 0) {
+      await options.delay(options.delayMs);
+    }
+  } catch (err) {
+    logger.log(`WARN custom image ${label}: missing custom file and Dittobase fallback failed - ${err.message}`);
+    missing.push(label);
+  }
+}
+
+async function copyCustomImages(detailsBySlug, imagesDir, overrides, logger = console, options = {}) {
   const copied = [];
   const skipped = [];
   const missing = [];
+  const downloaded = [];
   const customBackgroundSlugs = new Set(
     Array.isArray(overrides.custom_backgrounds)
       ? overrides.custom_backgrounds.map((b) => b.slug)
@@ -145,16 +165,21 @@ function copyCustomImages(detailsBySlug, imagesDir, overrides, logger = console)
 
   for (const [slug, data] of detailsBySlug) {
     const heroLabel = `backgrounds/${slug}.png`;
-    copyIfAvailable(
+    const heroRequired = data.custom === true || customBackgroundSlugs.has(slug);
+    const heroResolved = copyIfAvailable(
       path.join(CUSTOM_IMAGES_DIR, heroLabel),
       path.join(imagesDir, heroLabel),
       heroLabel,
-      data.custom === true || customBackgroundSlugs.has(slug),
+      heroRequired,
       logger,
       copied,
       skipped,
       missing
     );
+    if (!heroResolved && heroRequired) {
+      logger.log(`WARN custom image ${heroLabel}: missing ${path.join(CUSTOM_IMAGES_DIR, heroLabel)}`);
+      missing.push(heroLabel);
+    }
 
     for (const pokemon of data.pokemon) {
       const images = pokemonImagePaths(pokemon);
@@ -162,16 +187,16 @@ function copyCustomImages(detailsBySlug, imagesDir, overrides, logger = console)
         const label = rel.replace(/^images\//, '');
         const src = path.join(CUSTOM_IMAGES_DIR, label);
         const dest = path.join(imagesDir, label);
-        const sourceExists = fs.existsSync(src);
         const required = isCustomPokemon(slug, pokemon.pokedex_slug, overrides);
-        if (sourceExists || required) {
-          copyIfAvailable(src, dest, label, required, logger, copied, skipped, missing);
+        const resolved = copyIfAvailable(src, dest, label, required, logger, copied, skipped, missing);
+        if (!resolved && required) {
+          await downloadDittobasePokemonImage(label, dest, options, logger, downloaded, missing);
         }
       }
     }
   }
 
-  return { copied, skipped, missing };
+  return { copied, skipped, missing, downloaded };
 }
 
 function isCustomPokemon(slug, pokedexSlug, overrides) {

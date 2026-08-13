@@ -163,26 +163,36 @@ disk:
 
 Extend the existing image-download step so that, for every background
 being written (official + patched + custom), any pokemon or hero image
-that isn't already present in `public/images/` (from the normal official
-download) gets copied from `custom/images/` into the matching
-`public/images/...` path, using the exact same target filename convention
-the official pipeline already uses (see existing spec section 4: hero at
-`images/backgrounds/{slug}.png`, pokemon at
-`images/pokemon/{dex}-{pokedex_slug}.png` /
-`images/pokemon/{dex}-{pokedex_slug}-shiny.png`).
+needed by the final JSON resolves in this order:
+
+1. **Official scrape output first**: if the normal official image download
+   already placed the target file in `public/images/`, keep it. Never
+   overwrite an official file with a custom file or fallback download.
+2. **Committed custom images second**: if the file is missing from
+   `public/images/` but exists under `custom/images/`, copy it into the
+   matching `public/images/...` target path.
+3. **Dittobase pokemon fallback third**: for pokemon referenced by
+   `pokemon_additions` or `custom_backgrounds[].pokemon`, if the sprite is
+   missing from both `public/images/pokemon/` and `custom/images/pokemon/`,
+   download it directly during the scraper run from
+   `https://assets.dittobase.com/go/pokemon/{dex}-{pokedex_slug}.png` and,
+   when `shiny_available` is true,
+   `https://assets.dittobase.com/go/pokemon/{dex}-{pokedex_slug}-shiny.png`.
+
+Background hero images for `custom_backgrounds` are still manual-only:
+`custom/images/backgrounds/{slug}.png` must exist, because there is no
+Dittobase source page for custom backgrounds.
 
 Rules:
-- Official scraped images always take precedence — never overwrite an
-  already-downloaded official image with a custom one of the same
-  filename. If a custom image would collide with an official filename,
-  log a warning and skip the copy (keep the official one).
-- If a referenced custom image file (e.g. a `custom_backgrounds` hero, or
-  a `pokemon_additions` sprite) is missing from `custom/images/` when
-  needed, log a clear warning identifying which slug/dex is affected and
-  continue the run — don't crash the whole scrape over one missing image
-  file. The frontend already handles a missing/broken image gracefully
-  (existing `onerror` fallback patterns in `detail.js`), so a missing
-  custom image degrades visually rather than breaking the page.
+- Official scraped images always take precedence. If a custom image would
+  collide with an official filename, log a warning and skip the copy.
+- If a required custom-background hero image is missing from
+  `custom/images/backgrounds/`, log a clear warning and continue.
+- If a custom pokemon sprite cannot be copied from `custom/images/` and the
+  Dittobase fallback download also fails, log a clear warning identifying
+  the file and continue. The frontend already handles a missing/broken image
+  gracefully, so a missing custom image degrades visually rather than
+  breaking the page.
 
 ## 6. Verification plan for this task (no UI yet — hand-edit and check)
 

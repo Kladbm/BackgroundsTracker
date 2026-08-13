@@ -3,6 +3,9 @@
 (() => {
   const LIVE_BASE = "https://kladbm.github.io/BackgroundsTracker/";
   const OVERRIDES_URL = "https://raw.githubusercontent.com/Kladbm/BackgroundsTracker/main/custom/overrides.json";
+  const GITHUB_API_BASE = "https://api.github.com/repos/Kladbm/BackgroundsTracker";
+  const GITHUB_ACTIONS_URL = "https://github.com/Kladbm/BackgroundsTracker/actions";
+  const TOKEN_STORAGE_KEY = "dittotracker.githubToken";
   const TYPE_LABELS = { sb: "Special", lc: "Location", custom: "Custom" };
 
   const state = {
@@ -27,6 +30,7 @@
     activeSlug: null,
     shinyOn: true,
     pendingCollapsed: false,
+    publishing: false,
   };
 
   const $ = (sel) => document.querySelector(sel);
@@ -232,9 +236,11 @@
     $(".admin-grid-head").hidden = true;
     $(".admin-detail-head").hidden = true;
     $(".admin-custom-head").hidden = true;
+    $(".admin-publish-head").hidden = true;
     $("#grid").hidden = true;
     $("#detail").hidden = true;
     $("#custom-detail").hidden = true;
+    $("#publish-review").hidden = true;
   };
 
   const showGrid = () => {
@@ -254,6 +260,18 @@
     document.title = "Add custom background - Admin Browse";
     if (location.hash !== "#custom-new") history.pushState("", document.title, "#custom-new");
     renderCustomDraft();
+    renderPending();
+  };
+
+  const showPublishReview = () => {
+    state.activeSlug = null;
+    hideAllViews();
+    $(".admin-publish-head").hidden = false;
+    $("#publish-review").hidden = false;
+    document.title = "Review & publish - Admin Browse";
+    if (location.hash !== "#publish") history.pushState("", document.title, "#publish");
+    renderPublishReview();
+    renderTokenState();
     renderPending();
   };
 
@@ -353,8 +371,18 @@
     return wrap;
   };
 
+  const catalogImageUrl = (url) => {
+    if (!url) return "";
+    const file = String(url).split("/").pop();
+    if (!file) return url;
+    return resolveAsset("images/pokemon/" + file);
+  };
+
   const imageFor = (p) =>
     state.shinyOn && p.shiny_available && p.image_shiny ? resolveAsset(p.image_shiny) : resolveAsset(p.image_normal);
+
+  const imageForCatalogChoice = (p) =>
+    state.shinyOn && p.shiny_available && p.image_shiny ? catalogImageUrl(p.image_shiny) : catalogImageUrl(p.image_normal);
 
   const isShadowPokemon = (p) => String(p.pokedex_slug || "").endsWith("-shadow");
 
@@ -380,7 +408,9 @@
     svg.setAttribute("aria-hidden", "true");
     const paths = kind === "restore"
       ? ["M3 7v6h6", "M21 17a9 9 0 0 0-15-6.7L3 13"]
-      : ["M3 6h18", "M8 6V4h8v2", "M19 6l-1 14H6L5 6", "M10 11v6", "M14 11v6"];
+      : kind === "remove"
+        ? ["M18 6 6 18", "M6 6l12 12"]
+        : ["M3 6h18", "M8 6V4h8v2", "M19 6l-1 14H6L5 6", "M10 11v6", "M14 11v6"];
     for (const d of paths) {
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("d", d);
@@ -518,23 +548,42 @@
     label.className = "admin-variety-label";
     label.textContent = "Choose form";
     const strip = document.createElement("div");
-    strip.className = "admin-variety-strip";
+    strip.className = "pokemon-grid admin-variety-strip";
     const buttons = choices.map((choice) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "admin-variety-tile";
+      btn.className = "pokemon-card admin-variety-tile";
       btn.dataset.varietySlug = choice.pokedex_slug;
       btn.setAttribute("aria-pressed", "false");
 
+      const imgWrap = document.createElement("span");
+      imgWrap.className = "p-img-wrap";
       const img = document.createElement("img");
-      img.src = choice.shiny_available && choice.image_shiny ? choice.image_shiny : choice.image_normal;
+      img.className = "p-img";
+      img.src = imageForCatalogChoice(choice);
       img.alt = choice.name;
       img.loading = "lazy";
+      img.dataset.remoteSrc = choice.shiny_available && choice.image_shiny ? choice.image_shiny : choice.image_normal;
+      img.addEventListener("error", () => {
+        if (img.dataset.fallback === "1") return;
+        img.dataset.fallback = "1";
+        img.src = img.dataset.remoteSrc;
+      });
+      imgWrap.appendChild(img);
 
       const name = document.createElement("span");
+      name.className = "p-name";
       name.textContent = choice.name;
 
-      btn.append(img, name);
+      const dex = document.createElement("span");
+      dex.className = "p-dex";
+      dex.textContent = dexLabel(choice.dex);
+
+      const meta = document.createElement("span");
+      meta.className = "p-meta";
+      meta.appendChild(dex);
+
+      btn.append(imgWrap, name, meta);
       return btn;
     });
     strip.replaceChildren(...buttons);
@@ -571,10 +620,10 @@
     const inputDex = current.inputDex || $("#" + prefix + "-dex").value.trim();
     const choices = current.choices || [choice];
     $("#" + prefix + "-stage").disabled = true;
-    renderPreview("#" + prefix + "-preview", null);
     $("#" + prefix + "-varieties").querySelectorAll("button[data-variety-slug]").forEach((btn) => {
       const active = btn.dataset.varietySlug === choice.pokedex_slug;
       btn.classList.toggle("active", active);
+      btn.classList.toggle("collected", active);
       btn.setAttribute("aria-pressed", String(active));
     });
 
@@ -590,8 +639,7 @@
     if (!isCurrentAdderToken(prefix, token)) return;
     state.adders[prefix] = draft;
     $("#" + prefix + "-stage").disabled = false;
-    setAdderStatus(prefix, "Loaded " + draft.name + ". Dittobase sprite found: " + draft.image_normal, "ok");
-    renderPreview("#" + prefix + "-preview", draft);
+    setAdderStatus(prefix, "Selected " + draft.name + ". Ready to stage.", "ok");
   };
 
   const lookupAdderPokemon = async (prefix) => {
@@ -632,7 +680,7 @@
       setAdderStatus("detail-add", "This pokemon is not available on Dittobase and cannot be staged.", "error");
       return;
     }
-    const addition = { ...additionForOverrides(draft), _normal_url: draft.image_normal, _shiny_url: draft.image_shiny || "" };
+    const addition = { ...additionForOverrides(draft), _normal_url: catalogImageUrl(draft.image_normal), _shiny_url: draft.image_shiny ? catalogImageUrl(draft.image_shiny) : "" };
     const list = state.pending.pokemon_additions[slug] || [];
     const next = list.filter((p) => p.pokedex_slug !== addition.pokedex_slug);
     next.push(addition);
@@ -648,7 +696,7 @@
       setAdderStatus("custom-add", "This pokemon is not available on Dittobase and cannot be added.", "error");
       return;
     }
-    const addition = { ...additionForOverrides(draft), _normal_url: draft.image_normal, _shiny_url: draft.image_shiny || "" };
+    const addition = { ...additionForOverrides(draft), _normal_url: catalogImageUrl(draft.image_normal), _shiny_url: draft.image_shiny ? catalogImageUrl(draft.image_shiny) : "" };
     state.customDraft.pokemon = state.customDraft.pokemon.filter((p) => p.pokedex_slug !== addition.pokedex_slug);
     state.customDraft.pokemon.push(addition);
     setAdderStatus("custom-add", "Added " + addition.name + " to the custom background draft.", "ok");
@@ -673,6 +721,7 @@
       const btn = e.target.closest("button[data-variety-slug]");
       const current = state.adders[prefix];
       if (!btn || !current || !current.choices) return;
+      if (current.pokedex_slug === btn.dataset.varietySlug) return;
       const choice = current.choices.find((item) => item.pokedex_slug === btn.dataset.varietySlug);
       selectAdderChoice(prefix, choice).catch((err) => setAdderStatus(prefix, err.message, "error"));
     });
@@ -727,7 +776,7 @@
       status.classList.add("error");
       return;
     }
-    const bg = { slug, type: "custom", title, release_date: releaseDate, description, event: null, pokemon: state.customDraft.pokemon.map(additionForOverrides), _hero_file: state.customDraft.heroFile.name };
+    const bg = { slug, type: "custom", title, release_date: releaseDate, description, event: null, pokemon: state.customDraft.pokemon.map((p) => ({ ...p })), _hero_file: state.customDraft.heroFile.name, _hero_file_obj: state.customDraft.heroFile };
     state.pending.custom_backgrounds = state.pending.custom_backgrounds.filter((item) => item.slug !== slug);
     state.pending.custom_backgrounds.push(bg);
     status.textContent = `Staged ${slug}`;
@@ -735,19 +784,77 @@
     status.classList.add("ok");
     renderPending();
   };
-  const renderPending = () => {
+  const pendingCounts = () => {
     const patchSlugs = Object.keys(state.pending.background_patches);
     const excludedCount = Object.values(state.pending.pokemon_exclusions).reduce((sum, list) => sum + list.length, 0);
     const restoredCount = Object.values(state.pending.pokemon_restores).reduce((sum, list) => sum + list.length, 0);
     const additionCount = Object.values(state.pending.pokemon_additions).reduce((sum, list) => sum + list.length, 0);
     const customCount = state.pending.custom_backgrounds.length;
+    return { patchSlugs, excludedCount, restoredCount, additionCount, customCount };
+  };
 
+  const pendingSummaryParts = () => {
+    const { patchSlugs, excludedCount, restoredCount, additionCount, customCount } = pendingCounts();
     const parts = [];
     if (patchSlugs.length) parts.push(patchSlugs.length + " background patch" + (patchSlugs.length === 1 ? "" : "es"));
     if (excludedCount) parts.push(excludedCount + " pokemon excluded");
     if (restoredCount) parts.push(restoredCount + " pokemon restored");
     if (additionCount) parts.push(additionCount + " pokemon addition" + (additionCount === 1 ? "" : "s"));
     if (customCount) parts.push(customCount + " new custom background" + (customCount === 1 ? "" : "s"));
+    return parts;
+  };
+
+  const hasPendingChanges = () => pendingSummaryParts().length > 0;
+
+  const renderReviewSection = (title, rows) => {
+    const section = document.createElement("section");
+    section.className = "review-section";
+    const h = document.createElement("h3");
+    h.textContent = title;
+    section.appendChild(h);
+    if (!rows.length) {
+      const empty = document.createElement("p");
+      empty.className = "admin-empty-inline";
+      empty.textContent = "None";
+      section.appendChild(empty);
+      return section;
+    }
+    const list = document.createElement("ul");
+    for (const row of rows) {
+      const item = document.createElement("li");
+      item.textContent = row;
+      list.appendChild(item);
+    }
+    section.appendChild(list);
+    return section;
+  };
+
+  const renderPublishReview = () => {
+    const box = $("#publish-review-list");
+    if (!box) return;
+    const patchRows = Object.entries(state.pending.background_patches).map(([slug, patch]) => {
+      const fields = Object.keys(patch).join(", ") || "no fields";
+      return slug + " (" + fields + ")";
+    });
+    const exclusionRows = Object.entries(state.pending.pokemon_exclusions).flatMap(([slug, list]) => list.map((pSlug) => slug + "/" + pSlug));
+    const restoreRows = Object.entries(state.pending.pokemon_restores).flatMap(([slug, list]) => list.map((pSlug) => slug + "/" + pSlug));
+    const additionRows = Object.entries(state.pending.pokemon_additions).flatMap(([slug, list]) => list.map((p) => slug + "/" + p.pokedex_slug + " (" + p.name + ")"));
+    const customRows = state.pending.custom_backgrounds.map((bg) => bg.slug + " (" + bg.title + ", " + bg.pokemon.length + " pokemon)");
+    const imageRows = imageUploadPlans().map((plan) => plan.path);
+    box.replaceChildren(
+      renderReviewSection("Background patches", patchRows),
+      renderReviewSection("Pokemon exclusions", exclusionRows),
+      renderReviewSection("Pokemon restores", restoreRows),
+      renderReviewSection("Pokemon additions", additionRows),
+      renderReviewSection("Custom backgrounds", customRows),
+      renderReviewSection("Images to upload", imageRows)
+    );
+    $("#publish-button").disabled = !hasPendingChanges() || state.publishing;
+  };
+
+  const renderPending = () => {
+    const { patchSlugs } = pendingCounts();
+    const parts = pendingSummaryParts();
     const hasPending = parts.length > 0;
     $("#pending-summary").textContent = hasPending ? parts.join(", ") : "No pending changes";
     $("#pending-dot").hidden = !hasPending || !state.pendingCollapsed;
@@ -756,18 +863,279 @@
     $("#pending-toggle").title = state.pendingCollapsed ? "Expand pending changes" : "Collapse pending changes";
 
     const items = [];
-    for (const slug of patchSlugs) items.push(li("Patch: " + slug));
-    for (const [slug, list] of Object.entries(state.pending.pokemon_exclusions)) for (const pSlug of list) items.push(li("Exclude: " + slug + "/" + pSlug));
-    for (const [slug, list] of Object.entries(state.pending.pokemon_restores)) for (const pSlug of list) items.push(li("Restore: " + slug + "/" + pSlug));
-    for (const [slug, list] of Object.entries(state.pending.pokemon_additions)) for (const p of list) items.push(li("Add: " + slug + "/" + p.pokedex_slug));
-    for (const bg of state.pending.custom_backgrounds) items.push(li("Custom background: " + bg.slug));
+    for (const slug of patchSlugs) items.push(pendingItem("Patch: " + slug, "background_patches", slug));
+    for (const [slug, list] of Object.entries(state.pending.pokemon_exclusions)) for (const pSlug of list) items.push(pendingItem("Exclude: " + slug + "/" + pSlug, "pokemon_exclusions", slug, pSlug));
+    for (const [slug, list] of Object.entries(state.pending.pokemon_restores)) for (const pSlug of list) items.push(pendingItem("Restore: " + slug + "/" + pSlug, "pokemon_restores", slug, pSlug));
+    for (const [slug, list] of Object.entries(state.pending.pokemon_additions)) for (const p of list) items.push(pendingItem("Add: " + slug + "/" + p.pokedex_slug, "pokemon_additions", slug, p.pokedex_slug));
+    for (const bg of state.pending.custom_backgrounds) items.push(pendingItem("Custom background: " + bg.slug, "custom_backgrounds", bg.slug));
     $("#pending-list").replaceChildren(...items);
+    renderPublishReview();
   };
 
-  const li = (text) => {
+  const pendingItem = (text, bucket, slug, pokedexSlug = "") => {
     const item = document.createElement("li");
-    item.textContent = text;
+    item.className = "pending-item";
+    const label = document.createElement("span");
+    label.textContent = text;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "pending-remove";
+    btn.dataset.bucket = bucket;
+    btn.dataset.slug = slug;
+    if (pokedexSlug) btn.dataset.pokedexSlug = pokedexSlug;
+    btn.title = "Remove pending change";
+    btn.setAttribute("aria-label", "Remove pending change: " + text);
+    btn.appendChild(buildActionIcon("remove"));
+    item.append(label, btn);
     return item;
+  };
+
+  const removePendingItem = (bucket, slug, pokedexSlug = "") => {
+    if (bucket === "background_patches") {
+      delete state.pending.background_patches[slug];
+    } else if (bucket === "pokemon_exclusions" || bucket === "pokemon_restores") {
+      const set = new Set(state.pending[bucket][slug] || []);
+      set.delete(pokedexSlug);
+      setArrayBucket(state.pending[bucket], slug, set);
+      renderPokemonForActive();
+      renderExcludedForActive();
+    } else if (bucket === "pokemon_additions") {
+      const next = (state.pending.pokemon_additions[slug] || []).filter((p) => p.pokedex_slug !== pokedexSlug);
+      if (next.length) state.pending.pokemon_additions[slug] = next;
+      else delete state.pending.pokemon_additions[slug];
+    } else if (bucket === "custom_backgrounds") {
+      state.pending.custom_backgrounds = state.pending.custom_backgrounds.filter((bg) => bg.slug !== slug);
+    }
+    renderPending();
+  };
+
+  const getStoredToken = () => localStorage.getItem(TOKEN_STORAGE_KEY) || "";
+
+  const setStoredToken = (token) => {
+    const value = token.trim();
+    if (value) localStorage.setItem(TOKEN_STORAGE_KEY, value);
+    else localStorage.removeItem(TOKEN_STORAGE_KEY);
+    renderTokenState();
+  };
+
+  const renderTokenState = (prompt = false) => {
+    const token = getStoredToken();
+    const tokenPanel = $("#token-panel");
+    const tokenStatus = $("#token-status");
+    if (!tokenPanel || !tokenStatus) return;
+    tokenPanel.hidden = Boolean(token) || !prompt;
+    tokenStatus.textContent = token
+      ? "GitHub token stored locally."
+      : (prompt ? "Enter a GitHub token before publishing." : "No GitHub token stored.");
+    const input = $("#github-token");
+    if (input && token) input.value = "";
+  };
+
+  const normalizePublishOverrides = (value) => ({
+    background_patches: {},
+    pokemon_exclusions: {},
+    pokemon_additions: {},
+    custom_backgrounds: [],
+    ...(value && typeof value === "object" ? value : {}),
+  });
+
+  const uniqueList = (list) => [...new Set((list || []).filter(Boolean))];
+
+  const mergePokemonList = (current = [], staged = []) => {
+    const bySlug = new Map();
+    for (const p of current) if (p && p.pokedex_slug) bySlug.set(p.pokedex_slug, p);
+    for (const p of staged) if (p && p.pokedex_slug) bySlug.set(p.pokedex_slug, additionForOverrides(p));
+    return [...bySlug.values()];
+  };
+
+  const mergePendingIntoOverrides = (baseOverrides) => {
+    const merged = normalizePublishOverrides(JSON.parse(JSON.stringify(baseOverrides || {})));
+    for (const [slug, patch] of Object.entries(state.pending.background_patches)) {
+      merged.background_patches[slug] = { ...(merged.background_patches[slug] || {}), ...patch };
+    }
+    for (const [slug, list] of Object.entries(state.pending.pokemon_exclusions)) {
+      merged.pokemon_exclusions[slug] = uniqueList([...(merged.pokemon_exclusions[slug] || []), ...list]);
+    }
+    for (const [slug, list] of Object.entries(state.pending.pokemon_restores)) {
+      const restoreSet = new Set(list);
+      const next = (merged.pokemon_exclusions[slug] || []).filter((pSlug) => !restoreSet.has(pSlug));
+      if (next.length) merged.pokemon_exclusions[slug] = next;
+      else delete merged.pokemon_exclusions[slug];
+    }
+    for (const [slug, list] of Object.entries(state.pending.pokemon_additions)) {
+      const next = mergePokemonList(merged.pokemon_additions[slug] || [], list);
+      if (next.length) merged.pokemon_additions[slug] = next;
+      else delete merged.pokemon_additions[slug];
+    }
+    for (const bg of state.pending.custom_backgrounds) {
+      const clean = {
+        slug: bg.slug,
+        type: bg.type || "custom",
+        title: bg.title,
+        release_date: bg.release_date || null,
+        description: bg.description || "",
+        event: bg.event || null,
+        pokemon: (bg.pokemon || []).map(additionForOverrides),
+      };
+      merged.custom_backgrounds = (merged.custom_backgrounds || []).filter((item) => item.slug !== clean.slug);
+      merged.custom_backgrounds.push(clean);
+    }
+    return merged;
+  };
+
+  const bytesToBinary = (bytes) => {
+    let binary = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    }
+    return binary;
+  };
+
+  const textToBase64 = (text) => btoa(bytesToBinary(new TextEncoder().encode(text)));
+
+  const base64ToText = (value) => new TextDecoder().decode(Uint8Array.from(atob(value), (ch) => ch.charCodeAt(0)));
+
+  const fileToBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = String(reader.result || "");
+      resolve(result.includes(",") ? result.split(",").pop() : result);
+    };
+    reader.onerror = () => reject(new Error("Failed to read " + file.name));
+    reader.readAsDataURL(file);
+  });
+
+  const urlToBase64 = async (url) => {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("HTTP " + res.status + " for " + url);
+    return fileToBase64(await res.blob());
+  };
+
+  const uploadPlanContent = (plan) => plan.file ? fileToBase64(plan.file) : urlToBase64(plan.url);
+
+  const githubHeaders = (token) => ({
+    "Accept": "application/vnd.github+json",
+    "Authorization": "Bearer " + token,
+    "X-GitHub-Api-Version": "2022-11-28",
+  });
+
+  const githubContentUrl = (path) => GITHUB_API_BASE + "/contents/" + path.split("/").map(encodeURIComponent).join("/");
+
+  const githubRequest = async (path, options, token) => {
+    const res = await fetch(githubContentUrl(path), {
+      ...options,
+      headers: { ...githubHeaders(token), ...(options && options.headers ? options.headers : {}) },
+    });
+    const text = await res.text();
+    let data = null;
+    if (text) {
+      try { data = JSON.parse(text); }
+      catch { data = { message: text }; }
+    }
+    if (!res.ok) {
+      const message = data && data.message ? data.message : res.statusText;
+      const err = new Error("GitHub " + res.status + ": " + message);
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    return data;
+  };
+
+  const readGithubContent = async (path, token) => githubRequest(path, { method: "GET" }, token);
+
+  const putGithubContent = async ({ path, contentBase64, sha, message }, token) => githubRequest(path, {
+    method: "PUT",
+    body: JSON.stringify({ message, content: contentBase64, sha, branch: "main" }),
+  }, token);
+
+  const imageUploadPlans = () => {
+    const plans = [];
+    for (const bg of state.pending.custom_backgrounds) {
+      if (bg._hero_file_obj) plans.push({ path: "custom/images/backgrounds/" + bg.slug + ".png", file: bg._hero_file_obj });
+    }
+    return plans;
+  };
+
+  const publishStatus = (message, kind = "") => {
+    const box = $("#publish-status");
+    if (!box) return;
+    const row = document.createElement("div");
+    row.className = "publish-result" + (kind ? " " + kind : "");
+    row.textContent = message;
+    box.appendChild(row);
+  };
+
+  const clearPendingState = () => {
+    state.pending = { background_patches: {}, pokemon_exclusions: {}, pokemon_restores: {}, pokemon_additions: {}, custom_backgrounds: [] };
+    renderPokemonForActive();
+    renderExcludedForActive();
+    renderPending();
+    renderPublishReview();
+  };
+
+  const publishChanges = async () => {
+    if (state.publishing) return;
+    if (!hasPendingChanges()) {
+      publishStatus("No pending changes to publish.", "error");
+      return;
+    }
+    let token = getStoredToken();
+    const input = $("#github-token");
+    if (!token && input && input.value.trim()) {
+      setStoredToken(input.value);
+      token = getStoredToken();
+    }
+    if (!token) {
+      renderTokenState(true);
+      publishStatus("Enter a GitHub token before publishing.", "error");
+      return;
+    }
+    state.publishing = true;
+    $("#publish-button").disabled = true;
+    $("#publish-status").replaceChildren();
+    try {
+      publishStatus("Fetching current custom/overrides.json from GitHub...");
+      const current = await readGithubContent("custom/overrides.json", token);
+      const decoded = base64ToText((current.content || "").replace(/\n/g, ""));
+      const currentOverrides = normalizePublishOverrides(JSON.parse(decoded || "{}"));
+      const merged = mergePendingIntoOverrides(currentOverrides);
+      const content = JSON.stringify(merged, null, 2) + "\n";
+      publishStatus("Publishing custom/overrides.json...");
+      await putGithubContent({ path: "custom/overrides.json", contentBase64: textToBase64(content), sha: current.sha, message: "Update custom overrides from admin" }, token);
+      publishStatus("Published custom/overrides.json", "ok");
+
+      for (const plan of imageUploadPlans()) {
+        publishStatus("Publishing " + plan.path + "...");
+        let sha = undefined;
+        try {
+          const existing = await readGithubContent(plan.path, token);
+          sha = existing.sha;
+        } catch (err) {
+          if (err.status !== 404) throw err;
+        }
+        await putGithubContent({ path: plan.path, contentBase64: await uploadPlanContent(plan), sha, message: "Update " + plan.path + " from admin" }, token);
+        publishStatus("Published " + plan.path, "ok");
+      }
+
+      clearPendingState();
+      const link = document.createElement("a");
+      link.href = GITHUB_ACTIONS_URL;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "Open GitHub Actions";
+      const row = document.createElement("div");
+      row.className = "publish-result ok";
+      row.append("Publish complete. The deploy workflow should start automatically. ", link);
+      $("#publish-status").appendChild(row);
+    } catch (err) {
+      if (err.status === 401) publishStatus("GitHub rejected the token (401). Check that it is valid and has repo scope.", "error");
+      else if (err.status === 409) publishStatus("GitHub reported a sha conflict (409). Reload current overrides and review before publishing again.", "error");
+      else publishStatus(err.message || String(err), "error");
+    } finally {
+      state.publishing = false;
+      renderPublishReview();
+    }
   };
 
   const stagePatchFromFields = () => {
@@ -930,6 +1298,13 @@
       renderPending();
     });
 
+    $("#pending-list").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-bucket]");
+      if (!btn) return;
+      e.stopPropagation();
+      removePendingItem(btn.dataset.bucket, btn.dataset.slug, btn.dataset.pokedexSlug || "");
+    });
+
     $("#grid").addEventListener("click", (e) => {
       const card = e.target.closest(".card");
       if (!card) return;
@@ -952,7 +1327,13 @@
 
     $("#back-to-grid").addEventListener("click", showGrid);
     $("#new-custom-background").addEventListener("click", showCustomForm);
+    $("#review-publish").addEventListener("click", showPublishReview);
+    $("#pending-review-publish").addEventListener("click", showPublishReview);
     $("#custom-back-to-grid").addEventListener("click", showGrid);
+    $("#publish-back-to-grid").addEventListener("click", showGrid);
+    $("#publish-button").addEventListener("click", publishChanges);
+    $("#forget-token").addEventListener("click", () => { setStoredToken(""); publishStatus("GitHub token forgotten."); });
+    $("#github-token").addEventListener("change", (e) => setStoredToken(e.target.value));
     bindAdder("detail-add", stageDetailAddition);
     bindAdder("custom-add", stageCustomPokemon);
     $("#custom-title").addEventListener("input", syncCustomSlugFromTitle);
@@ -984,7 +1365,9 @@
     $("#custom-stage-background").addEventListener("click", stageCustomBackground);
     window.addEventListener("popstate", () => {
       const slug = decodeURIComponent(location.hash.replace(/^#/, ""));
-      if (slug) showDetail(slug).catch(showError);
+      if (slug === "custom-new") showCustomForm();
+      else if (slug === "publish") showPublishReview();
+      else if (slug) showDetail(slug).catch(showError);
       else showGrid();
     });
   };
@@ -1007,11 +1390,13 @@
     state.backgrounds = Array.isArray(index.backgrounds) ? index.backgrounds : [];
     buildTypeControls();
     wireControls();
+    renderTokenState();
     renderPending();
     renderGrid();
 
     const slug = decodeURIComponent(location.hash.replace(/^#/, ""));
     if (slug === "custom-new") showCustomForm();
+    else if (slug === "publish") showPublishReview();
     else if (slug) await showDetail(slug);
   };
 

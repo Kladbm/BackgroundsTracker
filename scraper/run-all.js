@@ -36,6 +36,7 @@ const {
   delay,
   IMAGES_DIR,
   IMAGE_DELAY_MS,
+  ASSET_BASE,
 } = require('./detail');
 const {
   loadOverrides,
@@ -128,8 +129,14 @@ async function imagesOnly() {
   }
 
   const overrides = loadOverrides();
-  const customImages = copyCustomImages(detailsBySlug, IMAGES_DIR, overrides);
-  totalDownloaded += customImages.copied.length;
+  const customImages = await copyCustomImages(detailsBySlug, IMAGES_DIR, overrides, console, {
+    download,
+    delay,
+    delayMs: IMAGE_DELAY_MS,
+    assetBase: ASSET_BASE,
+  });
+  totalDownloaded += customImages.copied.length + customImages.downloaded.length;
+  for (const d of customImages.downloaded) totalBytes += d.size;
   totalSkipped += customImages.skipped.length;
 
   console.log('');
@@ -137,6 +144,7 @@ async function imagesOnly() {
   console.log(`Files downloaded:       ${totalDownloaded}  (${fmtBytes(totalBytes)})`);
   console.log(`Files already cached:   ${totalSkipped}`);
   console.log(`Custom images copied:   ${customImages.copied.length}`);
+  console.log(`Custom images downloaded:${customImages.downloaded.length}`);
   console.log(`Custom images missing:  ${customImages.missing.length}`);
   console.log(`Files failed:           ${failures.length}`);
   if (failures.length) {
@@ -271,7 +279,12 @@ async function main() {
 
   const overrides = loadOverrides();
   applyOverrides(allBackgrounds, detailsBySlug, overrides);
-  const customImages = copyCustomImages(detailsBySlug, IMAGES_DIR, overrides);
+  const customImages = await copyCustomImages(detailsBySlug, IMAGES_DIR, overrides, console, {
+    download,
+    delay,
+    delayMs: IMAGE_DELAY_MS,
+    assetBase: ASSET_BASE,
+  });
 
   const outDir = path.join(DATA_DIR, 'backgrounds');
   fs.mkdirSync(outDir, { recursive: true });
@@ -294,6 +307,7 @@ async function main() {
     );
   }
   console.log(`Custom images copied:       ${customImages.copied.length}`);
+  console.log(`Custom images downloaded:   ${customImages.downloaded.length}`);
   console.log(`Custom images skipped:      ${customImages.skipped.length}`);
   console.log(`Custom images missing:      ${customImages.missing.length}`);
   console.log(`Wrote ${detailsBySlug.size} background JSON file(s)`);
