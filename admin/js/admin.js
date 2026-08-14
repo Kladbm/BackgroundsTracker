@@ -489,7 +489,9 @@
     const data = state.detailBySlug.get(state.activeSlug);
     if (!data || typeof data.then === "function") return;
     const excluded = effectiveExcludedSlugs(state.activeSlug);
-    const pokemon = Array.isArray(data.pokemon) ? data.pokemon.filter((p) => !excluded.has(p.pokedex_slug)) : [];
+    const pokemon = Array.isArray(data.pokemon)
+      ? data.pokemon.filter((p) => !excluded.has(p.pokedex_slug)).sort((a, b) => a.dex - b.dex)
+      : [];
     $("#pokemon-count").textContent = "(" + pokemon.length + ")";
     $("#pokemon-list").replaceChildren(...pokemon.map((p) => buildPokemonCard(p, "exclude")));
   };

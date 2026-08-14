@@ -188,7 +188,8 @@
 
   const renderPokemon = () => {
     const list = $('#pokemon-list');
-    list.replaceChildren(...state.data.pokemon.map(buildPokemonCard));
+    const pokemon = [...state.data.pokemon].sort((a, b) => a.dex - b.dex);
+    list.replaceChildren(...pokemon.map(buildPokemonCard));
     $('#pokemon-count').textContent = `(${state.data.pokemon.length})`;
   };
 
