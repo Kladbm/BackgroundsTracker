@@ -11,6 +11,24 @@
           "electric"
         ],
         "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
       }
     ],
     "lc-pokecenter-hiroshima": [
@@ -20,6 +38,3450 @@
         "pokedex_slug": "raichu",
         "types": [
           "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-2025-expo-2": [
+      {
+        "dex": 3,
+        "name": "Mega Venusaur",
+        "pokedex_slug": "venusaur-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 9,
+        "name": "Mega Blastoise",
+        "pokedex_slug": "blastoise-mega",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-2026-tokyo-minato": [
+      {
+        "dex": 3,
+        "name": "Mega Venusaur",
+        "pokedex_slug": "venusaur-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-go-fest-2025-dark-skies": [
+      {
+        "dex": 3,
+        "name": "Mega Venusaur",
+        "pokedex_slug": "venusaur-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 9,
+        "name": "Mega Blastoise",
+        "pokedex_slug": "blastoise-mega",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 94,
+        "name": "Mega Gengar",
+        "pokedex_slug": "gengar-mega",
+        "types": [
+          "ghost",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 302,
+        "name": "Mega Sableye",
+        "pokedex_slug": "sableye-mega",
+        "types": [
+          "dark",
+          "ghost"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 376,
+        "name": "Mega Metagross",
+        "pokedex_slug": "metagross-mega",
+        "types": [
+          "steel",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 870,
+        "name": "Mega Falinks",
+        "pokedex_slug": "falinks-mega",
+        "types": [
+          "fighting"
+        ],
+        "shiny_available": false
+      }
+    ],
+    "sb-go-tour-2026-mega": [
+      {
+        "dex": 3,
+        "name": "Mega Venusaur",
+        "pokedex_slug": "venusaur-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 9,
+        "name": "Mega Blastoise",
+        "pokedex_slug": "blastoise-mega",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 18,
+        "name": "Mega Pidgeot",
+        "pokedex_slug": "pidgeot-mega",
+        "types": [
+          "normal",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 71,
+        "name": "Mega Victreebel",
+        "pokedex_slug": "victreebel-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 115,
+        "name": "Mega Kangaskhan",
+        "pokedex_slug": "kangaskhan-mega",
+        "types": [
+          "normal"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 149,
+        "name": "Mega Dragonite",
+        "pokedex_slug": "dragonite-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 212,
+        "name": "Mega Scizor",
+        "pokedex_slug": "scizor-mega",
+        "types": [
+          "bug",
+          "steel"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 214,
+        "name": "Mega Heracross",
+        "pokedex_slug": "heracross-mega",
+        "types": [
+          "bug",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 248,
+        "name": "Mega Tyranitar",
+        "pokedex_slug": "tyranitar-mega",
+        "types": [
+          "rock",
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 257,
+        "name": "Mega Blaziken",
+        "pokedex_slug": "blaziken-mega",
+        "types": [
+          "fire",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 260,
+        "name": "Mega Swampert",
+        "pokedex_slug": "swampert-mega",
+        "types": [
+          "water",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 282,
+        "name": "Mega Gardevoir",
+        "pokedex_slug": "gardevoir-mega",
+        "types": [
+          "psychic",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 359,
+        "name": "Mega Absol",
+        "pokedex_slug": "absol-mega",
+        "types": [
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 373,
+        "name": "Mega Salamence",
+        "pokedex_slug": "salamence-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 376,
+        "name": "Mega Metagross",
+        "pokedex_slug": "metagross-mega",
+        "types": [
+          "steel",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 445,
+        "name": "Mega Garchomp",
+        "pokedex_slug": "garchomp-mega",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 448,
+        "name": "Mega Lucario",
+        "pokedex_slug": "lucario-mega",
+        "types": [
+          "fighting",
+          "steel"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 475,
+        "name": "Mega Gallade",
+        "pokedex_slug": "gallade-mega",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 687,
+        "name": "Mega Malamar",
+        "pokedex_slug": "malamar-mega",
+        "types": [
+          "dark",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-team-leader-blue": [
+      {
+        "dex": 3,
+        "name": "Mega Venusaur",
+        "pokedex_slug": "venusaur-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 9,
+        "name": "Mega Blastoise",
+        "pokedex_slug": "blastoise-mega",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 94,
+        "name": "Mega Gengar",
+        "pokedex_slug": "gengar-mega",
+        "types": [
+          "ghost",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 257,
+        "name": "Mega Blaziken",
+        "pokedex_slug": "blaziken-mega",
+        "types": [
+          "fire",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 260,
+        "name": "Mega Swampert",
+        "pokedex_slug": "swampert-mega",
+        "types": [
+          "water",
+          "ground"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-team-leader-red": [
+      {
+        "dex": 3,
+        "name": "Mega Venusaur",
+        "pokedex_slug": "venusaur-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 9,
+        "name": "Mega Blastoise",
+        "pokedex_slug": "blastoise-mega",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 94,
+        "name": "Mega Gengar",
+        "pokedex_slug": "gengar-mega",
+        "types": [
+          "ghost",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 257,
+        "name": "Mega Blaziken",
+        "pokedex_slug": "blaziken-mega",
+        "types": [
+          "fire",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 260,
+        "name": "Mega Swampert",
+        "pokedex_slug": "swampert-mega",
+        "types": [
+          "water",
+          "ground"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-team-leader-yellow": [
+      {
+        "dex": 3,
+        "name": "Mega Venusaur",
+        "pokedex_slug": "venusaur-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 9,
+        "name": "Mega Blastoise",
+        "pokedex_slug": "blastoise-mega",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 94,
+        "name": "Mega Gengar",
+        "pokedex_slug": "gengar-mega",
+        "types": [
+          "ghost",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 257,
+        "name": "Mega Blaziken",
+        "pokedex_slug": "blaziken-mega",
+        "types": [
+          "fire",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 260,
+        "name": "Mega Swampert",
+        "pokedex_slug": "swampert-mega",
+        "types": [
+          "water",
+          "ground"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-2026-jp-jetred": [
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-fest-2025-paris": [
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-tour-2026-los-angeles": [
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 71,
+        "name": "Mega Victreebel",
+        "pokedex_slug": "victreebel-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 130,
+        "name": "Mega Gyarados",
+        "pokedex_slug": "gyarados-mega",
+        "types": [
+          "water",
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 149,
+        "name": "Mega Dragonite",
+        "pokedex_slug": "dragonite-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 181,
+        "name": "Mega Ampharos",
+        "pokedex_slug": "ampharos-mega",
+        "types": [
+          "electric",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 282,
+        "name": "Mega Gardevoir",
+        "pokedex_slug": "gardevoir-mega",
+        "types": [
+          "psychic",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 334,
+        "name": "Mega Altaria",
+        "pokedex_slug": "altaria-mega",
+        "types": [
+          "dragon",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 359,
+        "name": "Mega Absol",
+        "pokedex_slug": "absol-mega",
+        "types": [
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 373,
+        "name": "Mega Salamence",
+        "pokedex_slug": "salamence-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 445,
+        "name": "Mega Garchomp",
+        "pokedex_slug": "garchomp-mega",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 448,
+        "name": "Mega Lucario",
+        "pokedex_slug": "lucario-mega",
+        "types": [
+          "fighting",
+          "steel"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 687,
+        "name": "Mega Malamar",
+        "pokedex_slug": "malamar-mega",
+        "types": [
+          "dark",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-tour-2026-tainan": [
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 71,
+        "name": "Mega Victreebel",
+        "pokedex_slug": "victreebel-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 130,
+        "name": "Mega Gyarados",
+        "pokedex_slug": "gyarados-mega",
+        "types": [
+          "water",
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 149,
+        "name": "Mega Dragonite",
+        "pokedex_slug": "dragonite-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 181,
+        "name": "Mega Ampharos",
+        "pokedex_slug": "ampharos-mega",
+        "types": [
+          "electric",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 282,
+        "name": "Mega Gardevoir",
+        "pokedex_slug": "gardevoir-mega",
+        "types": [
+          "psychic",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 334,
+        "name": "Mega Altaria",
+        "pokedex_slug": "altaria-mega",
+        "types": [
+          "dragon",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 359,
+        "name": "Mega Absol",
+        "pokedex_slug": "absol-mega",
+        "types": [
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 373,
+        "name": "Mega Salamence",
+        "pokedex_slug": "salamence-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 445,
+        "name": "Mega Garchomp",
+        "pokedex_slug": "garchomp-mega",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 448,
+        "name": "Mega Lucario",
+        "pokedex_slug": "lucario-mega",
+        "types": [
+          "fighting",
+          "steel"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 687,
+        "name": "Mega Malamar",
+        "pokedex_slug": "malamar-mega",
+        "types": [
+          "dark",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-2026-tokyo-shinagawa": [
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 80,
+        "name": "Mega Slowbro",
+        "pokedex_slug": "slowbro-mega",
+        "types": [
+          "water",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-paris-2025-2": [
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-paris-2025": [
+      {
+        "dex": 6,
+        "name": "Mega Charizard X",
+        "pokedex_slug": "charizard-mega-x",
+        "types": [
+          "fire",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 6,
+        "name": "Mega Charizard Y",
+        "pokedex_slug": "charizard-mega-y",
+        "types": [
+          "fire",
+          "flying"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-2026-tokyo-koto": [
+      {
+        "dex": 9,
+        "name": "Mega Blastoise",
+        "pokedex_slug": "blastoise-mega",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-gofest2026-global": [
+      {
+        "dex": 15,
+        "name": "Mega Beedrill",
+        "pokedex_slug": "beedrill-mega",
+        "types": [
+          "bug",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 18,
+        "name": "Mega Pidgeot",
+        "pokedex_slug": "pidgeot-mega",
+        "types": [
+          "normal",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 65,
+        "name": "Mega Alakazam",
+        "pokedex_slug": "alakazam-mega",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 94,
+        "name": "Mega Gengar",
+        "pokedex_slug": "gengar-mega",
+        "types": [
+          "ghost",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 127,
+        "name": "Mega Pinsir",
+        "pokedex_slug": "pinsir-mega",
+        "types": [
+          "bug",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 142,
+        "name": "Mega Aerodactyl",
+        "pokedex_slug": "aerodactyl-mega",
+        "types": [
+          "rock",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 181,
+        "name": "Mega Ampharos",
+        "pokedex_slug": "ampharos-mega",
+        "types": [
+          "electric",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 248,
+        "name": "Mega Tyranitar",
+        "pokedex_slug": "tyranitar-mega",
+        "types": [
+          "rock",
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 257,
+        "name": "Mega Blaziken",
+        "pokedex_slug": "blaziken-mega",
+        "types": [
+          "fire",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 260,
+        "name": "Mega Swampert",
+        "pokedex_slug": "swampert-mega",
+        "types": [
+          "water",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 282,
+        "name": "Mega Gardevoir",
+        "pokedex_slug": "gardevoir-mega",
+        "types": [
+          "psychic",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 373,
+        "name": "Mega Salamence",
+        "pokedex_slug": "salamence-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 376,
+        "name": "Mega Metagross",
+        "pokedex_slug": "metagross-mega",
+        "types": [
+          "steel",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 382,
+        "name": "Primal Kyogre",
+        "pokedex_slug": "kyogre-primal",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 383,
+        "name": "Primal Groudon",
+        "pokedex_slug": "groudon-primal",
+        "types": [
+          "ground",
+          "fire"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 384,
+        "name": "Mega Rayquaza",
+        "pokedex_slug": "rayquaza-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 445,
+        "name": "Mega Garchomp",
+        "pokedex_slug": "garchomp-mega",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 448,
+        "name": "Mega Lucario",
+        "pokedex_slug": "lucario-mega",
+        "types": [
+          "fighting",
+          "steel"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 460,
+        "name": "Mega Abomasnow",
+        "pokedex_slug": "abomasnow-mega",
+        "types": [
+          "grass",
+          "ice"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 531,
+        "name": "Mega Audino",
+        "pokedex_slug": "audino-mega",
+        "types": [
+          "normal",
+          "fairy"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-lotte-giants": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-arizona-diamondbacks": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-baltimore-orioles": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-boston-red-sox": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-chicago-whitesox": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-cleveland-guardians": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-mariners": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-marlins": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-milwaukee-brewers": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-minnesota-twins": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-newyork-mets": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-san-francisco-giants": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-tampa-bay-rays": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-texas-rangers": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-mlb-washington-nationals": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nfl-arizona-cardinals": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-aichi": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-akita": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-aomori": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-chiba": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-ehime": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-fukui": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-fukuoka": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-fukushima": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-gifu": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-hokkaido": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-hyogo": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-ibaraki": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-ishikawa": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-iwate": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-kagawa": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-kagoshima": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-kanagawa": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-kochi": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-kyoto": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-mie": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-miyagi": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-miyazaki": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-nagasaki": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-nara": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-niigata": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-okayama": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-okinawa": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-osaka": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-saga": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-saitama": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-shiga": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-shimane": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-shizuoka": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-tochigi": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-tokushima": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-tokyo": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-tottori": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-toyama": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-wakayama": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-yamagata": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-pokelid-yamaguchi": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-roadtrip-2025-berlin": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-roadtrip-2025-cologne": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-roadtrip-2025-hague": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-roadtrip-2025-london": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-roadtrip-2025-manchester": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-roadtrip-2025-paris": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-roadtrip-2025-valencia": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-2025-expo-1": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-stamp-rally-2025-suita": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-lego-2026": [
+      {
+        "dex": 26,
+        "name": "Mega Raichu X",
+        "pokedex_slug": "raichu-mega-x",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 26,
+        "name": "Mega Raichu Y",
+        "pokedex_slug": "raichu-mega-y",
+        "types": [
+          "electric"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-2024-december-cd-recap": [
+      {
+        "dex": 71,
+        "name": "Mega Victreebel",
+        "pokedex_slug": "victreebel-mega",
+        "types": [
+          "grass",
+          "poison"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 373,
+        "name": "Mega Salamence",
+        "pokedex_slug": "salamence-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 376,
+        "name": "Mega Metagross",
+        "pokedex_slug": "metagross-mega",
+        "types": [
+          "steel",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-pokopia-2026": [
+      {
+        "dex": 149,
+        "name": "Mega Dragonite",
+        "pokedex_slug": "dragonite-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-fest-2026-chicago": [
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo X",
+        "pokedex_slug": "mewtwo-mega-x",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo Y",
+        "pokedex_slug": "mewtwo-mega-y",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 382,
+        "name": "Primal Kyogre",
+        "pokedex_slug": "kyogre-primal",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 383,
+        "name": "Primal Groudon",
+        "pokedex_slug": "groudon-primal",
+        "types": [
+          "ground",
+          "fire"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-fest-2026-copenhagen": [
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo X",
+        "pokedex_slug": "mewtwo-mega-x",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo Y",
+        "pokedex_slug": "mewtwo-mega-y",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 382,
+        "name": "Primal Kyogre",
+        "pokedex_slug": "kyogre-primal",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 383,
+        "name": "Primal Groudon",
+        "pokedex_slug": "groudon-primal",
+        "types": [
+          "ground",
+          "fire"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-fest-2026-tokyo": [
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo X",
+        "pokedex_slug": "mewtwo-mega-x",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo Y",
+        "pokedex_slug": "mewtwo-mega-y",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 382,
+        "name": "Primal Kyogre",
+        "pokedex_slug": "kyogre-primal",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 383,
+        "name": "Primal Groudon",
+        "pokedex_slug": "groudon-primal",
+        "types": [
+          "ground",
+          "fire"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-times-square-2026": [
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo X",
+        "pokedex_slug": "mewtwo-mega-x",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo Y",
+        "pokedex_slug": "mewtwo-mega-y",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-gofest2026-mewtwo": [
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo X",
+        "pokedex_slug": "mewtwo-mega-x",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo Y",
+        "pokedex_slug": "mewtwo-mega-y",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-gowildarea-2025-nagasaki": [
+      {
+        "dex": 181,
+        "name": "Mega Ampharos",
+        "pokedex_slug": "ampharos-mega",
+        "types": [
+          "electric",
+          "dragon"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 229,
+        "name": "Mega Houndoom",
+        "pokedex_slug": "houndoom-mega",
+        "types": [
+          "dark",
+          "fire"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 282,
+        "name": "Mega Gardevoir",
+        "pokedex_slug": "gardevoir-mega",
+        "types": [
+          "psychic",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 303,
+        "name": "Mega Mawile",
+        "pokedex_slug": "mawile-mega",
+        "types": [
+          "steel",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 359,
+        "name": "Mega Absol",
+        "pokedex_slug": "absol-mega",
+        "types": [
+          "dark"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-angleseyabbey": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-attinghampark": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-beltonestate": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-calkeabbey": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-chirk": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-cliveden": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-clumberpark": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-dunhammassey": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-fountainsabbey": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-gibslide": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-hanburyhall": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-hardwick": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-killerton": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-kingstonlacy": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-lacock": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-lymepark": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-mottisfont": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-mountstewart": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-nymans": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-polesden": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-scotneycastle": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-stourhead": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-stowegardenpark": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-tredegarhouse": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-trelissick": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-tyntesfield": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-nationaltrust-wimpoleestate": [
+      {
+        "dex": 254,
+        "name": "Mega Sceptile",
+        "pokedex_slug": "sceptile-mega",
+        "types": [
+          "grass",
+          "dragon"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-season-17-duel-destiny": [
+      {
+        "dex": 282,
+        "name": "Mega Gardevoir",
+        "pokedex_slug": "gardevoir-mega",
+        "types": [
+          "psychic",
+          "fairy"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 475,
+        "name": "Mega Gallade",
+        "pokedex_slug": "gallade-mega",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-season-18-might-and-mastery": [
+      {
+        "dex": 308,
+        "name": "Mega Medicham",
+        "pokedex_slug": "medicham-mega",
+        "types": [
+          "fighting",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-air-adv-2024-bali": [
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-air-adv-2024-jakarta": [
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-air-adv-2024-surabaya": [
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-air-adv-2024-yogyakarta": [
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-jeju-air-adv-2023": [
+      {
+        "dex": 380,
+        "name": "Mega Latias",
+        "pokedex_slug": "latias-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 381,
+        "name": "Mega Latios",
+        "pokedex_slug": "latios-mega",
+        "types": [
+          "dragon",
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-tour-2023-las-vegas": [
+      {
+        "dex": 382,
+        "name": "Primal Kyogre",
+        "pokedex_slug": "kyogre-primal",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 383,
+        "name": "Primal Groudon",
+        "pokedex_slug": "groudon-primal",
+        "types": [
+          "ground",
+          "fire"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-gowildarea-2024-global": [
+      {
+        "dex": 382,
+        "name": "Primal Kyogre",
+        "pokedex_slug": "kyogre-primal",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 383,
+        "name": "Primal Groudon",
+        "pokedex_slug": "groudon-primal",
+        "types": [
+          "ground",
+          "fire"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-sapphire": [
+      {
+        "dex": 382,
+        "name": "Primal Kyogre",
+        "pokedex_slug": "kyogre-primal",
+        "types": [
+          "water"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-go-tour-2026-ruby": [
+      {
+        "dex": 383,
+        "name": "Primal Groudon",
+        "pokedex_slug": "groudon-primal",
+        "types": [
+          "ground",
+          "fire"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-fest-2023-london": [
+      {
+        "dex": 384,
+        "name": "Mega Rayquaza",
+        "pokedex_slug": "rayquaza-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-fest-2023-new-york": [
+      {
+        "dex": 384,
+        "name": "Mega Rayquaza",
+        "pokedex_slug": "rayquaza-mega",
+        "types": [
+          "dragon",
+          "flying"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "lc-go-fest-2023-osaka": [
+      {
+        "dex": 384,
+        "name": "Mega Rayquaza",
+        "pokedex_slug": "rayquaza-mega",
+        "types": [
+          "dragon",
+          "flying"
         ],
         "shiny_available": true
       }
