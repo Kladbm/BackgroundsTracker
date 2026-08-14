@@ -54,6 +54,16 @@ function additionFromCatalog(entry) {
   };
 }
 
+function isBulkEnhancedForm(entry) {
+  const slug = String(entry.pokedex_slug || '');
+  return entry.is_costume === false && (entry.is_mega === true || slug.endsWith('-primal'));
+}
+
+function isBaseDexMatch(pokemon, dex) {
+  const slug = String(pokemon.pokedex_slug || '');
+  return pokemon.dex === dex && slug && !slug.includes('mega') && !slug.endsWith('-primal');
+}
+
 function readBackgrounds() {
   return fs.readdirSync(BACKGROUNDS_DIR)
     .filter((file) => file.endsWith('.json'))
@@ -68,24 +78,20 @@ function main() {
 
   let added = 0;
   let skippedExisting = 0;
-  let backgroundMegaPairs = 0;
+  let backgroundFormPairs = 0;
   const touchedBackgrounds = new Set();
-  const missingMegaDex = [];
+  const missingEnhancedDex = [];
 
   for (const dex of watchlist) {
-    const megaForms = (catalog.pokemon || []).filter((entry) =>
-      entry.dex === dex &&
-      entry.is_mega === true &&
-      entry.is_costume === false
-    );
+    const enhancedForms = (catalog.pokemon || []).filter((entry) => entry.dex === dex && isBulkEnhancedForm(entry));
 
-    if (!megaForms.length) {
-      missingMegaDex.push(dex);
+    if (!enhancedForms.length) {
+      missingEnhancedDex.push(dex);
       continue;
     }
 
     const matchingBackgrounds = backgrounds.filter((bg) =>
-      (bg.pokemon || []).some((pokemon) => pokemon.dex === dex && pokemon.pokedex_slug && !pokemon.pokedex_slug.includes('mega'))
+      (bg.pokemon || []).some((pokemon) => isBaseDexMatch(pokemon, dex))
     );
 
     for (const bg of matchingBackgrounds) {
@@ -94,14 +100,14 @@ function main() {
         : [];
       const existingSlugs = new Set(list.map((entry) => entry && entry.pokedex_slug).filter(Boolean));
 
-      for (const mega of megaForms) {
-        backgroundMegaPairs += 1;
-        if (existingSlugs.has(mega.pokedex_slug)) {
+      for (const form of enhancedForms) {
+        backgroundFormPairs += 1;
+        if (existingSlugs.has(form.pokedex_slug)) {
           skippedExisting += 1;
           continue;
         }
-        list.push(additionFromCatalog(mega));
-        existingSlugs.add(mega.pokedex_slug);
+        list.push(additionFromCatalog(form));
+        existingSlugs.add(form.pokedex_slug);
         added += 1;
         touchedBackgrounds.add(bg.slug);
       }
@@ -113,12 +119,12 @@ function main() {
   writeJson(OVERRIDES_FILE, overrides);
 
   console.log(`Watchlist dex numbers: ${watchlist.length}`);
-  console.log(`Background/mega pairs checked: ${backgroundMegaPairs}`);
+  console.log(`Background/form pairs checked: ${backgroundFormPairs}`);
   console.log(`Additions written: ${added}`);
   console.log(`Already present, skipped: ${skippedExisting}`);
   console.log(`Backgrounds touched: ${touchedBackgrounds.size}`);
-  if (missingMegaDex.length) {
-    console.log(`No clean mega forms found for dex: ${missingMegaDex.join(', ')}`);
+  if (missingEnhancedDex.length) {
+    console.log(`No clean mega/primal forms found for dex: ${missingEnhancedDex.join(', ')}`);
   }
 }
 
