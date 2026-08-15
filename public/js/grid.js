@@ -35,6 +35,7 @@
     view: 'grid',
     pokemonColumns: 5,
     pokemonScope: 'all',
+    pokemonOrder: 'background',
   };
 
   // Readable labels for the raw type codes used in index.json.
@@ -278,6 +279,9 @@
           collected,
         });
       }
+    }
+    if (state.pokemonOrder === 'dex') {
+      placements.sort((a, b) => (Number(a.pokemon.dex) || 0) - (Number(b.pokemon.dex) || 0));
     }
     return placements;
   };
@@ -724,6 +728,14 @@
       $('#pokemon-scope-label').textContent = scopeBtn.textContent;
     }
 
+    const orderBtn = $(`#pokemon-order-controls .dropdown-menu button[data-pokemon-order="${state.pokemonOrder}"]`) ||
+      $('#pokemon-order-controls .dropdown-menu button[data-pokemon-order="background"]');
+    if (orderBtn) {
+      state.pokemonOrder = orderBtn.dataset.pokemonOrder;
+      setActive('#pokemon-order-controls', orderBtn);
+      $('#pokemon-order-label').textContent = orderBtn.textContent;
+    }
+
     const pokemonWidth = $('#pokemon-row-width');
     if (pokemonWidth) {
       pokemonWidth.value = String(state.pokemonColumns);
@@ -956,6 +968,16 @@
       $('#pokemon-scope-label').textContent = btn.textContent;
       $('#pokemon-scope-controls').open = false;
       writeUiPrefs();
+      render();
+    });
+
+    $('#pokemon-order-controls').addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn || !btn.dataset.pokemonOrder) return;
+      state.pokemonOrder = btn.dataset.pokemonOrder;
+      setActive('#pokemon-order-controls', btn);
+      $('#pokemon-order-label').textContent = btn.textContent;
+      $('#pokemon-order-controls').open = false;
       render();
     });
 
