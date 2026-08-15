@@ -44,6 +44,7 @@ const {
   copyCustomImages,
 } = require('./overrides');
 const { writePokedexCatalog } = require('./pokedex-catalog');
+const { writeEvolutionFamilies } = require('./evolution-families');
 
 const DATA_DIR = process.env.DATA_DIR ||
   path.join(__dirname, '..', 'public', 'data');
@@ -321,6 +322,9 @@ async function main() {
   const { outputFile, catalog } = await writePokedexCatalog();
   const speciesCount = new Set(catalog.pokemon.map((p) => p.dex + '|' + p.species_slug)).size;
   console.log('Wrote ' + outputFile + ' (' + catalog.pokemon.length + ' released forms, ' + speciesCount + ' species)');
+
+  const families = await writeEvolutionFamilies();
+  console.log('Wrote ' + families.outputFile + ' (' + families.data.families.length + ' families, ' + Object.keys(families.data.species).length + ' species, ' + Object.keys(families.data.forms).length + ' forms)');
 }
 
 main().catch((err) => {

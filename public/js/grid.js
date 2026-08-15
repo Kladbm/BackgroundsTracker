@@ -36,6 +36,7 @@
     pokemonColumns: 5,
     pokemonScope: 'all',
     pokemonOrder: 'background',
+    evolutionFamilies: null,
   };
 
   // Readable labels for the raw type codes used in index.json.
@@ -117,6 +118,15 @@
 
   const shinyOrNormalImage = (p) => p.image_shiny || p.image_normal;
 
+  const dateNewestCompare = (aDate, bDate) => {
+    const aNull = !aDate;
+    const bNull = !bDate;
+    if (aNull && bNull) return 0;
+    if (aNull) return 1;
+    if (bNull) return -1;
+    return -aDate.localeCompare(bDate);
+  };
+
   // Sort by date or title; backgrounds without a date sort last in both date
   // directions.
   const sortBackgrounds = (list) => {
@@ -152,6 +162,65 @@
   };
 
   const pokemonViewBackgrounds = () => newestBackgrounds(state.backgrounds);
+
+  const backgroundMeta = (slug) => state.backgrounds.find((b) => b.slug === slug) || {};
+
+  const formFamilyInfo = (pokemon) => {
+    const forms = state.evolutionFamilies && state.evolutionFamilies.forms;
+    const info = forms && forms[pokemon.pokedex_slug];
+    if (info) return info;
+    return {
+      family_id: pokemon.pokedex_slug || String(pokemon.dex || ''),
+      base_dex: Number(pokemon.dex) || Number.MAX_SAFE_INTEGER,
+      species_slug: pokemon.pokedex_slug || '',
+      dex: Number(pokemon.dex) || Number.MAX_SAFE_INTEGER,
+      stage: 0,
+      family_order: 0,
+      form_rank: 0,
+    };
+  };
+
+  const compareFamilyMembers = (a, b) => {
+    const af = formFamilyInfo(a.pokemon);
+    const bf = formFamilyInfo(b.pokemon);
+    return (af.stage || 0) - (bf.stage || 0) ||
+      (af.family_order || 0) - (bf.family_order || 0) ||
+      (Number(af.dex) || Number(a.pokemon.dex) || 0) - (Number(bf.dex) || Number(b.pokemon.dex) || 0) ||
+      (af.form_rank || 0) - (bf.form_rank || 0) ||
+      (a.originalIndex || 0) - (b.originalIndex || 0);
+  };
+
+  const sortPlacementsByFamily = (placements) => {
+    const families = new Map();
+    for (const placement of placements) {
+      const info = formFamilyInfo(placement.pokemon);
+      const familyId = info.family_id || placement.pokemon.pokedex_slug;
+      if (!families.has(familyId)) {
+        families.set(familyId, {
+          familyId,
+          baseDex: Number(info.base_dex) || Number(placement.pokemon.dex) || Number.MAX_SAFE_INTEGER,
+          backgrounds: new Map(),
+        });
+      }
+      const family = families.get(familyId);
+      if (!family.backgrounds.has(placement.background.slug)) family.backgrounds.set(placement.background.slug, []);
+      family.backgrounds.get(placement.background.slug).push(placement);
+    }
+
+    const ordered = [];
+    const sortedFamilies = [...families.values()].sort((a, b) => a.baseDex - b.baseDex || a.familyId.localeCompare(b.familyId));
+    for (const family of sortedFamilies) {
+      const groups = [...family.backgrounds.entries()].sort(([aSlug], [bSlug]) => {
+        const a = backgroundMeta(aSlug);
+        const b = backgroundMeta(bSlug);
+        return dateNewestCompare(a.release_date, b.release_date) || aSlug.localeCompare(bSlug);
+      });
+      for (const [, group] of groups) {
+        ordered.push(...group.sort(compareFamilyMembers));
+      }
+    }
+    return ordered;
+  };
 
   const countText = (slug) => {
     const y = state.yBySlug[slug];
@@ -269,6 +338,7 @@
 
   const pokemonPlacements = (scope = state.pokemonScope) => {
     const placements = [];
+    let originalIndex = 0;
     for (const b of pokemonViewBackgrounds()) {
       for (const p of state.pokemonBySlug[b.slug] || []) {
         const collected = storage.isCollected(state.collected, b.slug, p.pokedex_slug);
@@ -277,11 +347,15 @@
           background: b,
           pokemon: p,
           collected,
+          originalIndex: originalIndex++,
         });
       }
     }
     if (state.pokemonOrder === 'dex') {
       placements.sort((a, b) => (Number(a.pokemon.dex) || 0) - (Number(b.pokemon.dex) || 0));
+    }
+    if (state.pokemonOrder === 'family') {
+      return sortPlacementsByFamily(placements);
     }
     return placements;
   };
@@ -607,7 +681,7 @@
   };
 
   const measureDropdownTrigger = (controlsSel) => {
-    const controls = $(controlsSel);
+    const controls = typeof controlsSel === 'string' ? $(controlsSel) : controlsSel;
     if (!controls) return;
     const trigger = controls.querySelector('.dropdown-trigger');
     const label = controls.querySelector('.dropdown-label');
@@ -656,9 +730,7 @@
   };
 
   const measureDropdownTriggers = () => {
-    measureDropdownTrigger('#sort-controls');
-    measureDropdownTrigger('#type-controls');
-    measureDropdownTrigger('#pokemon-scope-controls');
+    document.querySelectorAll('.dropdown').forEach((controls) => measureDropdownTrigger(controls));
   };
 
   const applyViewState = () => {
@@ -990,6 +1062,12 @@
     const res = await fetch('data/index.json');
     if (!res.ok) throw new Error(`HTTP ${res.status} for data/index.json`);
     state.backgrounds = (await res.json()).backgrounds;
+    const familyRes = await fetch('data/evolution-families.json');
+    if (familyRes.ok) {
+      state.evolutionFamilies = await familyRes.json();
+    } else {
+      console.warn(`HTTP ${familyRes.status} for data/evolution-families.json; family sort will use dex fallback.`);
+    }
     buildTypeControls();
     restoreUiPrefs();
     measureDropdownTriggers();
