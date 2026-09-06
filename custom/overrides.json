@@ -3487,5 +3487,15 @@
       }
     ]
   },
-  "custom_backgrounds": []
+  "custom_backgrounds": [
+    {
+      "slug": "custom-10th-anniversary-celebration",
+      "type": "custom",
+      "title": "10th Anniversary Celebration",
+      "release_date": "2026-08-12",
+      "description": "The 10th Anniversary special background was released on Aug 12, 2026 as part of Pokémon GO’s 10th Anniversary Celebration. It features Earth in space with a golden sunrise and a dark starry background.",
+      "event": null,
+      "pokemon": []
+    }
+  ]
 }
