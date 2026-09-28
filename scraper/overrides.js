@@ -130,14 +130,18 @@ function copyIfAvailable(src, dest, label, required, logger, copied, skipped, mi
   return true;
 }
 
-async function downloadDittobasePokemonImage(label, dest, options, logger, downloaded, missing) {
+async function downloadDittobasePokemonImage(label, dest, pokemon, variant, options, logger, downloaded, missing) {
   if (!options || typeof options.download !== 'function') {
     logger.log(`WARN custom image ${label}: missing ${path.join(CUSTOM_IMAGES_DIR, label)}`);
     missing.push(label);
     return;
   }
 
-  const url = `${options.assetBase || 'https://assets.dittobase.com'}/go/pokemon/${path.basename(label)}`;
+  const catalogEntry = options.catalogBySlug && options.catalogBySlug.get(pokemon.pokedex_slug);
+  const catalogUrl = catalogEntry && (variant === 'shiny'
+    ? catalogEntry.image_shiny
+    : catalogEntry.image_normal);
+  const url = catalogUrl || `${options.assetBase || 'https://assets.dittobase.com'}/go/pokemon/${path.basename(label)}`;
   try {
     const result = await options.download(url, dest);
     if (result.skipped) return;
@@ -157,6 +161,10 @@ async function copyCustomImages(detailsBySlug, imagesDir, overrides, logger = co
   const skipped = [];
   const missing = [];
   const downloaded = [];
+  const catalogBySlug = new Map(
+    ((options.catalog && options.catalog.pokemon) || []).map((pokemon) => [pokemon.pokedex_slug, pokemon])
+  );
+  const downloadOptions = { ...options, catalogBySlug };
   const customBackgroundSlugs = new Set(
     Array.isArray(overrides.custom_backgrounds)
       ? overrides.custom_backgrounds.map((b) => b.slug)
@@ -183,14 +191,23 @@ async function copyCustomImages(detailsBySlug, imagesDir, overrides, logger = co
 
     for (const pokemon of data.pokemon) {
       const images = pokemonImagePaths(pokemon);
-      for (const rel of Object.values(images)) {
+      for (const [variant, rel] of Object.entries(images)) {
         const label = rel.replace(/^images\//, '');
         const src = path.join(CUSTOM_IMAGES_DIR, label);
         const dest = path.join(imagesDir, label);
         const required = isCustomPokemon(slug, pokemon.pokedex_slug, overrides);
         const resolved = copyIfAvailable(src, dest, label, required, logger, copied, skipped, missing);
         if (!resolved && required) {
-          await downloadDittobasePokemonImage(label, dest, options, logger, downloaded, missing);
+          await downloadDittobasePokemonImage(
+            label,
+            dest,
+            pokemon,
+            variant,
+            downloadOptions,
+            logger,
+            downloaded,
+            missing
+          );
         }
       }
     }

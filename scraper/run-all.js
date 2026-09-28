@@ -130,11 +130,16 @@ async function imagesOnly() {
   }
 
   const overrides = loadOverrides();
+  const catalogPath = path.join(DATA_DIR, 'pokedex-catalog.json');
+  const catalog = fs.existsSync(catalogPath)
+    ? JSON.parse(fs.readFileSync(catalogPath, 'utf8'))
+    : { pokemon: [] };
   const customImages = await copyCustomImages(detailsBySlug, IMAGES_DIR, overrides, console, {
     download,
     delay,
     delayMs: IMAGE_DELAY_MS,
     assetBase: ASSET_BASE,
+    catalog,
   });
   totalDownloaded += customImages.copied.length + customImages.downloaded.length;
   for (const d of customImages.downloaded) totalBytes += d.size;
@@ -278,6 +283,10 @@ async function main() {
     for (const r of withCountMismatch) console.log(`  - ${r.slug}: ${r.pokemon}`);
   }
 
+  const { outputFile, catalog } = await writePokedexCatalog();
+  const speciesCount = new Set(catalog.pokemon.map((p) => p.dex + '|' + p.species_slug)).size;
+  console.log('\nWrote ' + outputFile + ' (' + catalog.pokemon.length + ' released forms, ' + speciesCount + ' species)');
+
   const overrides = loadOverrides();
   applyOverrides(allBackgrounds, detailsBySlug, overrides);
   const customImages = await copyCustomImages(detailsBySlug, IMAGES_DIR, overrides, console, {
@@ -285,6 +294,7 @@ async function main() {
     delay,
     delayMs: IMAGE_DELAY_MS,
     assetBase: ASSET_BASE,
+    catalog,
   });
 
   const outDir = path.join(DATA_DIR, 'backgrounds');
@@ -318,10 +328,6 @@ async function main() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(path.join(DATA_DIR, 'index.json'), JSON.stringify(outIndex, null, 2) + '\n');
   console.log(`\nWrote ${DATA_DIR}/index.json (${allBackgrounds.length} entries)`);
-
-  const { outputFile, catalog } = await writePokedexCatalog();
-  const speciesCount = new Set(catalog.pokemon.map((p) => p.dex + '|' + p.species_slug)).size;
-  console.log('Wrote ' + outputFile + ' (' + catalog.pokemon.length + ' released forms, ' + speciesCount + ' species)');
 
   const families = await writeEvolutionFamilies();
   console.log('Wrote ' + families.outputFile + ' (' + families.data.families.length + ' families, ' + Object.keys(families.data.species).length + ' species, ' + Object.keys(families.data.forms).length + ' forms)');
