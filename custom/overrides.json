@@ -4353,6 +4353,96 @@
         ],
         "shiny_available": true
       }
+    ],
+    "custom-10th-anniversary-celebration": [
+      {
+        "dex": 150,
+        "name": "Mewtwo",
+        "pokedex_slug": "mewtwo",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo X",
+        "pokedex_slug": "mewtwo-mega-x",
+        "types": [
+          "psychic",
+          "fighting"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 150,
+        "name": "Mega Mewtwo Y",
+        "pokedex_slug": "mewtwo-mega-y",
+        "types": [
+          "psychic"
+        ],
+        "shiny_available": true
+      }
+    ],
+    "sb-community-days-2026": [
+      {
+        "dex": 827,
+        "name": "Nickit",
+        "pokedex_slug": "nickit",
+        "types": [
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 828,
+        "name": "Thievul",
+        "pokedex_slug": "thievul",
+        "types": [
+          "dark"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 443,
+        "name": "Gible",
+        "pokedex_slug": "gible",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 444,
+        "name": "Gabite",
+        "pokedex_slug": "gabite",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 445,
+        "name": "Garchomp",
+        "pokedex_slug": "garchomp",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      },
+      {
+        "dex": 445,
+        "name": "Mega Garchomp",
+        "pokedex_slug": "garchomp-mega",
+        "types": [
+          "dragon",
+          "ground"
+        ],
+        "shiny_available": true
+      }
     ]
   },
   "custom_backgrounds": [
