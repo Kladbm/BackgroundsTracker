@@ -56,7 +56,6 @@ function extractCatalogObjects(rsc) {
       const obj = JSON.parse(raw);
       if (
         typeof obj.slug === 'string' &&
-        typeof obj.speciesId === 'number' &&
         typeof obj.speciesSlug === 'string' &&
         Array.isArray(obj.PokemonImage)
       ) {
@@ -67,6 +66,14 @@ function extractCatalogObjects(rsc) {
     }
   }
   return [...bySlug.values()];
+}
+
+function dexFromImage(raw) {
+  const normal = (raw.PokemonImage || []).find((img) => img && img.isShiny === false && img.imageUrl);
+  const file = normal && normal.imageUrl ? normal.imageUrl.split('/').pop() : '';
+  const match = /^(\d+)-/.exec(file);
+  if (match) return Number(match[1]);
+  return Number.isFinite(raw.order) ? raw.order : null;
 }
 
 function mapTypes(raw) {
@@ -85,7 +92,7 @@ function mapCatalogEntry(raw) {
   const normal = raw.PokemonImage.find((img) => img && img.isShiny === false && img.imageUrl);
   const shiny = raw.PokemonImage.find((img) => img && img.isShiny === true && img.imageUrl);
   const entry = {
-    dex: raw.speciesId,
+    dex: dexFromImage(raw),
     pokedex_slug: raw.slug,
     species_slug: raw.speciesSlug,
     name: raw.name || raw.slug,
