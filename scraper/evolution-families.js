@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { fetchWithRetry } = require('./http');
 
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'public', 'data');
 const CATALOG_FILE = process.env.POKEDEX_CATALOG_FILE || path.join(DATA_DIR, 'pokedex-catalog.json');
@@ -30,7 +31,7 @@ function normalizeSpeciesSlug(slug) {
 }
 
 async function fetchJson(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+  const res = await fetchWithRetry(url, { headers: { 'User-Agent': USER_AGENT } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
   return res.json();
 }

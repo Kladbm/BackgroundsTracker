@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { fetchWithRetry } = require('./http');
 
 const SITE_BASE = process.env.SITE_BASE || 'https://www.dittobase.com';
 const USER_AGENT = process.env.USER_AGENT ||
@@ -127,7 +128,7 @@ function parsePokedexCatalog(html) {
 
 async function fetchPokedexCatalog() {
   const url = `${SITE_BASE}/pokemon-go/pokedex`;
-  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+  const res = await fetchWithRetry(url, { headers: { 'User-Agent': USER_AGENT } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
   return parsePokedexCatalog(await res.text());
 }

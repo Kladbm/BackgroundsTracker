@@ -49,6 +49,7 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
+const { fetchWithRetry } = require('./http');
 
 const SITE_BASE = process.env.SITE_BASE || 'https://www.dittobase.com';
 const ASSET_BASE = 'https://assets.dittobase.com';
@@ -435,7 +436,7 @@ const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function download(url, dest) {
   if (fs.existsSync(dest)) return { skipped: true };
-  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+  const res = await fetchWithRetry(url, { headers: { 'User-Agent': USER_AGENT } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
@@ -447,7 +448,7 @@ async function download(url, dest) {
 // quirk (which shows up in data.problems instead).
 async function fetchDetail(slug) {
   const url = `${SITE_BASE}/pokemon-go/backgrounds/${slug}`;
-  const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+  const res = await fetchWithRetry(url, { headers: { 'User-Agent': USER_AGENT } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
   return parsePage(await res.text(), slug);
 }

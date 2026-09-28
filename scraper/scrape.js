@@ -14,6 +14,7 @@
 const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
+const { fetchWithRetry } = require('./http');
 
 const BASE_URL = process.env.BASE_URL || 'https://www.dittobase.com/pokemon-go/backgrounds';
 const USER_AGENT = process.env.USER_AGENT ||
@@ -96,7 +97,7 @@ function parseCards(html) {
 }
 
 async function fetchIndex(baseUrl = BASE_URL) {
-  const res = await fetch(baseUrl, { headers: { 'User-Agent': USER_AGENT } });
+  const res = await fetchWithRetry(baseUrl, { headers: { 'User-Agent': USER_AGENT } });
   if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
   const html = await res.text();
   return parseCards(html);
