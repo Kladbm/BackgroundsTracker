@@ -52,6 +52,22 @@ function applyOverrides(indexBackgrounds, detailsBySlug, overrides, logger = con
   const indexBySlug = new Map(indexBackgrounds.map((b) => [b.slug, b]));
   const officialSlugs = new Set(indexBySlug.keys());
 
+  const applyPokemonOverrides = (slug, data) => {
+    const exclusions = new Set(Array.isArray(pokemonExclusions[slug]) ? pokemonExclusions[slug] : []);
+    if (exclusions.size) {
+      data.pokemon = data.pokemon.filter((p) => !exclusions.has(p.pokedex_slug));
+    }
+
+    const additions = Array.isArray(pokemonAdditions[slug]) ? pokemonAdditions[slug] : [];
+    for (const addition of additions) {
+      if (data.pokemon.some((p) => p.pokedex_slug === addition.pokedex_slug)) {
+        logger.log(`skipped addition ${slug}/${addition.pokedex_slug}: already present`);
+        continue;
+      }
+      data.pokemon.push(normalizePokemon(addition));
+    }
+  };
+
   for (const [slug, data] of detailsBySlug) {
     const patch = backgroundPatches[slug];
     if (patch) {
@@ -62,19 +78,7 @@ function applyOverrides(indexBackgrounds, detailsBySlug, overrides, logger = con
       }
     }
 
-    const exclusions = new Set(Array.isArray(pokemonExclusions[slug]) ? pokemonExclusions[slug] : []);
-    if (exclusions.size) {
-      data.pokemon = data.pokemon.filter((p) => !exclusions.has(p.pokedex_slug));
-    }
-
-    const additions = Array.isArray(pokemonAdditions[slug]) ? pokemonAdditions[slug] : [];
-    for (const addition of additions) {
-      if (data.pokemon.some((p) => p.pokedex_slug === addition.pokedex_slug)) {
-        logger.log(`skipped addition ${slug}/${addition.pokedex_slug}: already present officially`);
-        continue;
-      }
-      data.pokemon.push(normalizePokemon(addition));
-    }
+    applyPokemonOverrides(slug, data);
 
     if (indexBySlug.has(slug)) {
       indexBySlug.get(slug).pokemon_count = data.pokemon.length;
@@ -99,6 +103,7 @@ function applyOverrides(indexBackgrounds, detailsBySlug, overrides, logger = con
       pokemon: Array.isArray(custom.pokemon) ? custom.pokemon.map(normalizePokemon) : [],
       custom: true,
     };
+    applyPokemonOverrides(data.slug, data);
     detailsBySlug.set(data.slug, data);
     indexBackgrounds.push({
       slug: data.slug,
